@@ -5,12 +5,12 @@ import { LoginComponent } from './login/login.component';
 import { MainareaComponent } from './mainarea/mainarea.component';
 
 const routes: Routes = [
-  {path: '', component: LoginComponent},
-  {path: 'main', component: AppComponent}
+  { path: '', pathMatch: 'full', component: LoginComponent },
+  { path: 'mainarea', component: MainareaComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "slack-clone-edf3e": {
+      "hosting": {
+        "slack-clone": [
+          "slack-clone-edf3e"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "slack-clone-edf3e"
+  }
+}
