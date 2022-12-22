@@ -58,4 +58,8 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['']);
     });
   }
+
+  guest() {
+    this.router.navigate(['/mainarea']);
+  }
 }

@@ -22,15 +22,20 @@
       >
     </mat-form-field>
 
-    <div class="center margin-top-16">
+    <div class="center">
       <button mat-raised-button color="primary" type="submit">Login</button>
     </div>
 
-    <div class="center margin-top-16">
+    <div class="center padding-top-16">
       <span>
         New to our platform?
         <a class="sign-up-link" routerLink="sign-up">Sign Up!</a></span
       >
+    </div>
+    <div class="center padding-top-16">
+      <button (click)="guest()" mat-stroked-button color="primary">
+        continue as guest
+      </button>
     </div>
   </form>
 </div>
