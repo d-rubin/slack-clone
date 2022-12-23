@@ -24,11 +24,7 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { HotToastModule } from '@ngneat/hot-toast';
 import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
 import { CurrentChatComponent } from './current-chat/current-chat.component';
-<<<<<<< HEAD
 import { ChatPreviewComponent } from './chat-preview/chat-preview.component';
-=======
-import { MatExpansionModule } from '@angular/material/expansion';
->>>>>>> e3321ef132727234c7b04a5558460b8874030c44
 
 @NgModule({
   declarations: [
@@ -55,7 +51,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatExpansionModule,
+    MatIconModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
@@ -65,4 +61,4 @@ import { MatExpansionModule } from '@angular/material/expansion';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
