@@ -22,6 +22,8 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideDatabase,getDatabase } from '@angular/fire/database';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { HotToastModule } from '@ngneat/hot-toast';
+import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
+import { CurrentChatComponent } from './current-chat/current-chat.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { HotToastModule } from '@ngneat/hot-toast';
     SignUpComponent,
     MainareaComponent,
     HeaderComponent,
+    ChatRoomsComponent,
+    CurrentChatComponent,
   ],
   imports: [
     BrowserModule,

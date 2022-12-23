@@ -1,15 +1,37 @@
 app-header {
-    position: fixed;
-    top: 0;
-    right: 0;
-    height: 6vh;
-    width: 100vw;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 6vh;
+  width: 100vw;
 }
 
 app-sidenav {
-    position: fixed;
-    height: 94vh;
-    bottom: 0;
-    left: 0;
-    width: 25vw;
+  position: fixed;
+  height: 94vh;
+  bottom: 0;
+  left: 0;
+  width: 20vw;
+}
+
+.chatBoard {
+  display: flex;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 80vw;
+  height: 94vh;
+  background-color: beige;
+}
+
+app-chat-rooms {
+  width: 40%;
+  height: 100%;
+  background-color: green;
+}
+
+app-current-chat {
+  width: 100%;
+  height: 100%;
+  background-color: antiquewhite;
 }
