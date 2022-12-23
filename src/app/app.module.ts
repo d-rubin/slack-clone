@@ -24,6 +24,7 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { HotToastModule } from '@ngneat/hot-toast';
 import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
 import { CurrentChatComponent } from './current-chat/current-chat.component';
+import { ChatPreviewComponent } from './chat-preview/chat-preview.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { CurrentChatComponent } from './current-chat/current-chat.component';
     HeaderComponent,
     ChatRoomsComponent,
     CurrentChatComponent,
+    ChatPreviewComponent,
   ],
   imports: [
     BrowserModule,

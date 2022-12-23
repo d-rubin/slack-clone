@@ -1,0 +1,41 @@
+.chat-rooms {
+  color: white;
+  margin-bottom: 4rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.main-chats {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  cursor: pointer;
+
+  :hover {
+    color: lightblue;
+  }
+}
+
+.header-chats {
+  width: calc(100% / 3);
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.contain-chat-preview {
+  padding-right: 1rem;
+  overflow: scroll;
+  height: 90%;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
