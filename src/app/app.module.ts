@@ -25,6 +25,7 @@ import { HotToastModule } from '@ngneat/hot-toast';
 import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
 import { CurrentChatComponent } from './current-chat/current-chat.component';
 import { ChatPreviewComponent } from './chat-preview/chat-preview.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { ChatPreviewComponent } from './chat-preview/chat-preview.component';
     provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore()),
     HotToastModule.forRoot(),
+    MatExpansionModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
