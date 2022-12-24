@@ -8,10 +8,10 @@
                   Channels
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <div>
-                <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
-                <p>Add Channel</p>
-              </div>
+
+              <mat-action-row>
+                <button mat-button color="primary" (click)="openChannelDialog()">Add Channel</button>
+              </mat-action-row>
             </mat-expansion-panel>
           </mat-accordion>
 
@@ -20,14 +20,14 @@
                                  (closed)="panelOpenState = false">
               <mat-expansion-panel-header>
                 <mat-panel-title class="color-white">
-                  Direct Messages
+                  Messages
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <div>
-                <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
-                <p>
-                  Start Conversation</p>
-              </div>
+
+              <mat-action-row>
+                <button mat-button color="primary" (click)="openConversationDialog()">
+                  Start Conversation</button>
+              </mat-action-row>
             </mat-expansion-panel>
           </mat-accordion>
     </mat-drawer-content>

@@ -21,3 +21,12 @@ mat-drawer-content {
 .color-white {
     // color: white;
 }
+
+mat-action-row {
+    justify-content: center;
+    padding: 16px 8px;
+
+    button {
+        margin: 0;
+    }
+}

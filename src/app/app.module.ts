@@ -26,6 +26,9 @@ import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
 import { CurrentChatComponent } from './current-chat/current-chat.component';
 import { ChatPreviewComponent } from './chat-preview/chat-preview.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { ChannelDialogComponent } from './channel-dialog/channel-dialog.component';
+import { ConversationDialogComponent } from './conversation-dialog/conversation-dialog.component';
+import { MatDialogModule } from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -38,6 +41,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     ChatRoomsComponent,
     CurrentChatComponent,
     ChatPreviewComponent,
+    ChannelDialogComponent,
+    ConversationDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,6 +63,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     provideFirestore(() => getFirestore()),
     HotToastModule.forRoot(),
     MatExpansionModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent],
