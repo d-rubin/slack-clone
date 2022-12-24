@@ -5,11 +5,11 @@
     <mat-card-content>
         <mat-form-field appearance="outline" color="primary">
             <mat-label>Channel Name</mat-label>
-            <input matInput placeholder="Channel Name">
+            <input [(ngModel)]="channelName" matInput placeholder="Channel Name">
         </mat-form-field>
     </mat-card-content>
     <mat-card-actions>
       <button mat-button (click)="dialogRef.close()">Cancel</button>
-      <button mat-button>Create</button>
+      <button mat-button (click)="createChannel()">Create</button>
     </mat-card-actions>
 </mat-card>
