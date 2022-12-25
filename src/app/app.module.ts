@@ -29,6 +29,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { ChannelDialogComponent } from './channel-dialog/channel-dialog.component';
 import { ConversationDialogComponent } from './conversation-dialog/conversation-dialog.component';
 import { MatDialogModule } from "@angular/material/dialog";
+// import { AngularFireModule } from '@angular/fire/compat';
+// import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 @NgModule({
   declarations: [
@@ -63,7 +65,9 @@ import { MatDialogModule } from "@angular/material/dialog";
     provideFirestore(() => getFirestore()),
     HotToastModule.forRoot(),
     MatExpansionModule,
-    MatDialogModule
+    MatDialogModule,
+    // AngularFireModule,
+    // AngularFirestoreModule
   ],
   providers: [],
   bootstrap: [AppComponent],

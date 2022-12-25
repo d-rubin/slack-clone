@@ -24,10 +24,10 @@ export class SidenavComponent implements OnInit {
   }
 
   openChannelDialog() {
-    this.dialog.open(ChannelDialogComponent)
+    this.dialog.open(ChannelDialogComponent);
   }
 
   openConversationDialog() {
-    this.dialog.open(ConversationDialogComponent)
+    this.dialog.open(ConversationDialogComponent);
   }
 }
