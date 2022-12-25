@@ -11,7 +11,7 @@ export class ChannelDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<ChannelDialogComponent>, 
-    // public firestore: AngularFirestore
+    // public firestore: AngularFirestore   Problem when importet
     ) { }
 
   channelName: string;

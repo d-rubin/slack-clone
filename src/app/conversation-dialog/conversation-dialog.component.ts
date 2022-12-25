@@ -11,7 +11,7 @@ export class ConversationDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<ConversationDialogComponent>,
-    // public firestore: AngularFirestore
+    // public firestore: AngularFirestore   Problem when importet
     ) { }
 
   ngOnInit(): void {
