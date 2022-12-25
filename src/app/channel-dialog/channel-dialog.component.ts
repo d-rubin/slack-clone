@@ -11,20 +11,21 @@ export class ChannelDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<ChannelDialogComponent>, 
-    // public firestore: AngularFirestore   Problem when importet
-    ) { }
+    private firestore: AngularFirestore
+  ) { }
 
   channelName: string;
 
   ngOnInit(): void {
+    console.log('Init works');
   }
 
   createChannel() {
-    // this.firestore
-    // .collection('channels')
-    // .add(this.channelName)
-    // .then(() => {
-    //   this.dialogRef.close();
-    // });
+    this.firestore
+    .collection('channels')
+    .add(this.channelName)
+    .then(() => {
+      this.dialogRef.close();
+    });
   }
 }
