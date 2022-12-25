@@ -11,7 +11,7 @@ export class ChannelDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<ChannelDialogComponent>, 
-    private firestore: AngularFirestore
+    // private firestore: AngularFirestore
   ) { }
 
   channelName: string;
@@ -21,11 +21,11 @@ export class ChannelDialogComponent implements OnInit {
   }
 
   createChannel() {
-    this.firestore
-    .collection('channels')
-    .add(this.channelName)
-    .then(() => {
-      this.dialogRef.close();
-    });
+    // this.firestore
+    // .collection('channels')
+    // .add(this.channelName)
+    // .then(() => {
+    //   this.dialogRef.close();
+    // });
   }
 }
