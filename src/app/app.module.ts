@@ -30,7 +30,6 @@ import { ChannelDialogComponent } from './channel-dialog/channel-dialog.componen
 import { ConversationDialogComponent } from './conversation-dialog/conversation-dialog.component';
 import { MatDialogModule } from "@angular/material/dialog";
 import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 @NgModule({
   declarations: [
@@ -59,6 +58,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
@@ -66,8 +66,6 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
     HotToastModule.forRoot(),
     MatExpansionModule,
     MatDialogModule,
-    // AngularFireModule,
-    // AngularFirestoreModule
   ],
   providers: [],
   bootstrap: [AppComponent],

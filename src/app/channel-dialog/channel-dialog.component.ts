@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from "@angular/material/dialog";
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Channel } from '../models/channel.class';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 @Component({
   selector: 'app-channel-dialog',
@@ -9,23 +11,29 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 })
 export class ChannelDialogComponent implements OnInit {
 
+  channelName: string;
+  channel: Channel = new Channel();
+  userId: string;
+
   constructor(
     public dialogRef: MatDialogRef<ChannelDialogComponent>, 
-    // private firestore: AngularFirestore
+    private firestore: AngularFirestore
   ) { }
 
-  channelName: string;
-
   ngOnInit(): void {
-    console.log('Init works');
+    onAuthStateChanged(getAuth(), (user) => {
+      this.userId = user.uid;
+    });
   }
 
   createChannel() {
-    // this.firestore
-    // .collection('channels')
-    // .add(this.channelName)
-    // .then(() => {
-    //   this.dialogRef.close();
-    // });
+    this.channel.name = this.channelName;
+    this.channel.members.push(this.userId);
+    this.firestore
+    .collection('channels')
+    .add(this.channel.toJSON())
+    .then(() => {
+      this.dialogRef.close();
+    });
   }
 }
