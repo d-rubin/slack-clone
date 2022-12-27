@@ -27,7 +27,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { MaterialModule } from './material/material.module';
 import { ContentComponent } from './content/content.component';
 import { UsersComponent } from './users/users.component';
-import { PrivateChatComponent } from './private-chat/private-chat.component';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +43,7 @@ import { PrivateChatComponent } from './private-chat/private-chat.component';
     ConversationDialogComponent,
     ContentComponent,
     UsersComponent,
-    PrivateChatComponent,
+    ChatComponent,
   ],
   imports: [
     BrowserModule,

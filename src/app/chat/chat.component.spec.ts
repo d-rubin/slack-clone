@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PrivateChatComponent } from './private-chat.component';
+import { PrivateChatComponent } from './chat.component';
 
 describe('PrivateChatComponent', () => {
   let component: PrivateChatComponent;
@@ -8,9 +8,8 @@ describe('PrivateChatComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PrivateChatComponent ]
-    })
-    .compileComponents();
+      declarations: [PrivateChatComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PrivateChatComponent);
     component = fixture.componentInstance;
