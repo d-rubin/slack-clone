@@ -4,14 +4,19 @@
             <mat-expansion-panel expanded="true" 
                                  (opened)="panelOpenState = true"
                                  (closed)="panelOpenState = false">
+
               <mat-expansion-panel-header>
-                <mat-panel-title class="color-white">
+                <mat-panel-title>
                   Channels
                 </mat-panel-title>
               </mat-expansion-panel-header>
 
+                <ng-template matExpansionPanelContent *ngFor="let channel of allChannels">
+                  {{channel}}
+                </ng-template>
+
               <mat-action-row>
-                <button mat-button color="primary" (click)="openChannelDialog()">Add Channel</button>
+                <button mat-raised-button color="primary" (click)="openChannelDialog()">Add Channel</button>
               </mat-action-row>
             </mat-expansion-panel>
           </mat-accordion>
@@ -20,14 +25,17 @@
             <mat-expansion-panel expanded="true" 
                                  (opened)="panelOpenState = true"
                                  (closed)="panelOpenState = false">
+
               <mat-expansion-panel-header>
-                <mat-panel-title class="color-white">
+                <mat-panel-title>
                   Messages
                 </mat-panel-title>
               </mat-expansion-panel-header>
 
+                <ng-template matExpansionPanelContent></ng-template>
+
               <mat-action-row>
-                <button mat-button color="primary" (click)="openConversationDialog()">
+                <button mat-raised-button color="primary" (click)="openConversationDialog()">
                   Start Conversation</button>
               </mat-action-row>
             </mat-expansion-panel>
