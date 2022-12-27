@@ -9,13 +9,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { MainareaComponent } from './mainarea/mainarea.component';
 import { HeaderComponent } from './header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCardModule } from '@angular/material/card';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
+
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth, getAuth } from '@angular/fire/auth';
@@ -28,8 +22,9 @@ import { ChatPreviewComponent } from './chat-preview/chat-preview.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ChannelDialogComponent } from './channel-dialog/channel-dialog.component';
 import { ConversationDialogComponent } from './conversation-dialog/conversation-dialog.component';
-import { MatDialogModule } from "@angular/material/dialog";
+
 import { AngularFireModule } from '@angular/fire/compat';
+import { MaterialModule } from './material/material.module';
 
 @NgModule({
   declarations: [
@@ -49,15 +44,8 @@ import { AngularFireModule } from '@angular/fire/compat';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatCardModule,
-    MatSidenavModule,
     FormsModule,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
     AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
@@ -65,7 +53,7 @@ import { AngularFireModule } from '@angular/fire/compat';
     provideFirestore(() => getFirestore()),
     HotToastModule.forRoot(),
     MatExpansionModule,
-    MatDialogModule,
+    MaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
