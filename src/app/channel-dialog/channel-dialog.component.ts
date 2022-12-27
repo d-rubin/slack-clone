@@ -13,7 +13,7 @@ export class ChannelDialogComponent implements OnInit {
 
   channelName: string;
   channel: Channel = new Channel();
-  userId: string;
+  userEmail: string;
 
   constructor(
     public dialogRef: MatDialogRef<ChannelDialogComponent>, 
@@ -22,13 +22,13 @@ export class ChannelDialogComponent implements OnInit {
 
   ngOnInit(): void {
     onAuthStateChanged(getAuth(), (user) => {
-      this.userId = user.uid;
+      this.userEmail = user.email;
     });
   }
 
   createChannel() {
     this.channel.name = this.channelName;
-    this.channel.members.push(this.userId);
+    this.channel.members.push(this.userEmail);
     this.firestore
     .collection('channels')
     .add(this.channel.toJSON())
