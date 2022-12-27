@@ -25,6 +25,8 @@ import { ConversationDialogComponent } from './conversation-dialog/conversation-
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { MaterialModule } from './material/material.module';
+import { ContentComponent } from './content/content.component';
+import { UsersComponent } from './users/users.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { MaterialModule } from './material/material.module';
     ChatPreviewComponent,
     ChannelDialogComponent,
     ConversationDialogComponent,
+    ContentComponent,
+    UsersComponent,
   ],
   imports: [
     BrowserModule,

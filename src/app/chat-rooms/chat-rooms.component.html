@@ -1,13 +1,24 @@
-<div class="chat-rooms">
-  <div class="main-chats">
-    <div class="header-chats">All Chats</div>
-    <div class="header-chats">Private Chat</div>
-    <div class="header-chats">Group Chat</div>
-  </div>
-  <div class="contain-chat-preview">
-    <app-chat-preview></app-chat-preview>
-    <app-chat-preview></app-chat-preview>
-    <app-chat-preview></app-chat-preview>
-    <app-chat-preview></app-chat-preview>
-  </div>
+<div class="flex flex-col items-center justify-center">
+
+  <mat-card class="w-72 h-24 flex justify-between items-center">
+    <div class="flex justify-between items-center w-full h-3/5">
+      <div class="h-full w-12 flex justify-start items-center"><mat-icon>forum</mat-icon></div>
+      <div class="h-full text-base flex items-center">Channel Name</div>
+      <button mat-icon-button class=" h-full">
+        <div class="flex justify-end">
+          <mat-icon class="more-horiz">more_horiz</mat-icon>
+        </div>
+      </button>
+    </div>
+    <div class="flex justify-between w-full h-2/5">
+      <div class="flex gap-2">
+        <img class="h-full" src="assets/img/avatar.png" alt="" srcset="">
+        <img class="h-full" src="assets/img/avatar.png" alt="" srcset="">
+        <img class="h-full" src="assets/img/avatar.png" alt="" srcset="">
+        <img class="h-full" src="assets/img/avatar.png" alt="" srcset="">
+        <img class="h-full" src="assets/img/avatar.png" alt="" srcset="">
+      </div>
+      <div class="h-6">and more....</div>
+    </div>
+  </mat-card>
 </div>
