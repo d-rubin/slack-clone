@@ -17,7 +17,7 @@ import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { HotToastModule } from '@ngneat/hot-toast';
 import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
-import { CurrentChatComponent } from './current-chat/current-chat.component';
+
 import { ChatPreviewComponent } from './chat-preview/chat-preview.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ChannelDialogComponent } from './channel-dialog/channel-dialog.component';
@@ -27,6 +27,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { MaterialModule } from './material/material.module';
 import { ContentComponent } from './content/content.component';
 import { UsersComponent } from './users/users.component';
+import { PrivateChatComponent } from './private-chat/private-chat.component';
 
 @NgModule({
   declarations: [
@@ -37,12 +38,12 @@ import { UsersComponent } from './users/users.component';
     MainareaComponent,
     HeaderComponent,
     ChatRoomsComponent,
-    CurrentChatComponent,
     ChatPreviewComponent,
     ChannelDialogComponent,
     ConversationDialogComponent,
     ContentComponent,
     UsersComponent,
+    PrivateChatComponent,
   ],
   imports: [
     BrowserModule,
