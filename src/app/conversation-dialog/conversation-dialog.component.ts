@@ -52,13 +52,15 @@ export class ConversationDialogComponent implements OnInit {
         ref.where('name', '==', this.userName))
       .valueChanges()
       .pipe(first())
-      .subscribe((user) => {
-        this.conversation.members.push(user[0].email);
-        resolve();
-      },
-      (error: any) => {
-        reject('Failed to connect to the database.');
-      });
+      .subscribe(
+        (user) => {
+          this.conversation.members.push(user[0].email);
+          resolve();
+        },
+        (error: any) => {
+          reject('Failed to connect to the database.');
+        }
+      );
     })
   }
 }
