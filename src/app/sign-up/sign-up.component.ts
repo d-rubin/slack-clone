@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../services/authentication.service';
+import { AuthenticationService } from '../../services/authentication.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { User } from '../models/user.class';
@@ -88,13 +88,8 @@ export class SignUpComponent implements OnInit {
         })
       )
       .subscribe(() => {
-        this.router.navigate(['/mainarea']);
-    });
-    this.user.name = name;
-    this.user.email = email;
-    this.firestore
-    .collection('users')
-    .add(this.user.toJSON());
+        this.router.navigate(['/login']);
+      });
   }
 
   guest() {
