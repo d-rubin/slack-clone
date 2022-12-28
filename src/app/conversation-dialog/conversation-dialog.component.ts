@@ -4,6 +4,7 @@ import { MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute } from '@angular/router';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, DocumentReference, getDoc } from 'firebase/firestore';
+import { first } from 'rxjs';
 import { Conversation } from '../models/Conversation.class';
 import { User } from '../models/user.class';
 
@@ -31,21 +32,33 @@ export class ConversationDialogComponent implements OnInit {
     });
   }
 
-  startConversation() {
+  async startConversation() {
     this.conversation.members.push(this.userEmail);
-    this.firestore
-    .collection<any>('users', ref => ref.where('name', '==', this.userName))
-    .valueChanges()
-    .subscribe(user => {
-      this.conversation.members.push(user[0].email);
-    });
-    setTimeout(() => {
-      this.firestore
+    await this.addSecondMemberToConversation();
+    await this.saveConversation();
+    this.dialogRef.close();
+  }
+
+  saveConversation() {
+    return this.firestore
       .collection('conversations')
-      .add(this.conversation.toJSON())
-      .then(() => {
-        this.dialogRef.close();
+      .add(this.conversation.toJSON());
+  }
+
+  addSecondMemberToConversation() {
+    return new Promise((resolve: Function, reject: Function) => {
+      this.firestore
+      .collection<any>('users', ref => 
+        ref.where('name', '==', this.userName))
+      .valueChanges()
+      .pipe(first())
+      .subscribe((user) => {
+        this.conversation.members.push(user[0].email);
+        resolve();
+      },
+      (error: any) => {
+        reject('Failed to connect to the database.');
       });
-    }, 500);
+    })
   }
 }
