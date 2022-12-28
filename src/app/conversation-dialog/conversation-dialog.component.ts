@@ -16,7 +16,7 @@ import { User } from '../models/user.class';
 export class ConversationDialogComponent implements OnInit {
 
   userEmail: string;
-  secondMember: any;
+  secondMember: string;
   conversation: Conversation = new Conversation();
   userName:string;
 
@@ -32,22 +32,20 @@ export class ConversationDialogComponent implements OnInit {
   }
 
   startConversation() {
-    this.getEmailWithUserName(this.userName);
     this.conversation.members.push(this.userEmail);
-    this.conversation.members.push(this.secondMember);
-    
     this.firestore
-    .collection('conversations')
-    .add(this.conversation.toJSON())
-    .then(() => {
-      this.dialogRef.close();
+    .collection<any>('users', ref => ref.where('name', '==', this.userName))
+    .valueChanges()
+    .subscribe(user => {
+      this.conversation.members.push(user[0].email);
     });
-    console.log(this.secondMember);
-  }
-
-  getEmailWithUserName(userName: string) {
-    this.firestore.collection<any>('users', ref => ref.where('name', '==', userName)).valueChanges().subscribe(user => {
-      this.secondMember = user[0].email;
-    });
+    setTimeout(() => {
+      this.firestore
+      .collection('conversations')
+      .add(this.conversation.toJSON())
+      .then(() => {
+        this.dialogRef.close();
+      });
+    }, 500);
   }
 }
