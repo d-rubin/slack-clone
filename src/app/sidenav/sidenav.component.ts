@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { ChannelDialogComponent } from '../channel-dialog/channel-dialog.component';
 import { MatDialog } from "@angular/material/dialog";
 import { ConversationDialogComponent } from '../conversation-dialog/conversation-dialog.component';
-// import { AngularFirestore } from "@angular/fire/compat/firestore";
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Channel } from '../models/channel.class';
+import { doc, getDoc } from 'firebase/firestore';
 
 @Component({
   selector: 'app-sidenav',
@@ -12,15 +13,15 @@ import { ConversationDialogComponent } from '../conversation-dialog/conversation
 })
 export class SidenavComponent implements OnInit {
   panelOpenState: boolean;
-  userId: string; 
+  // userId: string;
+  allChannels: [] = [];
+  channel: Channel = new Channel();
 
-  constructor(private dialog: MatDialog) { }
+  constructor(
+    public dialog: MatDialog,
+    ) { }
 
   ngOnInit(): void {
-    onAuthStateChanged(getAuth(), (user) => {
-      this.userId = user.uid;
-      console.log(this.userId);
-    });
   }
 
   openChannelDialog() {

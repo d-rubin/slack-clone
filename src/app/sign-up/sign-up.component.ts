@@ -8,8 +8,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../services/authentication.service';
+import { AuthenticationService } from '../../services/authentication.service';
 import { HotToastService } from '@ngneat/hot-toast';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { User } from '../models/user.class';
 
 export function passwordsMatchValidators(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -44,8 +46,11 @@ export class SignUpComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthenticationService,
-    private toast: HotToastService
+    private toast: HotToastService,
+    private firestore: AngularFirestore
   ) {}
+
+  user: User = new User();
 
   ngOnInit(): void {}
 
@@ -83,7 +88,7 @@ export class SignUpComponent implements OnInit {
         })
       )
       .subscribe(() => {
-        this.router.navigate(['/mainarea']);
+        this.router.navigate(['/login']);
       });
   }
 

@@ -9,13 +9,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { MainareaComponent } from './mainarea/mainarea.component';
 import { HeaderComponent } from './header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCardModule } from '@angular/material/card';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
+
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth, getAuth } from '@angular/fire/auth';
@@ -23,14 +17,17 @@ import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { HotToastModule } from '@ngneat/hot-toast';
 import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
-import { CurrentChatComponent } from './current-chat/current-chat.component';
+
 import { ChatPreviewComponent } from './chat-preview/chat-preview.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ChannelDialogComponent } from './channel-dialog/channel-dialog.component';
 import { ConversationDialogComponent } from './conversation-dialog/conversation-dialog.component';
-import { MatDialogModule } from "@angular/material/dialog";
+
 import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { MaterialModule } from './material/material.module';
+import { ContentComponent } from './content/content.component';
+import { UsersComponent } from './users/users.component';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -41,33 +38,27 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
     MainareaComponent,
     HeaderComponent,
     ChatRoomsComponent,
-    CurrentChatComponent,
     ChatPreviewComponent,
     ChannelDialogComponent,
     ConversationDialogComponent,
+    ContentComponent,
+    UsersComponent,
+    ChatComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatCardModule,
-    MatSidenavModule,
     FormsModule,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
+    AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore()),
     HotToastModule.forRoot(),
     MatExpansionModule,
-    MatDialogModule,
-    // AngularFireModule,
-    // AngularFirestoreModule
+    MaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
