@@ -1,44 +1,42 @@
-<mat-drawer-container class="sidenav">
+<div class="h-full">
+  <mat-drawer-container class="sidenav">
     <mat-drawer-content>
-        <mat-accordion>
-            <mat-expansion-panel expanded="true" 
-                                 (opened)="panelOpenState = true"
-                                 (closed)="panelOpenState = false">
+      <mat-accordion>
+        <mat-expansion-panel expanded="true" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
 
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Channels
-                </mat-panel-title>
-              </mat-expansion-panel-header>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Channels
+            </mat-panel-title>
+          </mat-expansion-panel-header>
 
-                <ng-template matExpansionPanelContent *ngFor="let channel of allChannels">
-                  {{channel}}
-                </ng-template>
+          <ng-template matExpansionPanelContent *ngFor="let channel of allChannels">
+            {{channel}}
+          </ng-template>
 
-              <mat-action-row>
-                <button mat-raised-button color="primary" (click)="openChannelDialog()">Add Channel</button>
-              </mat-action-row>
-            </mat-expansion-panel>
-          </mat-accordion>
+          <mat-action-row>
+            <button mat-raised-button color="primary" (click)="openChannelDialog()">Add Channel</button>
+          </mat-action-row>
+        </mat-expansion-panel>
+      </mat-accordion>
 
-          <mat-accordion>
-            <mat-expansion-panel expanded="true" 
-                                 (opened)="panelOpenState = true"
-                                 (closed)="panelOpenState = false">
+      <mat-accordion>
+        <mat-expansion-panel expanded="true" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
 
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Messages
-                </mat-panel-title>
-              </mat-expansion-panel-header>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Messages
+            </mat-panel-title>
+          </mat-expansion-panel-header>
 
-                <ng-template matExpansionPanelContent></ng-template>
+          <ng-template matExpansionPanelContent></ng-template>
 
-              <mat-action-row>
-                <button mat-raised-button color="primary" (click)="openConversationDialog()">
-                  Start Conversation</button>
-              </mat-action-row>
-            </mat-expansion-panel>
-          </mat-accordion>
+          <mat-action-row>
+            <button mat-raised-button color="primary" (click)="openConversationDialog()">
+              Start Conversation</button>
+          </mat-action-row>
+        </mat-expansion-panel>
+      </mat-accordion>
     </mat-drawer-content>
-</mat-drawer-container>
+  </mat-drawer-container>
+</div>
