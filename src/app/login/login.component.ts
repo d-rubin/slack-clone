@@ -53,11 +53,11 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  logout() {
+  /*  logout() {
     this.authService.logout().subscribe(() => {
       this.router.navigate(['']);
     });
-  }
+  } */
 
   guest() {
     this.router.navigate(['/mainarea']);

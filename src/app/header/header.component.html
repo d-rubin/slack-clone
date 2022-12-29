@@ -1,13 +1,28 @@
 <mat-toolbar color="primary" class="flex justify-center">
-    <form class="search-bar">
-        <mat-form-field class="h-100" appearance="fill">
-            <mat-label>Search...</mat-label>
-          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
-          <mat-autocomplete class="scrollbar-none" #auto="matAutocomplete" [displayWith]="displayFn">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-              {{option.name}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-    </form>
+  <form class="search-bar">
+    <mat-form-field class="h-100" appearance="fill">
+      <mat-label>Search...</mat-label>
+      <input
+        type="text"
+        matInput
+        [formControl]="myControl"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete
+        class="scrollbar-none"
+        #auto="matAutocomplete"
+        [displayWith]="displayFn"
+      >
+        <mat-option
+          *ngFor="let option of filteredOptions | async"
+          [value]="option"
+        >
+          {{ option.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+  <button mat-button (click)="logout()">
+    <mat-icon>logout</mat-icon> Logout
+  </button>
 </mat-toolbar>

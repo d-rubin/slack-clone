@@ -88,9 +88,9 @@ export class SignUpComponent implements OnInit {
         })
       )
       .subscribe(() => {
-        this.router.navigate(['/login']);
+        this.router.navigate(['login']);
       });
-    this.firestore.collection('users').add({email: email, name: name});
+    this.firestore.collection('users').add({ email: email, name: name });
   }
 
   guest() {
