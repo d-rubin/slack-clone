@@ -2,6 +2,12 @@
     height: 100%;
 }
 
+.menu-icon {
+    position: fixed;
+    left: 1rem;
+    top: 0.7rem;
+}
+
 mat-drawer {
     position: unset;
     width: 100%;

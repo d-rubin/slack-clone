@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { map, Observable, startWith } from 'rxjs';
 import { ChannelDialogComponent } from '../channel-dialog/channel-dialog.component';
 import { ConversationDialogComponent } from '../conversation-dialog/conversation-dialog.component';
 import { Channel } from '../models/channel.class';
-import { SidenavComponent } from '../sidenav/sidenav.component';
+import { User } from '../models/user.class';
 
 @Component({
   selector: 'app-header',
@@ -16,30 +18,46 @@ export class HeaderComponent implements OnInit {
   userId: string;
   allChannels: [] = [];
   channel: Channel = new Channel();
-  menu: boolean = true;
-  icon: string = 'menu';
+  myControl = new FormControl<string | User>('');
+  options: any[] = [];
+  filteredOptions: Observable<User[]>;
 
   constructor(public dialog: MatDialog, private firestore: AngularFirestore) {}
 
   ngOnInit(): void {
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.name;
+        return name ? this._filter(name as string) : this.options.slice();
+      }),
+    );
+
+    this.getOptionsFromCollections();
   }
 
-  showMenu() {
-    if(this.menu) {
-      this.menu = false;
-      this.icon = 'close';
-    }
-    else {
-      this.menu = true;
-      this.icon = 'menu';
-    }
+  displayFn(user: User): string {
+    return user && user.name ? user.name : '';
   }
 
-  openChannelDialog() {
-    this.dialog.open(ChannelDialogComponent);
+  private _filter(name: string): User[] {
+    const filterValue = name.toLowerCase();
+
+    return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
-  openConversationDialog() {
-    this.dialog.open(ConversationDialogComponent);
+  async getOptionsFromCollections() {
+    const users = await this.firestore.collection<User>('users').get().toPromise();
+    const channels = await this.firestore.collection<Channel>('channels').get().toPromise();
+
+    this.options = [];
+
+    users.forEach(doc => {
+      this.options.push(doc.data() as User);
+    });
+
+    channels.forEach(channel => {
+      this.options.push(channel.data() as Channel);
+    });
   }
 }

@@ -17,6 +17,7 @@ import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { HotToastModule } from '@ngneat/hot-toast';
 import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { ChatPreviewComponent } from './chat-preview/chat-preview.component';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -59,8 +60,9 @@ import { ChatComponent } from './chat/chat.component';
     HotToastModule.forRoot(),
     MatExpansionModule,
     MaterialModule,
+    MatAutocompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

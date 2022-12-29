@@ -54,7 +54,7 @@ export class ConversationDialogComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (user) => {
-          this.conversation.partnerName = this.userName;
+          this.conversation.name = this.userName;
           this.conversation.members.push(user[0].email);
           resolve();
         },

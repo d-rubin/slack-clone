@@ -1,19 +1,29 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ChannelDialogComponent } from '../channel-dialog/channel-dialog.component';
 import { MatDialog } from "@angular/material/dialog";
 import { ConversationDialogComponent } from '../conversation-dialog/conversation-dialog.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Channel } from '../models/channel.class';
-import { doc, getDoc } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import * as firebase from 'firebase/compat';
 import { Conversation } from '../models/Conversation.class';
-import { first } from 'rxjs';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.scss']
+  styleUrls: ['./sidenav.component.scss'],
+  animations: [
+    trigger('slideInOut', [
+      state('in', style({
+        transform: 'translateX(0%)'
+      })),
+      state('out', style({
+        transform: 'translateX(100%)'
+      })),
+      transition('in => out', animate('1000ms ease-in-out')),
+      transition('out => in', animate('1000ms ease-in-out'))
+    ]),
+  ]
 })
 export class SidenavComponent implements OnInit {
   panelOpenState: boolean;
@@ -25,7 +35,8 @@ export class SidenavComponent implements OnInit {
   name: string;
   partnerName: string;
   partnerEmail: string;
-  @Input() isOpen: boolean = true;
+  menu: boolean = true;
+  icon: string = 'menu';
 
   constructor(
     public dialog: MatDialog,
@@ -34,7 +45,6 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
     this.renderChannelsAndConversations();
-
   }
 
   async renderChannelsAndConversations() {
@@ -74,11 +84,22 @@ export class SidenavComponent implements OnInit {
         (converatons: Conversation[]) => {
           this.allConversations = [];
           for (let i = 0; i < converatons.length; i++) {
-              this.allConversations.push(converatons[i]);
-            }
+            this.allConversations.push(converatons[i]);
+          }
         }
       );
-  }       
+  }     
+  
+  showMenu() {
+    if(this.menu) {
+      this.menu = false;
+      this.icon = 'close';
+    }
+    else {
+      this.menu = true;
+      this.icon = 'menu';
+    }
+  }
 
   openChannelDialog() {
     this.dialog.open(ChannelDialogComponent);
