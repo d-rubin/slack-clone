@@ -1,5 +1,4 @@
-<div class="h-full">
-  <mat-drawer-container class="sidenav">
+  <mat-drawer-container *ngIf="isOpen" class="sidenav" autosize>
     <mat-drawer-content>
       <mat-accordion>
         <mat-expansion-panel expanded="true" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
@@ -10,9 +9,9 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
 
-          <ng-template matExpansionPanelContent *ngFor="let channel of allChannels">
-            {{channel}}
-          </ng-template>
+          <div *ngFor="let channel of allChannels">
+            {{channel.name}}
+          </div>
 
           <mat-action-row>
             <button mat-raised-button color="primary" (click)="openChannelDialog()">Add Channel</button>
@@ -29,6 +28,10 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
 
+          <div *ngFor="let conversation of allConversations">
+            {{conversation.partnerName}}
+          </div>
+
           <ng-template matExpansionPanelContent></ng-template>
 
           <mat-action-row>
@@ -38,5 +41,4 @@
         </mat-expansion-panel>
       </mat-accordion>
     </mat-drawer-content>
-  </mat-drawer-container>
-</div>
+</mat-drawer-container>

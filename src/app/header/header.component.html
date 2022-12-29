@@ -1,10 +1,6 @@
 <mat-toolbar color="primary" class="flex justify-center">
     <div class="w-full flex justify-between items-center">
-        <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>menu</mat-icon></button>
-        <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="openChannelDialog()">Add Channel</button>
-            <button mat-menu-item (click)="openConversationDialog()">Start Conversation</button>
-        </mat-menu>
+        <button mat-icon-button (click)="showMenu()"><mat-icon>{{ icon }}</mat-icon></button>
         <span>Slack Clone</span>
     </div>
 </mat-toolbar>

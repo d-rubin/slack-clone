@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChannelDialogComponent } from '../channel-dialog/channel-dialog.component';
 import { ConversationDialogComponent } from '../conversation-dialog/conversation-dialog.component';
 import { Channel } from '../models/channel.class';
+import { SidenavComponent } from '../sidenav/sidenav.component';
 
 @Component({
   selector: 'app-header',
@@ -15,16 +16,23 @@ export class HeaderComponent implements OnInit {
   userId: string;
   allChannels: [] = [];
   channel: Channel = new Channel();
+  menu: boolean = true;
+  icon: string = 'menu';
 
   constructor(public dialog: MatDialog, private firestore: AngularFirestore) {}
 
   ngOnInit(): void {
-    this.firestore
-      .collection('channels')
-      .valueChanges({ idField: 'ID' })
-      .subscribe((changes: any) => {
-        this.allChannels = changes;
-      });
+  }
+
+  showMenu() {
+    if(this.menu) {
+      this.menu = false;
+      this.icon = 'close';
+    }
+    else {
+      this.menu = true;
+      this.icon = 'menu';
+    }
   }
 
   openChannelDialog() {

@@ -54,6 +54,7 @@ export class ConversationDialogComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (user) => {
+          this.conversation.partnerName = this.userName;
           this.conversation.members.push(user[0].email);
           resolve();
         },
@@ -61,6 +62,6 @@ export class ConversationDialogComponent implements OnInit {
           reject('Failed to connect to the database.');
         }
       );
-    })
+    });
   }
 }
