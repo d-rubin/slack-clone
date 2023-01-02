@@ -10,7 +10,7 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <div *ngFor="let channel of allChannels">
+        <div class="item" *ngFor="let channel of allChannels" (click)="showContent(channel.name)">
           {{channel.name}}
         </div>
 
@@ -29,7 +29,7 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <div *ngFor="let conversation of allConversations">
+        <div class="item" *ngFor="let conversation of allConversations" (click)="showContent(channel.name)">
           {{conversation.name }}
         </div>
 

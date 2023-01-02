@@ -101,6 +101,10 @@ export class SidenavComponent implements OnInit {
     }
   }
 
+  showContent(content: string) {
+    
+  }
+
   openChannelDialog() {
     this.dialog.open(ChannelDialogComponent);
   }
