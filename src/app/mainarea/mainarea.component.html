@@ -1,5 +1,7 @@
-<div class="overflow-hidden">
-  <app-header class="absolute left-0 right-0 top-0 h-16"></app-header>
-  <app-sidenav class="absolute left-0 bottom-0 h-[calc(100vh-4rem)] w-48"></app-sidenav>
-  <app-content class="absolute bottom-0 right-0 top-16 left-48"></app-content>
+<div class="flex flex-col">
+  <app-header class="w-full h-24"></app-header>
+  <div class="h-[calc(100vh-6rem)] flex">
+    <app-sidenav class="w-auto h-full"></app-sidenav>
+    <app-content class="w-full h-full"></app-content>
+  </div>
 </div>
