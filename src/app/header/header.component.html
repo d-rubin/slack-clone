@@ -1,22 +1,10 @@
-<mat-toolbar color="primary" class="flex justify-end h-24">
+<mat-toolbar color="primary" class="flex justify-center w-full h-full">
   <form class="search-bar">
     <mat-form-field class="h-100" appearance="fill">
       <mat-label>Search...</mat-label>
-      <input
-        type="text"
-        matInput
-        [formControl]="myControl"
-        [matAutocomplete]="auto"
-      />
-      <mat-autocomplete
-        class="scrollbar-none"
-        #auto="matAutocomplete"
-        [displayWith]="displayFn"
-      >
-        <mat-option
-          *ngFor="let option of filteredOptions | async"
-          [value]="option"
-        >
+      <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" />
+      <mat-autocomplete class="scrollbar-none" #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
           {{ option.name }}
         </mat-option>
       </mat-autocomplete>
