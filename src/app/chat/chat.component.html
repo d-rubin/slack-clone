@@ -1,6 +1,8 @@
 <div class="flex flex-col items-center justify-between h-full">
-  <div class="flex flex-col items-center justify-center w-full gap-y-4 mt-8 bg-green-500">
+  <div class="flex flex-col items-center justify-center w-full gap-y-4 mt-8">
     <!-- channel user: -->
+
+    <!-- one message template -->
     <mat-card class="w-4/5">
       <mat-card-header>
         <mat-card-title-group class="flex">
@@ -26,12 +28,27 @@
       </mat-card-content>
     </mat-card>
   </div>
-  <div class="w-4/5 input-chat-container">
+
+
+  <!-- input fiel messages -->
+  <div class="w-4/5">
     <form [formGroup]="">
-      <div class="input-chat-form-fields">
-        <mat-form-field appearance="fill" [hideRequiredMarker]="" [floatLabel]="">
+      <div class="w-full">
+        <mat-form-field class="w-full" appearance="fill" [hideRequiredMarker]="" [floatLabel]="">
           <input matInput placeholder="Simple placeholder" required>
         </mat-form-field>
+      </div>
+      <div class="flex justify-between">
+        <div class="flex w-16 h-16">
+          <button mat-mini-fab color="accent">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        <div class="flex justify-center w-16 h-16">
+          <button mat-mini-fab color="accent">
+            <mat-icon>send</mat-icon>
+          </button>
+        </div>
       </div>
     </form>
   </div>
