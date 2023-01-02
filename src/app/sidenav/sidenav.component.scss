@@ -2,10 +2,27 @@
     height: 100%;
 }
 
+@mixin icon-size($size: 3rem) {
+    font-size: $size !important;
+    height: $size !important;
+    width: $size !important;
+    line-height: $size !important;
+}
+
 .menu-icon {
     position: fixed;
-    left: 1rem;
-    top: 0.7rem;
+    top: 1.4rem;
+    left: 1.5rem;
+
+    @include icon-size(3rem);
+
+    span {
+        @include icon-size(3rem);
+    }
+
+    mat-icon {
+        @include icon-size(3rem);
+    }
 }
 
 mat-drawer {
