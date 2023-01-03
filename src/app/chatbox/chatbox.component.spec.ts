@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChatRoomsComponent } from './chat-rooms.component';
+import { ChatboxComponent } from './chatbox.component';
 
-describe('ChatRoomsComponent', () => {
-  let component: ChatRoomsComponent;
-  let fixture: ComponentFixture<ChatRoomsComponent>;
+describe('ChatboxComponent', () => {
+  let component: ChatboxComponent;
+  let fixture: ComponentFixture<ChatboxComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ChatRoomsComponent ]
+      declarations: [ ChatboxComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ChatRoomsComponent);
+    fixture = TestBed.createComponent(ChatboxComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

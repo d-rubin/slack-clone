@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChatPreviewComponent } from './chat-preview.component';
+import { OnlineUsersComponent } from './online-users.component';
 
-describe('ChatPreviewComponent', () => {
-  let component: ChatPreviewComponent;
-  let fixture: ComponentFixture<ChatPreviewComponent>;
+describe('OnlineUsersComponent', () => {
+  let component: OnlineUsersComponent;
+  let fixture: ComponentFixture<OnlineUsersComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ChatPreviewComponent ]
+      declarations: [ OnlineUsersComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ChatPreviewComponent);
+    fixture = TestBed.createComponent(OnlineUsersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
