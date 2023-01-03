@@ -16,19 +16,16 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { HotToastModule } from '@ngneat/hot-toast';
-import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
+
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
-import { ChatPreviewComponent } from './chat-preview/chat-preview.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ChannelDialogComponent } from './channel-dialog/channel-dialog.component';
 import { ConversationDialogComponent } from './conversation-dialog/conversation-dialog.component';
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { MaterialModule } from './material/material.module';
-import { ContentComponent } from './content/content.component';
-import { UsersComponent } from './users/users.component';
-import { ChatComponent } from './chat/chat.component';
+
 import { ChatRoomComponent } from './chat-room/chat-room.component';
 import { OnlineUsersComponent } from './online-users/online-users.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
@@ -42,13 +39,9 @@ import { MessageFormComponent } from './message-form/message-form.component';
     SignUpComponent,
     MainareaComponent,
     HeaderComponent,
-    ChatRoomsComponent,
-    ChatPreviewComponent,
     ChannelDialogComponent,
     ConversationDialogComponent,
-    ContentComponent,
-    UsersComponent,
-    ChatComponent,
+
     ChatRoomComponent,
     OnlineUsersComponent,
     ChatboxComponent,
@@ -68,9 +61,9 @@ import { MessageFormComponent } from './message-form/message-form.component';
     HotToastModule.forRoot(),
     MatExpansionModule,
     MaterialModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
