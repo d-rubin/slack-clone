@@ -29,6 +29,10 @@ import { MaterialModule } from './material/material.module';
 import { ContentComponent } from './content/content.component';
 import { UsersComponent } from './users/users.component';
 import { ChatComponent } from './chat/chat.component';
+import { ChatRoomComponent } from './chat-room/chat-room.component';
+import { OnlineUsersComponent } from './online-users/online-users.component';
+import { ChatboxComponent } from './chatbox/chatbox.component';
+import { MessageFormComponent } from './message-form/message-form.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +49,10 @@ import { ChatComponent } from './chat/chat.component';
     ContentComponent,
     UsersComponent,
     ChatComponent,
+    ChatRoomComponent,
+    OnlineUsersComponent,
+    ChatboxComponent,
+    MessageFormComponent,
   ],
   imports: [
     BrowserModule,
