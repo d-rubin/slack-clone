@@ -41,7 +41,7 @@ export class SidenavComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     public firestore: AngularFirestore
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.renderChannelsAndConversations();
@@ -88,10 +88,10 @@ export class SidenavComponent implements OnInit {
           }
         }
       );
-  }     
-  
+  }
+
   showMenu() {
-    if(this.menu) {
+    if (this.menu) {
       this.menu = false;
       this.icon = 'close';
     }
@@ -102,7 +102,7 @@ export class SidenavComponent implements OnInit {
   }
 
   showContent(content: string) {
-    
+
   }
 
   openChannelDialog() {
@@ -111,5 +111,14 @@ export class SidenavComponent implements OnInit {
 
   openConversationDialog() {
     this.dialog.open(ConversationDialogComponent);
+  }
+  getUserIdfromCurrentUser() {
+    this.firestore
+    .collection<any>('users', ref => ref.where('name', '==', 'Gruppe413'))
+    .get().subscribe(docs => {
+      docs.forEach(doc => {
+        console.log(doc.id);
+      });
+    });
   }
 }
