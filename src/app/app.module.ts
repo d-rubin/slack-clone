@@ -30,6 +30,7 @@ import { ChatRoomComponent } from './chat-room/chat-room.component';
 import { OnlineUsersComponent } from './online-users/online-users.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
 import { MessageFormComponent } from './message-form/message-form.component';
+import { ChatboxMenuComponent } from './chatbox-menu/chatbox-menu.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { MessageFormComponent } from './message-form/message-form.component';
     OnlineUsersComponent,
     ChatboxComponent,
     MessageFormComponent,
+    ChatboxMenuComponent,
   ],
   imports: [
     BrowserModule,
