@@ -34,6 +34,7 @@ export class ChannelDialogComponent implements OnInit {
     .add(this.channel.toJSON())
     .then(() => {
       this.dialogRef.close();
+      
     });
   }
 }

@@ -53,6 +53,7 @@ export class SidenavComponent implements OnInit {
     this.getConversationsWithEmail();
   }
 
+  // Get Email of Current User
   getCurrentUserEmail() {
     return new Promise((resolve: Function, reject: Function) => {
       onAuthStateChanged(getAuth(), (currentuser) => {
@@ -112,12 +113,13 @@ export class SidenavComponent implements OnInit {
   openConversationDialog() {
     this.dialog.open(ConversationDialogComponent);
   }
+
+  // Search in a Collection for a Variable
   getUserIdfromCurrentUser() {
     this.firestore
     .collection<any>('users', ref => ref.where('name', '==', 'Gruppe413'))
     .get().subscribe(docs => {
       docs.forEach(doc => {
-        console.log(doc.id);
       });
     });
   }
