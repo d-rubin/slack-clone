@@ -1,6 +1,11 @@
-<form class="example-form">
-    <mat-form-field class="example-full-width">
-      <mat-label>Add User to Channel</mat-label>
-      <input matInput placeholder="User Name" [(ngModel)]="searchInput">
-    </mat-form-field>
+<form class="search-bar">
+  <mat-form-field class="h-100" appearance="fill">
+    <mat-label>Search...</mat-label>
+    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" />
+    <mat-autocomplete class="scrollbar-none" #auto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (click)="addUserToChannel(option.name)">
+        {{ option.name }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
 </form>

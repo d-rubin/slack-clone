@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from '../models/user.class';
 
 @Component({
   selector: 'app-show-members',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./show-members.component.scss']
 })
 export class ShowMembersComponent implements OnInit {
+  members: User[] = [];
 
   constructor() { }
 
   ngOnInit(): void {
+    
   }
 
 }
