@@ -33,6 +33,7 @@ import { MessageFormComponent } from './message-form/message-form.component';
 import { ChatboxMenuComponent } from './chatbox-menu/chatbox-menu.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { AddMemberComponent } from './add-member/add-member.component';
+import { ShowMembersComponent } from './show-members/show-members.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { AddMemberComponent } from './add-member/add-member.component';
     MessageFormComponent,
     ChatboxMenuComponent,
     AddMemberComponent,
+    ShowMembersComponent,
   ],
   imports: [
     BrowserModule,
