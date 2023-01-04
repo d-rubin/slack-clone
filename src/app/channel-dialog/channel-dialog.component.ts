@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵisPromise } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Channel } from '../models/channel.class';
@@ -12,19 +12,20 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 export class ChannelDialogComponent implements OnInit {
   channelName: string;
   channel: Channel = new Channel();
-  userEmail: string;
-  currentUser = [];
+  userEmail: any;
+  currentUserId: any;
+  currentUserDataFromDB: any;
 
   constructor(
     public dialogRef: MatDialogRef<ChannelDialogComponent>,
     private firestore: AngularFirestore
   ) {}
 
-  ngOnInit(): void {
-    onAuthStateChanged(getAuth(), (user) => {
-      this.userEmail = user.email;
-      
-    });
+  async ngOnInit() {
+    await this.onAuthStateChanged();
+    await this.getCurrentUserID();
+    await this.getCurrentUserDataFromDB();
+    console.log('Out of Function', this.currentUserDataFromDB);
   }
 
   createChannel() {
@@ -38,4 +39,61 @@ export class ChannelDialogComponent implements OnInit {
         this.dialogRef.close();
       });
   }
+
+  async onAuthStateChanged() {
+    return new Promise((resolve, reject) => {
+      try {
+        onAuthStateChanged(getAuth(), (user) => {
+          resolve((this.userEmail = user.email));
+        });
+      } catch {
+        () => reject(console.warn('onAuthStateChanged() was FAIL'));
+      }
+    });
+  }
+
+  async getCurrentUserID() {
+    return new Promise((resolve, reject) => {
+      try {
+        this.firestore
+          .collection('users', (ref) =>
+            ref.where('email', '==', this.userEmail)
+          )
+          .snapshotChanges()
+          .subscribe((data) => {
+            data.forEach((doc) => {
+              resolve((this.currentUserId = doc.payload.doc.id));
+            });
+          });
+      } catch {
+        () => reject(console.warn('getCurrentUserID() was FAIL'));
+      }
+    });
+  }
+
+  async getCurrentUserDataFromDB() {
+    return new Promise((resolve, reject) => {
+      try {
+        this.firestore
+          .collection('users')
+          .doc(this.currentUserId)
+          .valueChanges()
+          .subscribe((doc) => resolve((this.currentUserDataFromDB = doc)));
+      } catch {
+        () => reject(console.warn('getCurrentUserDataFromDB() was FAIL'));
+      }
+    });
+  }
+
+  // Muster Promise
+  // function makeRequest() {
+  //   return new Promise((resolve, reject) => {
+  //     try {
+  //       const response = HIER FUNKTION! sendRequestToServer();
+  //       resolve(response);
+  //     } catch (error) {
+  //       reject(error);
+  //     }
+  //   });
+  // }
 }
