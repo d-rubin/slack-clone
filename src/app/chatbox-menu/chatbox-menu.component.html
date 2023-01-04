@@ -1,1 +1,11 @@
-<div class="w-full h-full bg-red-500"><p>chatbox-menu works!</p></div>
+<div class="chat-header">
+    <h2 class="mr-2">{{ name }}</h2>
+    <div class="mr-2">
+        <button mat-mini-fab color="primary">
+            <mat-icon matBadge="{{members}}" matBadgeColor="warn">group</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+</div>

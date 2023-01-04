@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./chatbox-menu.component.scss']
 })
 export class ChatboxMenuComponent implements OnInit {
+  name: string = 'NAME';
+  members: number = 15;
 
   constructor() { }
 

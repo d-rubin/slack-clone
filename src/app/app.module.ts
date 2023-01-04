@@ -31,6 +31,8 @@ import { OnlineUsersComponent } from './online-users/online-users.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
 import { MessageFormComponent } from './message-form/message-form.component';
 import { ChatboxMenuComponent } from './chatbox-menu/chatbox-menu.component';
+import { MatBadgeModule } from '@angular/material/badge';
+import { AddMemberComponent } from './add-member/add-member.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import { ChatboxMenuComponent } from './chatbox-menu/chatbox-menu.component';
     ChatboxComponent,
     MessageFormComponent,
     ChatboxMenuComponent,
+    AddMemberComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,8 +67,9 @@ import { ChatboxMenuComponent } from './chatbox-menu/chatbox-menu.component';
     MatExpansionModule,
     MaterialModule,
     MatAutocompleteModule,
+    MatBadgeModule
   ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
