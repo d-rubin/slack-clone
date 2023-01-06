@@ -34,6 +34,7 @@ import { ChatboxMenuComponent } from './chatbox-menu/chatbox-menu.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { AddMemberComponent } from './add-member/add-member.component';
 import { ShowMembersComponent } from './show-members/show-members.component';
+import { DataService } from './services/data.service';
 
 @NgModule({
   declarations: [
@@ -69,9 +70,9 @@ import { ShowMembersComponent } from './show-members/show-members.component';
     MatExpansionModule,
     MaterialModule,
     MatAutocompleteModule,
-    MatBadgeModule
+    MatBadgeModule,
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

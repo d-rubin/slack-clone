@@ -2,98 +2,87 @@ import { Component, OnInit, ɵisPromise } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Channel } from '../models/channel.class';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { DataService } from '../services/data.service';
+import { User } from '../models/user.class';
 
 @Component({
   selector: 'app-channel-dialog',
   templateUrl: './channel-dialog.component.html',
   styleUrls: ['./channel-dialog.component.scss'],
+  providers: [DataService],
 })
 export class ChannelDialogComponent implements OnInit {
-  channelName: string;
-  channel: Channel = new Channel();
-  userEmail: any;
+  currentUser = new User();
+  createNewChannel: Channel = new Channel();
+  channelName = '';
   currentUserId: any;
   currentUserDataFromDB: any;
+  newChannelID: any;
 
   constructor(
     public dialogRef: MatDialogRef<ChannelDialogComponent>,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    private dataService: DataService
   ) {}
 
   async ngOnInit() {
-    await this.onAuthStateChanged();
-    await this.getCurrentUserID();
-    await this.getCurrentUserDataFromDB();
-    console.log('Out of Function', this.currentUserDataFromDB);
+    //get current user data service
+    setTimeout(async () => {
+      this.currentUser = await this.dataService.currentUser;
+      console.log(
+        'AUSGABE DATA CHANNEL DIALOG! this.dataService.currentUser',
+        this.currentUser
+      );
+    }, 1000);
   }
 
-  createChannel() {
-    this.channel.name = this.channelName;
-    this.channel.members.push(this.userEmail);
-    this.firestore
+  async createChannel() {
+    this.createNewChannel.name = this.channelName;
+    this.createNewChannel.members.push(await this.currentUser.currentUserId);
+    this.createNewChannel.adminChannel = this.currentUser.currentUserId;
+    this.createNewChannel.messages = [];
+    await this.getNewChannelID();
+    this.currentUser.currentChannelId = await this.newChannelID;
+    this.currentUser.memberInChannel.push(await this.newChannelID);
+    await this.updateUserinFirestore(this.currentUser);
+    this.dialogRef.close();
+  }
+
+  async updateUserinFirestore(currentUser) {
+    const docRef = this.firestore.doc(`users/${currentUser.currentUserId}`);
+    await docRef.update({
+      name: currentUser.name,
+      email: currentUser.email,
+      currentUserId: currentUser.currentUserId,
+      currentChannelId: currentUser.currentChannelId,
+      memberInChannel: currentUser.memberInChannel,
+    });
+  }
+
+  async getNewChannelID() {
+    await this.firestore
       .collection('channels')
-      .add(this.channel.toJSON())
+      .add(this.createNewChannel.toJSON())
       .then((doc) => {
-        console.log(doc.id);
-        this.dialogRef.close();
+        this.newChannelID = doc.id;
       });
   }
 
-  async onAuthStateChanged() {
-    return new Promise((resolve, reject) => {
-      try {
-        onAuthStateChanged(getAuth(), (user) => {
-          resolve((this.userEmail = user.email));
-        });
-      } catch {
-        () => reject(console.warn('onAuthStateChanged() was FAIL'));
-      }
-    });
+  async updateUserCurrentChallenId(
+    currentUserId: string,
+    newCurrentChannelId: string
+  ) {
+    const docRef = this.firestore.doc(`users/${currentUserId}`);
+    docRef.update({ currentChannelId: newCurrentChannelId });
   }
 
-  async getCurrentUserID() {
-    return new Promise((resolve, reject) => {
-      try {
-        this.firestore
-          .collection('users', (ref) =>
-            ref.where('email', '==', this.userEmail)
-          )
-          .snapshotChanges()
-          .subscribe((data) => {
-            data.forEach((doc) => {
-              resolve((this.currentUserId = doc.payload.doc.id));
-            });
-          });
-      } catch {
-        () => reject(console.warn('getCurrentUserID() was FAIL'));
-      }
-    });
+  async updateUserIsMemberInChannelArray(
+    currentUserId: string,
+    newCurrentChannelId: string
+  ) {
+    const docRef = this.firestore.doc(`users/${currentUserId}`);
+    let updateArray =
+      this.currentUser.memberInChannel.push(newCurrentChannelId);
+    docRef.update({ memberInChannel: updateArray });
   }
-
-  async getCurrentUserDataFromDB() {
-    return new Promise((resolve, reject) => {
-      try {
-        this.firestore
-          .collection('users')
-          .doc(this.currentUserId)
-          .valueChanges()
-          .subscribe((doc) => resolve((this.currentUserDataFromDB = doc)));
-      } catch {
-        () => reject(console.warn('getCurrentUserDataFromDB() was FAIL'));
-      }
-    });
-  }
-
-  // Muster Promise
-  // function makeRequest() {
-  //   return new Promise((resolve, reject) => {
-  //     try {
-  //       const response = HIER FUNKTION! sendRequestToServer();
-  //       resolve(response);
-  //     } catch (error) {
-  //       reject(error);
-  //     }
-  //   });
-  // }
 }

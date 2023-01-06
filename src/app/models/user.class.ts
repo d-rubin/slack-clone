@@ -1,16 +1,25 @@
 export class User {
-    name: string;
-    email: string;
+  name: any;
+  email: any;
+  currentUserId: any;
+  currentChannelId: any;
+  memberInChannel: any[];
 
-    constructor(obj?: any) {
-        this.name = obj? obj.name: '';
-        this.email = obj? obj.email: '';
-    }
+  constructor() {
+    this.name = '';
+    this.email = '';
+    this.currentUserId = '';
+    this.currentChannelId = '';
+    this.memberInChannel = [];
+  }
 
-    toJSON() {
-        return {
-            name: this.name,
-            email: this.email,
-        }
-    }
+  toJSON() {
+    return {
+      name: this.name,
+      email: this.email,
+      currentUserId: this.currentUserId,
+      currentChannelId: this.currentChannelId,
+      memberInChannel: this.memberInChannel,
+    };
+  }
 }
