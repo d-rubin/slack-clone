@@ -29,10 +29,6 @@ export class ChannelDialogComponent implements OnInit {
     //get current user data service
     setTimeout(async () => {
       this.currentUser = await this.dataService.currentUser;
-      console.log(
-        'AUSGABE DATA CHANNEL DIALOG! this.dataService.currentUser',
-        this.currentUser
-      );
     }, 1000);
   }
 
@@ -48,7 +44,12 @@ export class ChannelDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  async updateUserinFirestore(currentUser) {
+  /**
+   * function updatet the user dats in firestore
+   *
+   * @param currentUser Object
+   */
+  async updateUserinFirestore(currentUser: User) {
     const docRef = this.firestore.doc(`users/${currentUser.currentUserId}`);
     await docRef.update({
       name: currentUser.name,
@@ -59,6 +60,10 @@ export class ChannelDialogComponent implements OnInit {
     });
   }
 
+  /**
+   * get the id at the new created channel
+   */
+
   async getNewChannelID() {
     await this.firestore
       .collection('channels')
@@ -68,6 +73,12 @@ export class ChannelDialogComponent implements OnInit {
       });
   }
 
+  /**
+   * function updatet the current channel id where the user use in the current moment
+   *
+   * @param currentUserId => id current user
+   * @param newCurrentChannelId => thge new id at the created channel
+   */
   async updateUserCurrentChallenId(
     currentUserId: string,
     newCurrentChannelId: string
@@ -76,6 +87,12 @@ export class ChannelDialogComponent implements OnInit {
     docRef.update({ currentChannelId: newCurrentChannelId });
   }
 
+  /**
+   * function add the current channel id in the list which all channels the user member is
+   *
+   * @param currentUserId => id current user
+   * @param newCurrentChannelId => array all with all channels at the current user
+   */
   async updateUserIsMemberInChannelArray(
     currentUserId: string,
     newCurrentChannelId: string
