@@ -32,8 +32,10 @@ export class DataService implements OnInit {
     return new Promise((resolve, reject) => {
       try {
         onAuthStateChanged(getAuth(), (user) => {
-          resolve(user.email);
-        });
+          if (user) {
+            resolve(user.email);
+          } else {
+        }});
       } catch {
         () => reject('onAuthStateChanged() was FAIL');
       }
