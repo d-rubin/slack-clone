@@ -62,7 +62,7 @@ export class SidenavComponent implements OnInit {
   async ngOnInit() {
     setTimeout(async () => {
       this.currentUser = await this.dataService.getCurrentUserData();
-      console.log('this.dataService.getCurrentUserData()', this.currentUser);
+      // console.log('this.dataService.getCurrentUserData()', this.currentUser);
     }, 1000);
     this.renderChannelsAndConversations();
   }
