@@ -1,0 +1,14 @@
+.option {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    mat-card-content {
+        display: flex;
+        align-items: center;
+        margin: 0;
+        margin-right: 1rem;
+        font-size: 1rem;
+    }
+}

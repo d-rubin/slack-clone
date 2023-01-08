@@ -29,7 +29,7 @@ export class AddMemberComponent implements OnInit {
   }
 
   addUserToChannel(name) {
-
+    // should get the user id from the name and append it to the channel members Array and the memberInChannel array in the users collection
   }
 
   private _filter(name: string): User[] {

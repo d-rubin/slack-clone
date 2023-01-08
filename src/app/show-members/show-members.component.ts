@@ -49,4 +49,8 @@ export class ShowMembersComponent implements OnInit {
       resolve();
     });
   }
+
+  removeMember(memberName) {
+    
+  }
 } 
