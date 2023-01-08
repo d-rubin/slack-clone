@@ -89,8 +89,8 @@ export class SignUpComponent implements OnInit {
       )
       .subscribe(() => {
         this.router.navigate(['']);
+        this.firestore.collection('users').add({ email: email, name: name , currentUserId: '', currentChannelId: '', memberInChannel: [] });
       });
-    this.firestore.collection('users').add({ email: email, name: name });
   }
 
   guest() {
