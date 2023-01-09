@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConversationDialogComponent } from '../conversation-dialog/conversation-dialog.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Channel } from '../models/channel.class';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { Conversation } from '../models/Conversation.class';
 import {
   animate,
@@ -52,27 +51,44 @@ export class SidenavComponent implements OnInit {
   menu: boolean = true;
   icon: string = 'menu';
   currentUser: Object;
+  currentUserEmail: any;
+  currentUserIdFirestore: any;
+  currentMemberInChannel: any;
+  currentMemberInData: any;
+  result;
 
   constructor(
     public dialog: MatDialog,
     public firestore: AngularFirestore,
-    private dataService: DataService
+    public dataService: DataService
   ) {}
 
   async ngOnInit() {
-    setTimeout(async () => {
-      this.currentUser = await this.dataService.getCurrentUserData();
-      // console.log('this.dataService.getCurrentUserData()', this.currentUser);
-    }, 1000);
-    this.renderChannelsAndConversations();
+    await this.getCurrentUserId();
   }
 
-  async renderChannelsAndConversations() {
-        //await this.getCurrentUserEmail();
-    //this.getChannelsWithEmail();
-    //this.getConversationsWithEmail();
+  async getCurrentUserId() {
+    this.currentUserEmail = await this.dataService.onAuthStateChanged();
+    this.currentUserIdFirestore = await this.dataService.getCurrentUserID();
+    await this.getArrayChannelMember();
   }
 
+  async getArrayChannelMember() {
+    const docRef = this.firestore
+      .collection('users')
+      .doc(this.currentUserIdFirestore);
+    docRef.valueChanges().subscribe(async (doc) => {
+      this.currentMemberInChannel = await doc;
+    });
+  }
+
+  // await this.currentMemberInChannel.forEach((channelId) => {
+  //   console.log(channelId);
+  //});
+
+  renderChannelsAndConversations() {} //await this.getCurrentUserEmail();
+  //this.getChannelsWithEmail();
+  //this.getConversationsWithEmail();};
   // Get Email of Current User
   // getCurrentUserEmail() {
   //   return new Promise((resolve: Function, reject: Function) => {
