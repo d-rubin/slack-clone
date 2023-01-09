@@ -11,6 +11,7 @@ export class DataService implements OnInit {
   currentUserEmail: any;
   currentUserIdFirestore: any;
   currentUser: any;
+  users: any[] = [];
 
   constructor(private firestore: AngularFirestore) {
     this.ngOnInit();
@@ -21,6 +22,7 @@ export class DataService implements OnInit {
     this.currentUserIdFirestore = await this.getCurrentUserID();
     this.currentUser = await this.getCurrentUserData();
     this.currentUser.currentUserId = this.currentUserIdFirestore;
+    await this.getAllUserData();
   }
 
   /**
@@ -87,5 +89,19 @@ export class DataService implements OnInit {
         });
       } catch (error) {}
     });
+  }
+
+  async getAllUserData() {
+    return new Promise((resolve: Function, reject: Function) => {
+      try {
+        this.firestore.collection('users').get().subscribe(snapshot => {
+          this.users = snapshot.docs.map(doc => doc.data());
+          console.log(this.users);
+          resolve();
+        });
+      }
+      catch (error) {
+        reject('getAllUserData() WAS FAIL!');
+      }});
   }
 }
