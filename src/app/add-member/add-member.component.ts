@@ -3,6 +3,8 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormControl } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 import { User } from '../models/user.class';
+import { DataService } from '../services/data.service';
+import { Channel } from '../models/channel.class';
 
 @Component({
   selector: 'app-add-member',
@@ -14,8 +16,14 @@ export class AddMemberComponent implements OnInit {
   searchInput: string;
   myControl = new FormControl<string | User>('');
   filteredOptions: Observable<User[]>;
+  user: User; 
+  currentChannelId: string;
+  channel: any;
 
-  constructor(private firestore: AngularFirestore) { }
+  constructor(
+    private firestore: AngularFirestore,
+    private dataService: DataService,
+    ) { }
 
   ngOnInit(): void {
     this.filteredOptions = this.myControl.valueChanges.pipe(
@@ -29,7 +37,13 @@ export class AddMemberComponent implements OnInit {
   }
 
   addUserToChannel(name) {
-    // should get the user id from the name and append it to the channel members Array and the memberInChannel array in the users collection
+  //   this.user = this.dataService.users.find(x => x.email === this.dataService.currentUserEmail);
+  //   this.currentChannelId = this.user.currentChannelId;
+  //   this.firestore.collection('channels').doc(this.currentChannelId).get().then((channel) => {
+  //     if (channel.exists) {
+  //       this.channel = channel.data();
+  //       this.channel.members.push(name);
+  //   }});
   }
 
   private _filter(name: string): User[] {
