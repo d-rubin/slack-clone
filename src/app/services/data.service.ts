@@ -3,15 +3,20 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { OnInit } from '@angular/core';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { User } from '../models/user.class';
+import { Subject } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService implements OnInit {
+  //declare var to find the firestore id current user
   currentUserEmail: any;
   currentUserIdFirestore: any;
+
+  // declare an observable that will be used to subscribe to the currentUser$ observable
   currentUser: any;
-  users: any[] = [];
+  currentUser$: Observable<typeof this.currentUser>;
 
   constructor(private firestore: AngularFirestore) {
     this.ngOnInit();
@@ -21,8 +26,13 @@ export class DataService implements OnInit {
     this.currentUserEmail = await this.onAuthStateChanged();
     this.currentUserIdFirestore = await this.getCurrentUserID();
     this.currentUser = await this.getCurrentUserData();
-    this.currentUser.currentUserId = this.currentUserIdFirestore;
-    await this.getAllUserData();
+  }
+
+  updateCurrentUserObservable() {
+    this.currentUser$ = of(this.currentUser);
+    this.currentUser$.subscribe((val) => {
+      console.log('NEW CURRENT USER DATA FROM FIREBASE WAS UPDATET', val);
+    });
   }
 
   /**
@@ -37,7 +47,8 @@ export class DataService implements OnInit {
           if (user) {
             resolve(user.email);
           } else {
-        }});
+          }
+        });
       } catch {
         () => reject('onAuthStateChanged() was FAIL');
       }
@@ -73,7 +84,7 @@ export class DataService implements OnInit {
   async getCurrentUserData() {
     return new Promise((resolve, reject) => {
       try {
-        // get a reference to the document
+        // get a reference to the current user document
         let docRef = this.firestore
           .collection('users')
           .doc(this.currentUserIdFirestore);
@@ -82,6 +93,8 @@ export class DataService implements OnInit {
 
         docRef.valueChanges().subscribe((doc) => {
           if (doc) {
+            this.updateCurrentUserObservable();
+            console.log(doc);
             resolve(doc);
           } else {
             reject('getCurrentUserData() WAS FAIL!');
@@ -89,19 +102,5 @@ export class DataService implements OnInit {
         });
       } catch (error) {}
     });
-  }
-
-  async getAllUserData() {
-    return new Promise((resolve: Function, reject: Function) => {
-      try {
-        this.firestore.collection('users').get().subscribe(snapshot => {
-          this.users = snapshot.docs.map(doc => doc.data());
-          console.log(this.users);
-          resolve();
-        });
-      }
-      catch (error) {
-        reject('getAllUserData() WAS FAIL!');
-      }});
   }
 }
