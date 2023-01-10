@@ -13,6 +13,7 @@ export class DataService implements OnInit {
   //declare var to find the firestore id current user
   currentUserEmail: any;
   currentUserIdFirestore: any;
+  users: any[] = [];
 
   // declare an observable that will be used to subscribe to the currentUser$ observable
   currentUser: any;
@@ -26,6 +27,7 @@ export class DataService implements OnInit {
     this.currentUserEmail = await this.onAuthStateChanged();
     this.currentUserIdFirestore = await this.getCurrentUserID();
     this.currentUser = await this.getCurrentUserData();
+    await this.getAllUserData();
   }
 
   updateCurrentUserObservable() {
@@ -101,6 +103,23 @@ export class DataService implements OnInit {
           }
         });
       } catch (error) {}
+    });
+  }
+
+  async getAllUserData() {
+    return new Promise((resolve: Function, reject: Function) => {
+      try {
+        this.firestore
+          .collection('users')
+          .get()
+          .subscribe((snapshot) => {
+            this.users = snapshot.docs.map((doc) => doc.data());
+            console.log(this.users);
+            resolve();
+          });
+      } catch (error) {
+        reject('getAllUserData() WAS FAIL!');
+      }
     });
   }
 }
