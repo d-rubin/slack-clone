@@ -29,7 +29,7 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <div class="item" *ngFor="let conversation of allConversations" (click)="showContent(channel.name)">
+        <div class="item" *ngFor="let conversation of allConversations" (click)="showContent(conversation.name)">
           {{conversation.name }}
         </div>
 

@@ -26,13 +26,10 @@ export class ChannelDialogComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    //get current user data service
-    setTimeout(async () => {
-    //  this.currentUser = await this.dataService.currentUser;
-    }, 1000);
   }
 
   async createChannel() {
+    this.currentUser = await this.dataService.currentUser;
     this.createNewChannel.name = this.channelName;
     this.createNewChannel.members.push(await this.currentUser.currentUserId);
     this.createNewChannel.adminChannel = this.currentUser.currentUserId;

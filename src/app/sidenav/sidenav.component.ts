@@ -13,6 +13,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { DataService } from '../services/data.service';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 @Component({
   selector: 'app-sidenav',
@@ -65,6 +66,7 @@ export class SidenavComponent implements OnInit {
 
   async ngOnInit() {
     await this.getCurrentUserId();
+    this.renderChannelsAndConversations();
   }
 
   async getCurrentUserId() {
@@ -86,46 +88,46 @@ export class SidenavComponent implements OnInit {
   //   console.log(channelId);
   //});
 
-  renderChannelsAndConversations() {} //await this.getCurrentUserEmail();
-  //this.getChannelsWithEmail();
-  //this.getConversationsWithEmail();};
-  // Get Email of Current User
-  // getCurrentUserEmail() {
-  //   return new Promise((resolve: Function, reject: Function) => {
-  //     onAuthStateChanged(getAuth(), (currentuser) => {
-  //       this.email = currentuser.email;
-  //       resolve();
-  //     });
-  //   })
-  // }
+  renderChannelsAndConversations() {
+    this.getChannelsWithId();
+    this.getConversationsWithId();};
+    // Get Email of Current User
+    getCurrentUserEmail() {
+      return new Promise((resolve: Function, reject: Function) => {
+        onAuthStateChanged(getAuth(), (currentuser) => {
+          this.email = currentuser.email;
+          resolve();
+        });
+      });
+  }
 
-  //getChannelsWithEmail() {
-  //  return this.firestore
-  //    .collection<any>('channels', ref => ref.where('members', 'array-contains-any', [this.email]))
-  //    .valueChanges()
-  //    .subscribe(
-  //      (channels: Channel[]) => {
-  //        this.allChannels = [];
-  //        for (let i = 0; i < channels.length; i++) {
-  //          this.allChannels.push(channels[i]);
-  //        };
-  //      }
-  //    );
-  //}
+  getChannelsWithId() {
+   return this.firestore
+     .collection<any>('channels', ref => ref.where('members', 'array-contains-any', [this.dataService.currentUserIdFirestore]))
+     .valueChanges()
+     .subscribe(
+       (channels: Channel[]) => {
+         this.allChannels = [];
+         for (let i = 0; i < channels.length; i++) {
+           this.allChannels.push(channels[i]);
+         };
+       }
+     );
+  }
 
-  //getConversationsWithEmail() {
-  //  return this.firestore
-  //    .collection<any>('conversations', ref => ref.where('members', 'array-contains-any', [this.email]))
-  //    .valueChanges()
-  //    .subscribe(
-  //      (converatons: Conversation[]) => {
-  //        this.allConversations = [];
-  //        for (let i = 0; i < converatons.length; i++) {
-  //          this.allConversations.push(converatons[i]);
-  //        }
-  //      }
-  //    );
-  //}
+  getConversationsWithId() {
+   return this.firestore
+     .collection<any>('conversations', ref => ref.where('members', 'array-contains-any', [this.dataService.currentUserIdFirestore]))
+     .valueChanges()
+     .subscribe(
+       (converatons: Conversation[]) => {
+         this.allConversations = [];
+         for (let i = 0; i < converatons.length; i++) {
+           this.allConversations.push(converatons[i]);
+         }
+       }
+     );
+  }
 
   showMenu() {
     if (this.menu) {

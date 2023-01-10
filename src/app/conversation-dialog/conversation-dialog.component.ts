@@ -7,6 +7,7 @@ import { doc, DocumentReference, getDoc } from 'firebase/firestore';
 import { first } from 'rxjs';
 import { Conversation } from '../models/Conversation.class';
 import { User } from '../models/user.class';
+import { DataService } from '../services/data.service';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class ConversationDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ConversationDialogComponent>,
     public firestore: AngularFirestore,
+    public dataService: DataService
     ) { }
 
   ngOnInit(): void {
@@ -33,7 +35,7 @@ export class ConversationDialogComponent implements OnInit {
   }
 
   async startConversation() {
-    this.conversation.members.push(this.userEmail);
+    this.conversation.members.push(this.dataService.currentUserIdFirestore);
     await this.addSecondMemberToConversation();
     await this.saveConversation();
     this.dialogRef.close();
@@ -54,8 +56,9 @@ export class ConversationDialogComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (user) => {
+          console.log(user);
           this.conversation.name = this.userName;
-          this.conversation.members.push(user[0].email);
+          this.conversation.members.push(user[0].currentUserIdFirestore);
           resolve();
         },
         (error: any) => {
