@@ -6,6 +6,8 @@ import { User } from '../models/user.class';
 import { DataService } from '../services/data.service';
 import { Channel } from '../models/channel.class';
 
+// import { firestore } from '@firebase/firestore-types';
+
 @Component({
   selector: 'app-add-member',
   templateUrl: './add-member.component.html',
@@ -18,7 +20,7 @@ export class AddMemberComponent implements OnInit {
   filteredOptions: Observable<User[]>;
   user: User; 
   currentChannelId: string;
-  channel: any;
+  channel: Channel;
 
   constructor(
     private firestore: AngularFirestore,
@@ -36,14 +38,26 @@ export class AddMemberComponent implements OnInit {
     this.getOptionsFromCollection();
   }
 
-  addUserToChannel(name) {
-  //   this.user = this.dataService.users.find(x => x.email === this.dataService.currentUserEmail);
-  //   this.currentChannelId = this.user.currentChannelId;
-  //   this.firestore.collection('channels').doc(this.currentChannelId).get().then((channel) => {
-  //     if (channel.exists) {
-  //       this.channel = channel.data();
-  //       this.channel.members.push(name);
-  //   }});
+  addUserToChannel(name: string) {
+    this.user = this.dataService.users.find(x => x.name === name);
+    this.currentChannelId = this.user.currentChannelId;
+    // this.firestore
+    //   .collection('channels')
+    //   .doc(this.currentChannelId).get().pipe()(channel) => {
+    //     this.channel = channel.data();
+    //     this.channel.members.push(name);
+    // });
+    // this.channel.members.pu
+
+    // this.firestore
+    //   .collection('channels')
+    //   .doc(this.currentChannelId)
+    //   .update(
+    //     {
+    //       members: firestore.FieldValue.arrayUnion(name)
+    //     }
+    //   )
+      
   }
 
   private _filter(name: string): User[] {
