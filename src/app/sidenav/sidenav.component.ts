@@ -90,43 +90,48 @@ export class SidenavComponent implements OnInit {
 
   renderChannelsAndConversations() {
     this.getChannelsWithId();
-    this.getConversationsWithId();};
-    // Get Email of Current User
-    getCurrentUserEmail() {
-      return new Promise((resolve: Function, reject: Function) => {
-        onAuthStateChanged(getAuth(), (currentuser) => {
-          this.email = currentuser.email;
-          resolve();
-        });
+    this.getConversationsWithId();
+  }
+  // Get Email of Current User
+  getCurrentUserEmail() {
+    return new Promise((resolve: Function, reject: Function) => {
+      onAuthStateChanged(getAuth(), (currentuser) => {
+        this.email = currentuser.email;
+        resolve();
       });
+    });
   }
 
   getChannelsWithId() {
-   return this.firestore
-     .collection<any>('channels', ref => ref.where('members', 'array-contains-any', [this.dataService.currentUserIdFirestore]))
-     .valueChanges()
-     .subscribe(
-       (channels: Channel[]) => {
-         this.allChannels = [];
-         for (let i = 0; i < channels.length; i++) {
-           this.allChannels.push(channels[i]);
-         };
-       }
-     );
+        return this.firestore
+      .collection<any>('channels', (ref) =>
+        ref.where('members', 'array-contains-any', [
+          this.dataService.currentUserIdFirestore,
+        ])
+      )
+      .valueChanges()
+      .subscribe((channels: Channel[]) => {
+        this.allChannels = [];
+        for (let i = 0; i < channels.length; i++) {
+          this.allChannels.push(channels[i]);
+        }
+      });
   }
 
   getConversationsWithId() {
-   return this.firestore
-     .collection<any>('conversations', ref => ref.where('members', 'array-contains-any', [this.dataService.currentUserIdFirestore]))
-     .valueChanges()
-     .subscribe(
-       (converatons: Conversation[]) => {
-         this.allConversations = [];
-         for (let i = 0; i < converatons.length; i++) {
-           this.allConversations.push(converatons[i]);
-         }
-       }
-     );
+    return this.firestore
+      .collection<any>('conversations', (ref) =>
+        ref.where('members', 'array-contains-any', [
+          this.dataService.currentUserIdFirestore,
+        ])
+      )
+      .valueChanges()
+      .subscribe((converatons: Conversation[]) => {
+        this.allConversations = [];
+        for (let i = 0; i < converatons.length; i++) {
+          this.allConversations.push(converatons[i]);
+        }
+      });
   }
 
   showMenu() {

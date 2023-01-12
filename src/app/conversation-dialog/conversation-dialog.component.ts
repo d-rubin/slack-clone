@@ -21,6 +21,7 @@ export class ConversationDialogComponent implements OnInit {
   secondMember: string;
   conversation: Conversation = new Conversation();
   userName: string;
+  newConversationlID: string;
 
   constructor(
     public dialogRef: MatDialogRef<ConversationDialogComponent>,
@@ -33,16 +34,28 @@ export class ConversationDialogComponent implements OnInit {
   async startConversation() {
     this.currentUser = await this.dataService.currentUser;
     this.conversation.members.push(this.dataService.currentUserIdFirestore);
+
     await this.addSecondMemberToConversation();
+
     await this.saveConversation();
-    console.log(this.conversation);
+    this.conversation.conversationID = this.newConversationlID;
+    await this.addIdNewConversationID(this.conversation.conversationID);
     this.dialogRef.close();
   }
 
-  saveConversation() {
-    return this.firestore
+  async addIdNewConversationID(newConversationID) {
+    const updId = this.firestore.doc(`conversations/${newConversationID}`);
+    updId.update({ conversationID: newConversationID });
+    console.log(newConversationID);
+  }
+
+  async saveConversation() {
+    await this.firestore
       .collection('conversations')
-      .add(this.conversation.toJSON());
+      .add(this.conversation.toJSON())
+      .then((doc) => {
+        this.newConversationlID = doc.id;
+      });
   }
 
   addSecondMemberToConversation() {

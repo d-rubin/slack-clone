@@ -25,8 +25,7 @@ export class ChannelDialogComponent implements OnInit {
     private dataService: DataService
   ) {}
 
-  async ngOnInit() {
-  }
+  async ngOnInit() {}
 
   async createChannel() {
     this.currentUser = await this.dataService.currentUser;
@@ -37,6 +36,8 @@ export class ChannelDialogComponent implements OnInit {
     await this.getNewChannelID();
     this.currentUser.currentChannelId = await this.newChannelID;
     this.currentUser.memberInChannel.push(await this.newChannelID);
+    this.createNewChannel.channelID = await this.newChannelID;
+    await this.addIdNewChannelID(this.currentUser.currentChannelId);
     await this.updateUserinFirestore(this.currentUser);
     this.dialogRef.close();
   }
@@ -68,6 +69,11 @@ export class ChannelDialogComponent implements OnInit {
       .then((doc) => {
         this.newChannelID = doc.id;
       });
+  }
+
+  async addIdNewChannelID(newChannelID) {
+    const updId = this.firestore.doc(`channels/${newChannelID}`);
+    updId.update({ channelId: newChannelID });
   }
 
   /**
