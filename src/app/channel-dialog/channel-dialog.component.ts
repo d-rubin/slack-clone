@@ -36,7 +36,7 @@ export class ChannelDialogComponent implements OnInit {
     await this.getNewChannelID();
     this.currentUser.currentChannelId = await this.newChannelID;
     this.currentUser.memberInChannel.push(await this.newChannelID);
-    this.createNewChannel.channelID = await this.newChannelID;
+    this.createNewChannel.channelId = await this.newChannelID;
     await this.addIdNewChannelID(this.currentUser.currentChannelId);
     await this.updateUserinFirestore(this.currentUser);
     this.dialogRef.close();

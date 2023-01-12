@@ -3,14 +3,14 @@ export class Channel {
   members: string[];
   adminChannel: string;
   messages: [];
-  channelID: string;
+  channelId: string;
 
   constructor() {
     this.name = '';
     this.members = [];
     this.adminChannel = '';
     this.messages = [];
-    this.channelID = '';
+    this.channelId = '';
   }
 
   toJSON() {
@@ -19,7 +19,7 @@ export class Channel {
       members: this.members,
       adminChannel: this.adminChannel,
       messages: this.messages,
-      channelId: this.channelID,
+      channelId: this.channelId,
     };
   }
 }

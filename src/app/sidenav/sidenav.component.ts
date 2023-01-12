@@ -103,7 +103,7 @@ export class SidenavComponent implements OnInit {
   }
 
   getChannelsWithId() {
-        return this.firestore
+    return this.firestore
       .collection<any>('channels', (ref) =>
         ref.where('members', 'array-contains-any', [
           this.dataService.currentUserIdFirestore,
@@ -114,6 +114,7 @@ export class SidenavComponent implements OnInit {
         this.allChannels = [];
         for (let i = 0; i < channels.length; i++) {
           this.allChannels.push(channels[i]);
+          console.log(this.allChannels);
         }
       });
   }
@@ -144,7 +145,9 @@ export class SidenavComponent implements OnInit {
     }
   }
 
-  showContent(content: string) {}
+  showContent(content: string) {
+    console.log(content);
+  }
 
   openChannelDialog() {
     this.dialog.open(ChannelDialogComponent);
