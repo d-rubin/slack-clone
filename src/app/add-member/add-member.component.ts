@@ -5,6 +5,7 @@ import { map, Observable, startWith } from 'rxjs';
 import { User } from '../models/user.class';
 import { DataService } from '../services/data.service';
 import { Channel } from '../models/channel.class';
+import { docData } from '@angular/fire/firestore';
 
 // import { firestore } from '@firebase/firestore-types';
 
@@ -19,7 +20,6 @@ export class AddMemberComponent implements OnInit {
   myControl = new FormControl<string | User>('');
   filteredOptions: Observable<User[]>;
   user: User; 
-  currentChannelId: string;
   channel: Channel;
 
   constructor(
@@ -40,25 +40,59 @@ export class AddMemberComponent implements OnInit {
 
   addUserToChannel(name: string) {
     this.user = this.dataService.users.find(x => x.name === name);
-    this.currentChannelId = this.user.currentChannelId;
-    // this.firestore
-    //   .collection('channels')
-    //   .doc(this.currentChannelId).get().pipe()(channel) => {
-    //     this.channel = channel.data();
-    //     this.channel.members.push(name);
-    // });
-    // this.channel.members.pu
-
-    // this.firestore
-    //   .collection('channels')
-    //   .doc(this.currentChannelId)
-    //   .update(
-    //     {
-    //       members: firestore.FieldValue.arrayUnion(name)
-    //     }
-    //   )
-      
+    this.getChannel();
+    this.user.memberInChannel.push(this.dataService.currentUser.currentChannelId)
+    // this.changeMemberInCannelArrayInUsers();
+    this.updateChannel();
+    this.updateUser();
   }
+
+  updateUser() {
+    this.firestore
+    .collection('users')
+    .doc(this.user.currentUserId)
+    .set(this.user as User)
+  }
+
+  updateChannel() {
+    this.firestore
+   .collection('channels')
+   .doc(this.dataService.currentUser.currentChannelId)
+   .set(this.channel as Channel) // invalid data: Data must be an object
+  }
+
+  getChannel() {
+        this.firestore
+          .collection('channels')
+          .doc(this.user.currentChannelId)
+          .snapshotChanges()
+          .pipe(
+            map((snapshot) => {
+              const data = snapshot.payload.data() as Channel
+              const id = snapshot.payload.id;
+              return { id, ...data };
+            }))
+            .subscribe(channel => {
+              this.channel = new Channel(channel);
+              this.channel.members.push(this.user.currentUserId);
+            })
+  }
+
+  // changeMemberInCannelArrayInUsers() {
+  //   this.firestore
+  //   .collection('users') 
+  //   .doc(this.user.currentUserId)
+  //   .snapshotChanges().pipe(
+  //     map((snapshot) => {
+  //       const data = snapshot.payload.data() as User
+  //       const id = snapshot.payload.id;
+  //       return { id, ...data };
+  //     }))
+  //     .subscribe(addedUser => {
+  //       this.addedUser = addedUser;
+  //       this.addedUser.memberInChannel.push(this.user.currentChannelId);
+  //     })
+  // }
 
   private _filter(name: string): User[] {
     const filterValue = name.toLowerCase();
