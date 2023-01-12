@@ -5,7 +5,6 @@ import { map, Observable, startWith } from 'rxjs';
 import { User } from '../models/user.class';
 import { DataService } from '../services/data.service';
 import { Channel } from '../models/channel.class';
-import { docData } from '@angular/fire/firestore';
 
 // import { firestore } from '@firebase/firestore-types';
 
@@ -38,11 +37,11 @@ export class AddMemberComponent implements OnInit {
     this.getOptionsFromCollection();
   }
 
-  addUserToChannel(name: string) {
+  async addUserToChannel(name: string) {
     this.user = this.dataService.users.find(x => x.name === name);
-    this.getChannel();
+    await this.getChannel();
     this.user.memberInChannel.push(this.dataService.currentUser.currentChannelId)
-    // this.changeMemberInCannelArrayInUsers();
+    console.log('user: ', this.user, 'channel: ', this.channel)
     this.updateChannel();
     this.updateUser();
   }
@@ -51,17 +50,19 @@ export class AddMemberComponent implements OnInit {
     this.firestore
     .collection('users')
     .doc(this.user.currentUserId)
-    .set(this.user as User)
+    .update(this.user.toJSON())
   }
 
   updateChannel() {
     this.firestore
    .collection('channels')
    .doc(this.dataService.currentUser.currentChannelId)
-   .set(this.channel as Channel) // invalid data: Data must be an object
+   .update(this.channel.toJSON()); // Error:toJSON is not a function
   }
 
   getChannel() {
+    return new Promise((resolve: Function, reject: Function) => {
+      try {
         this.firestore
           .collection('channels')
           .doc(this.user.currentChannelId)
@@ -69,30 +70,19 @@ export class AddMemberComponent implements OnInit {
           .pipe(
             map((snapshot) => {
               const data = snapshot.payload.data() as Channel
-              const id = snapshot.payload.id;
-              return { id, ...data };
+              return data;
             }))
             .subscribe(channel => {
-              this.channel = new Channel(channel);
+              this.channel = channel;
               this.channel.members.push(this.user.currentUserId);
+              resolve();
             })
+      }
+      catch (error) {
+        reject(error);
+      }
+    })
   }
-
-  // changeMemberInCannelArrayInUsers() {
-  //   this.firestore
-  //   .collection('users') 
-  //   .doc(this.user.currentUserId)
-  //   .snapshotChanges().pipe(
-  //     map((snapshot) => {
-  //       const data = snapshot.payload.data() as User
-  //       const id = snapshot.payload.id;
-  //       return { id, ...data };
-  //     }))
-  //     .subscribe(addedUser => {
-  //       this.addedUser = addedUser;
-  //       this.addedUser.memberInChannel.push(this.user.currentChannelId);
-  //     })
-  // }
 
   private _filter(name: string): User[] {
     const filterValue = name.toLowerCase();

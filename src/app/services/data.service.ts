@@ -96,7 +96,6 @@ export class DataService implements OnInit {
         docRef.valueChanges().subscribe((doc) => {
           if (doc) {
             this.updateCurrentUserObservable();
-            console.log(doc);
             resolve(doc);
           } else {
             reject('getCurrentUserData() WAS FAIL!');
