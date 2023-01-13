@@ -73,7 +73,7 @@ export class AddMemberComponent implements OnInit {
               return data;
             }))
             .subscribe(channel => {
-              this.channel = channel;
+              this.channel = new Channel(channel);
               this.channel.members.push(this.user.currentUserId);
               resolve();
             })
