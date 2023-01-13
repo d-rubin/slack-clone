@@ -18,7 +18,7 @@ export class AddMemberComponent implements OnInit {
   searchInput: string;
   myControl = new FormControl<string | User>('');
   filteredOptions: Observable<User[]>;
-  user: User = new User(); 
+  user: User; 
   channel: Channel = new Channel();
 
   constructor(
@@ -38,7 +38,7 @@ export class AddMemberComponent implements OnInit {
   }
 
   async addUserToChannel(name: string) {
-    this.user = this.dataService.users.find(x => x.name === name);
+    this.user = new User(this.dataService.users.find(x => x.name === name));
     this.getChannel();
     this.user.memberInChannel.push(this.dataService.currentUser.currentChannelId)
     this.updateChannel();
@@ -46,7 +46,6 @@ export class AddMemberComponent implements OnInit {
   }
 
   updateUser() {
-    console.log(this.user);
     this.firestore
     .collection('users')
     .doc(this.user.currentUserId)
