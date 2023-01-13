@@ -3,7 +3,7 @@ export interface IChannel {
   name: string;
   members: string[];
   adminChannel: string;
-  messages: JSON[];
+  messages: [];
   channelId: string;
 }
 

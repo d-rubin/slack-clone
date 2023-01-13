@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormControl } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
-import { User } from '../models/user.class';
+import { IUser, User } from '../models/user.class';
 import { DataService } from '../services/data.service';
-import { Channel } from '../models/channel.class';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Channel, IChannel } from '../models/channel.class';
 
 // import { firestore } from '@firebase/firestore-types';
 
@@ -19,11 +20,12 @@ export class AddMemberComponent implements OnInit {
   myControl = new FormControl<string | User>('');
   filteredOptions: Observable<User[]>;
   user: User; 
-  channel: Channel = new Channel();
+  channel: Channel;
 
   constructor(
     private firestore: AngularFirestore,
     private dataService: DataService,
+    private dialogRef: MatDialogRef<AddMemberComponent>,
     ) { }
 
   ngOnInit(): void {
@@ -38,22 +40,24 @@ export class AddMemberComponent implements OnInit {
   }
 
   async addUserToChannel(name: string) {
-    this.user = new User(this.dataService.users.find(x => x.name === name));
-    this.getChannel();
-    this.user.memberInChannel.push(this.dataService.currentUser.currentChannelId)
+    this.user = new User(this.dataService.users.find(x => x.name === name) as IUser);
+    await this.getChannel();
+    this.user.memberInChannel.push(this.dataService.currentUser.currentChannelId);
+    this.channel.members.push(this.user.currentUserId);
     this.updateChannel();
     this.updateUser();
+    this.dialogRef.close()
   }
 
-  updateUser() {
-    this.firestore
+  async updateUser() {
+    await this.firestore
     .collection('users')
     .doc(this.user.currentUserId)
     .update(this.user.toJSON())
   }
 
-  updateChannel() {
-    this.firestore
+  async updateChannel() {
+    await this.firestore
    .collection('channels')
    .doc(this.dataService.currentUser.currentChannelId)
    .update(this.channel.toJSON());
@@ -65,8 +69,8 @@ export class AddMemberComponent implements OnInit {
     .doc(this.dataService.currentUser.currentChannelId)
     .get()
     .toPromise();
-    if (snapshot.exists) {
-        this.channel = snapshot.data() as Channel;
+    if (snapshot) {
+        this.channel = new Channel(snapshot.data() as IChannel);
     }
     else {
       console.log('error: Channel not found');
