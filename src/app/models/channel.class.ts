@@ -3,7 +3,7 @@ export interface IChannel {
   name: string;
   members: string[];
   adminChannel: string;
-  messages: [];
+  messages: JSON[];
   channelId: string;
 }
 
@@ -11,7 +11,7 @@ export class Channel {
   name: string;
   members: string[];
   adminChannel: string;
-  messages: [];
+  messages: JSON[];
   channelId: string;
 
   constructor(obj?: IChannel) {

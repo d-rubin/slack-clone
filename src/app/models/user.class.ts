@@ -1,16 +1,26 @@
-export class User {
-  name: any;
-  email: any;
-  currentUserId: any;
-  currentChannelId: any;
-  memberInChannel: any[];
+import { object } from "@angular/fire/database";
 
-  constructor() {
-    this.name = '';
-    this.email = '';
-    this.currentUserId = '';
-    this.currentChannelId = '';
-    this.memberInChannel = [];
+
+export interface IUser {
+  name: string;
+  email: string;
+  currentUserId: string;
+  currentChannelId: string;
+  memberInChannel: string[];
+}
+export class User {
+  name: string;
+  email: string;
+  currentUserId: string;
+  currentChannelId: string;
+  memberInChannel: string[];
+
+  constructor(obj?: IUser) {
+    this.name = obj? obj.name: '';
+    this.email = obj? obj.email: '';
+    this.currentUserId = obj? obj.currentUserId: '';
+    this.currentChannelId = obj? obj.currentChannelId: '';
+    this.memberInChannel = obj? obj.memberInChannel: [];
   }
 
   toJSON() {

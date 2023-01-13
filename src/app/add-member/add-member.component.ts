@@ -18,8 +18,8 @@ export class AddMemberComponent implements OnInit {
   searchInput: string;
   myControl = new FormControl<string | User>('');
   filteredOptions: Observable<User[]>;
-  user: User; 
-  channel: Channel;
+  user: User = new User(); 
+  channel: Channel = new Channel();
 
   constructor(
     private firestore: AngularFirestore,
@@ -39,14 +39,14 @@ export class AddMemberComponent implements OnInit {
 
   async addUserToChannel(name: string) {
     this.user = this.dataService.users.find(x => x.name === name);
-    await this.getChannel();
+    this.getChannel();
     this.user.memberInChannel.push(this.dataService.currentUser.currentChannelId)
-    console.log('user: ', this.user, 'channel: ', this.channel)
     this.updateChannel();
     this.updateUser();
   }
 
   updateUser() {
+    console.log(this.user);
     this.firestore
     .collection('users')
     .doc(this.user.currentUserId)
@@ -57,32 +57,24 @@ export class AddMemberComponent implements OnInit {
     this.firestore
    .collection('channels')
    .doc(this.dataService.currentUser.currentChannelId)
-   .update(this.channel.toJSON()); // Error:toJSON is not a function
+   .update(this.channel.toJSON());
   }
 
-  getChannel() {
-    return new Promise((resolve: Function, reject: Function) => {
-      try {
-        this.firestore
-          .collection('channels')
-          .doc(this.user.currentChannelId)
-          .snapshotChanges()
-          .pipe(
-            map((snapshot) => {
-              const data = snapshot.payload.data() as Channel
-              return data;
-            }))
-            .subscribe(channel => {
-              this.channel = new Channel(channel);
-              this.channel.members.push(this.user.currentUserId);
-              resolve();
-            })
-      }
-      catch (error) {
-        reject(error);
-      }
-    })
+  async getChannel() {
+    const snapshot = await this.firestore
+    .collection('channels')
+    .doc(this.dataService.currentUser.currentChannelId)
+    .get()
+    .toPromise();
+    if (snapshot.exists) {
+        this.channel = snapshot.data() as Channel;
+    }
+    else {
+      console.log('error: Channel not found');
+    }
   }
+
+
 
   private _filter(name: string): User[] {
     const filterValue = name.toLowerCase();
@@ -109,3 +101,4 @@ export class AddMemberComponent implements OnInit {
     });
   }
 }
+
