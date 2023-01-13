@@ -69,7 +69,7 @@ export class AddMemberComponent implements OnInit {
     .doc(this.dataService.currentUser.currentChannelId)
     .get()
     .toPromise();
-    if (snapshot) {
+    if (snapshot.exists) {
         this.channel = new Channel(snapshot.data() as IChannel);
     }
     else {

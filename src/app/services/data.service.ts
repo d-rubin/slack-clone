@@ -14,6 +14,7 @@ export class DataService implements OnInit {
   currentUserEmail: any;
   currentUserIdFirestore: any;
   users: any[] = [];
+  uploadableUser: User;
 
   // declare an observable that will be used to subscribe to the currentUser$ observable
   currentUser: any;
@@ -28,13 +29,25 @@ export class DataService implements OnInit {
     this.currentUserIdFirestore = await this.getCurrentUserID();
     this.currentUser = await this.getCurrentUserData();
     await this.getAllUserData();
+    this.updateUserData();
   }
 
   updateCurrentUserObservable() {
     this.currentUser$ = of(this.currentUser);
-    this.currentUser$.subscribe((val) => {
-      console.log('NEW CURRENT USER DATA FROM FIREBASE WAS UPDATET', val);
-    });
+    this.currentUser$.subscribe();
+  }
+
+  updateUserData() {
+    this.uploadableUser = new User(this.currentUser);
+    this.uploadableUser.currentUserId = this.currentUserIdFirestore;
+    this.updateUser();
+  }
+
+  updateUser() {
+    this.firestore
+    .collection('users')
+    .doc(this.currentUserIdFirestore)
+    .update(this.uploadableUser.toJSON());
   }
 
   /**
@@ -113,7 +126,6 @@ export class DataService implements OnInit {
           .get()
           .subscribe((snapshot) => {
             this.users = snapshot.docs.map((doc) => doc.data());
-            console.log(this.users);
             resolve();
           });
       } catch (error) {
