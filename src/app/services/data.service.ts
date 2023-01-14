@@ -5,6 +5,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { User } from '../models/user.class';
 import { Subject } from 'rxjs';
 import { Observable, of } from 'rxjs';
+import { Channel, IChannel } from '../models/channel.class';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ export class DataService implements OnInit {
   currentUserIdFirestore: any;
   users: any[] = [];
   uploadableUser: User;
+  currentChannel: Channel;
 
   // declare an observable that will be used to subscribe to the currentUser$ observable
   currentUser: any;
@@ -30,6 +32,17 @@ export class DataService implements OnInit {
     this.currentUser = await this.getCurrentUserData();
     await this.getAllUserData();
     this.updateUserData();
+    this.getChannelData();
+  }
+
+  getChannelData() {
+    this.firestore
+    .collection('channels')
+    .doc(this.currentUser.currentChannelId)
+    .valueChanges()
+    .subscribe((doc: IChannel) => {
+      this.currentChannel = new Channel(doc);
+    });
   }
 
   updateCurrentUserObservable() {
