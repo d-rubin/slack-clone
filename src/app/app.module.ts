@@ -9,7 +9,6 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { MainareaComponent } from './mainarea/mainarea.component';
 import { HeaderComponent } from './header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth, getAuth } from '@angular/fire/auth';
@@ -46,7 +45,7 @@ import { DataService } from './services/data.service';
     HeaderComponent,
     ChannelDialogComponent,
     ConversationDialogComponent,
-
+   
     ChatRoomComponent,
     OnlineUsersComponent,
     ChatboxComponent,

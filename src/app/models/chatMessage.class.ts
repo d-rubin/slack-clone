@@ -1,20 +1,23 @@
-class ChatMessage {
+export class ChatMessage {
   idSender: any;
   nameSender: any;
   imgSender: any;
   sendTime: any;
   messageSender: any;
-  constructor(idSender, nameSender) {
+  constructor(idSender: any, nameSender: any) {
     this.idSender = idSender;
     this.nameSender = nameSender;
-    this.imgSender = this.setImageSender;
+    this.imgSender = this.setImageSender();
     this.messageSender = '';
     this.sendTime = this.setMessageTime();
   }
 
   setImageSender() {
-    if (!this.imgSender) {
-      ('assets/img/avatar.png');
+    if (this.imgSender == undefined) {
+      let imgPath = 'assets/img/avatar.png';
+      return imgPath;
+    } else {
+      return '';
     }
   }
 

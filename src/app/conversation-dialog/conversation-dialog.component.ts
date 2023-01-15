@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { doc, DocumentReference, getDoc } from 'firebase/firestore';
 import { first } from 'rxjs';
 import { Conversation } from '../models/Conversation.class';
 import { User } from '../models/user.class';

@@ -1,8 +1,9 @@
 <div class="w-full bg-yellow-500">
-  <form [formGroup]="">
+
+  <form (submit)="sendMessage()">
     <div class="w-full">
       <mat-form-field class="w-full" appearance="fill" [hideRequiredMarker]="" [floatLabel]="">
-        <input matInput placeholder="Simple placeholder" required>
+        <input matInput type="text" name="message" placeholder="Message to ..." required [(ngModel)]="message">
       </mat-form-field>
     </div>
     <div class="flex justify-between">
@@ -12,7 +13,7 @@
         </button>
       </div>
       <div class="flex justify-center w-16 h-16">
-        <button mat-mini-fab color="accent">
+        <button mat-mini-fab color="accent" type="submit" [disabled]="!message">
           <mat-icon>send</mat-icon>
         </button>
       </div>
