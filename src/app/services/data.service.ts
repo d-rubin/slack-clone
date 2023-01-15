@@ -37,12 +37,12 @@ export class DataService implements OnInit {
 
   getChannelData() {
     this.firestore
-    .collection('channels')
-    .doc(this.currentUser.currentChannelId)
-    .valueChanges()
-    .subscribe((doc: IChannel) => {
-      this.currentChannel = new Channel(doc);
-    });
+      .collection('channels')
+      .doc(this.currentUser.currentChannelId)
+      .valueChanges()
+      .subscribe((doc: IChannel) => {
+        this.currentChannel = new Channel(doc);
+      });
   }
 
   updateCurrentUserObservable() {
@@ -58,9 +58,9 @@ export class DataService implements OnInit {
 
   updateUser() {
     this.firestore
-    .collection('users')
-    .doc(this.currentUserIdFirestore)
-    .update(this.uploadableUser.toJSON());
+      .collection('users')
+      .doc(this.currentUserIdFirestore)
+      .update(this.uploadableUser.toJSON());
   }
 
   /**
@@ -136,11 +136,13 @@ export class DataService implements OnInit {
       try {
         this.firestore
           .collection('users')
-          .get()
-          .subscribe((snapshot) => {
-            this.users = snapshot.docs.map((doc) => doc.data());
-            resolve();
+          .doc(this.currentUserIdFirestore)
+          .valueChanges()
+          .subscribe((data) => {
+            this.currentUser = data;
+            console.log(this.currentUser);
           });
+        resolve();
       } catch (error) {
         reject('getAllUserData() WAS FAIL!');
       }
