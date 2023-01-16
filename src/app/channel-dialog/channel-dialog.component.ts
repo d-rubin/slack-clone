@@ -40,7 +40,6 @@ export class ChannelDialogComponent implements OnInit {
     await this.addIdNewChannelID(this.currentUser.currentChannelId);
     await this.updateUserinFirestore(this.currentUser);
     this.dialogRef.close();
-    this.dataService.ngOnInit();
   }
 
   /**

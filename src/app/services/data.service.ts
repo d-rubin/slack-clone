@@ -29,11 +29,10 @@ export class DataService implements OnInit {
   async ngOnInit() {
     this.currentUserEmail = await this.onAuthStateChanged();
     this.currentUserIdFirestore = await this.getCurrentUserID();
-    this.currentUser = await this.getCurrentUserData();
+    await this.getCurrentUserData();
     await this.getAllUserData();
     this.updateUserData();
     this.getChannelData();
-    console.log(this.users);
   }
 
   getChannelData() {
@@ -124,6 +123,7 @@ export class DataService implements OnInit {
         .subscribe((doc) => {
           if (doc) {
             this.updateCurrentUserObservable();
+            this.currentUser = doc;
             resolve(doc);
           } else {
             reject('getCurrentUserData() WAS FAIL!');
