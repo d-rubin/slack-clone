@@ -2,25 +2,23 @@
   <!-- channel user: -->
 
   <!-- one message template -->
-  <mat-card class="w-4/5">
+  <mat-card *ngFor="let message of messageArray" class="w-4/5">
     <mat-card-header>
       <mat-card-title-group class="flex">
         <div class="mr-4">
-          <mat-card-title>NAME SENDER MESSAGE 1</mat-card-title>
+          <mat-card-title>{{ message.nameSender}}</mat-card-title>
         </div>
         <div>
-          <mat-card-subtitle>Send Time</mat-card-subtitle>
+          <mat-card-subtitle>{{ message.sendTime}}</mat-card-subtitle>
         </div>
       </mat-card-title-group>
     </mat-card-header>
     <mat-card-content>
       <div class="flex mx-6 gap-4">
-        <div class="flex items-center"><img class="w-16 h-16" src="assets/img/avatar.png">
+        <div class="flex items-center"><img class="w-16 h-16" src={{message.imgSender}}>
         </div>
         <div class="p-4  flex align-middle">
-          MESSAGE HERE: Lorem ipsum dolor, sit amet consectetur adipisicing elit. Explicabo natus iusto quisquam
-          mollitia reiciendis,
-          tempora blanditiis dolor accusantium earum alias.
+          {{ message.messageSender}}
         </div>
       </div>
     </mat-card-content>

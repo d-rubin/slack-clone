@@ -119,7 +119,8 @@ export class DataService implements OnInit {
 
         // get the document data and save it to a component property
 
-        docRef.valueChanges().subscribe((doc) => {
+        docRef.valueChanges()
+        .subscribe((doc) => {
           if (doc) {
             this.updateCurrentUserObservable();
             resolve(doc);
