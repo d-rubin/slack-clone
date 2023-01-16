@@ -33,6 +33,7 @@ export class DataService implements OnInit {
     await this.getAllUserData();
     this.updateUserData();
     this.getChannelData();
+    console.log(this.users);
   }
 
   getChannelData() {
@@ -137,13 +138,11 @@ export class DataService implements OnInit {
       try {
         this.firestore
           .collection('users')
-          .doc(this.currentUserIdFirestore)
-          .valueChanges()
-          .subscribe((data) => {
-            this.currentUser = data;
-            console.log(this.currentUser);
+          .get()
+          .subscribe((snapschot) => {
+            this.users = snapschot.docs.map((doc) => doc.data());
+            resolve();
           });
-        resolve();
       } catch (error) {
         reject('getAllUserData() WAS FAIL!');
       }
