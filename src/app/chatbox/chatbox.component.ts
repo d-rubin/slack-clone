@@ -18,7 +18,7 @@ export class ChatboxComponent implements OnInit {
     this.updateCurrentChannelMessages.asObservable();
 
   messageArray = [];
-  
+
   constructor(
     private afs: AngularFirestore,
     private dataService: DataService
@@ -32,6 +32,7 @@ export class ChatboxComponent implements OnInit {
         this.messageArray = cachArray.map((jsonString) =>
           JSON.parse(jsonString)
         );
+        this.messageArray.reverse();
 
         console.log(this.messageArray);
       }
