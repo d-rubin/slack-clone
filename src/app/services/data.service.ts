@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { OnInit } from '@angular/core';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { User } from '../models/user.class';
-import { Subject } from 'rxjs';
+import { User, IUser } from '../models/user.class';
 import { Observable, of } from 'rxjs';
 import { Channel, IChannel } from '../models/channel.class';
 
@@ -42,6 +41,7 @@ export class DataService implements OnInit {
       .valueChanges()
       .subscribe((doc: IChannel) => {
         this.currentChannel = new Channel(doc);
+        console.log(this.currentChannel);
       });
   }
 
@@ -110,27 +110,15 @@ export class DataService implements OnInit {
    * @returns firestore user data as JSON
    */
   async getCurrentUserData() {
-    return new Promise((resolve, reject) => {
-      try {
-        // get a reference to the current user document
-        let docRef = this.firestore
-          .collection('users')
-          .doc(this.currentUserIdFirestore);
-
-        // get the document data and save it to a component property
-
-        docRef.valueChanges()
-        .subscribe((doc) => {
-          if (doc) {
-            this.updateCurrentUserObservable();
-            this.currentUser = doc;
-            resolve(doc);
-          } else {
-            reject('getCurrentUserData() WAS FAIL!');
-          }
-        });
-      } catch (error) {}
-    });
+    this.firestore.collection('users')
+     .doc(this.currentUserIdFirestore)
+     .valueChanges()
+     .subscribe((doc) => {
+      if(doc) {
+        this.updateCurrentUserObservable();
+        this.currentUser = new User(doc as IUser);
+      }
+     })
   }
 
   async getAllUserData() {

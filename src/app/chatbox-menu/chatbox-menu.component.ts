@@ -18,9 +18,7 @@ export class ChatboxMenuComponent implements OnInit {
   name: string;
   members: string[];
   badgenumber: number;
-  currentUserIdFirestore: any;
-  currentUserEmail: any;
-  currentUser: any;
+
 
   constructor(
     public dialog: MatDialog,
@@ -31,14 +29,18 @@ export class ChatboxMenuComponent implements OnInit {
     }
 
   async ngOnInit() {
-    this.currentUserEmail = await this.dataService.onAuthStateChanged();
-    this.currentUserIdFirestore = await this.dataService.getCurrentUserID();
-    this.currentUser = await this.dataService.getCurrentUserData();
     setInterval(() => {
+      this.getChannelData();
+    },500);
+  }
+
+  // Variables are not updated when currentChannel is updated
+  getChannelData() {
+    if(this.dataService.currentChannel) {
       this.name = this.dataService.currentChannel.name;
       this.members = this.dataService.currentChannel.members;
       this.badgenumber = this.dataService.currentChannel.members.length;
-    }, 1000 / 10)
+    }
   }
 
   showMembers() {

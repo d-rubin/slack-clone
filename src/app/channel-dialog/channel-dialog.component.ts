@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Channel } from '../models/channel.class';
 import { DataService } from '../services/data.service';
 import { User } from '../models/user.class';
+import { ChatboxMenuComponent } from '../chatbox-menu/chatbox-menu.component';
 
 @Component({
   selector: 'app-channel-dialog',
@@ -22,24 +23,22 @@ export class ChannelDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ChannelDialogComponent>,
     private firestore: AngularFirestore,
-    private dataService: DataService
+    private dataService: DataService,
   ) {}
 
   async ngOnInit() {}
 
   async createChannel() {
     this.currentUser = await this.dataService.currentUser;
-    this.createNewChannel.name = this.channelName;
-    this.createNewChannel.members.push(await this.currentUser.currentUserId);
-    this.createNewChannel.adminChannel = this.currentUser.currentUserId;
-    this.createNewChannel.messages = [];
+    this.getDataInChannel();
     await this.getNewChannelID();
-    this.currentUser.currentChannelId = await this.newChannelID;
-    this.currentUser.memberInChannel.push(await this.newChannelID);
-    this.createNewChannel.channelId = await this.newChannelID;
+    this.currentUser.currentChannelId = this.newChannelID;
+    this.currentUser.memberInChannel.push(this.newChannelID);
+    this.createNewChannel.channelId = this.newChannelID;
     await this.addIdNewChannelID(this.currentUser.currentChannelId);
     await this.updateUserinFirestore(this.currentUser);
     this.dialogRef.close();
+    this.dataService.getChannelData();
   }
 
   /**
@@ -56,6 +55,13 @@ export class ChannelDialogComponent implements OnInit {
       currentChannelId: currentUser.currentChannelId,
       memberInChannel: currentUser.memberInChannel,
     });
+  }
+
+  getDataInChannel() {
+    this.createNewChannel.name = this.channelName;
+    this.createNewChannel.members.push(this.currentUser.currentUserId);
+    this.createNewChannel.adminChannel = this.currentUser.currentUserId;
+    this.createNewChannel.messages = [];
   }
 
   /**
