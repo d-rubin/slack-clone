@@ -18,7 +18,7 @@ export class ChatboxMenuComponent implements OnInit {
   name: string;
   members: string[];
   badgenumber: number;
-
+  channel: boolean
 
   constructor(
     public dialog: MatDialog,
@@ -40,7 +40,23 @@ export class ChatboxMenuComponent implements OnInit {
       this.name = this.dataService.currentChannel.name;
       this.members = this.dataService.currentChannel.members;
       this.badgenumber = this.dataService.currentChannel.members.length;
+      this.checkTypeOfDocId(this.dataService.currentChannel.channelId)
     }
+  }
+
+  /**
+   * Checks if the currentChannelId is a Channel or a Conversation
+   * @param id The id of the Document
+   */
+  checkTypeOfDocId(id:string) {
+    this.firestore.collection(`channels/${id}`).ref.get().then(doc => {
+      if(doc) {
+        this.channel = true;
+      }
+      else {
+        this.channel = false;
+      }
+    });
   }
 
   showMembers() {
