@@ -114,7 +114,7 @@ export class SidenavComponent implements OnInit {
         this.allChannels = [];
         for (let i = 0; i < channels.length; i++) {
           this.allChannels.push(channels[i]);
-          console.log(this.allChannels);
+          // console.log(this.allChannels);
         }
       });
   }

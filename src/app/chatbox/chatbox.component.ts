@@ -33,8 +33,6 @@ export class ChatboxComponent implements OnInit {
           JSON.parse(jsonString)
         );
         this.messageArray.reverse();
-
-        console.log(this.messageArray);
       }
     });
 

@@ -13,7 +13,7 @@ export class DataService implements OnInit {
   //declare var to find the firestore id current user
   currentUserEmail: any;
   currentUserIdFirestore: any;
-  users: any[] = [];
+  users: User[] = [];
   uploadableUser: User;
   currentChannel: Channel;
 
@@ -41,7 +41,6 @@ export class DataService implements OnInit {
       .valueChanges()
       .subscribe((doc: IChannel) => {
         this.currentChannel = new Channel(doc);
-        console.log(this.currentChannel);
       });
   }
 
@@ -128,7 +127,7 @@ export class DataService implements OnInit {
           .collection('users')
           .get()
           .subscribe((snapschot) => {
-            this.users = snapschot.docs.map((doc) => doc.data());
+            this.users = snapschot.docs.map((doc) => new User(doc.data() as IUser));
             resolve();
           });
       } catch (error) {

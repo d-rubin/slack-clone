@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { MatDialogRef } from '@angular/material/dialog';
 import { first } from 'rxjs';
@@ -19,6 +19,8 @@ export class ConversationDialogComponent implements OnInit {
   conversation: Conversation = new Conversation();
   userName: string;
   newConversationlID: string;
+  filteredUsers: User[] = [];
+  
 
   constructor(
     public dialogRef: MatDialogRef<ConversationDialogComponent>,
@@ -26,13 +28,31 @@ export class ConversationDialogComponent implements OnInit {
     public dataService: DataService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
-  async startConversation() {
+  filterUsers() {
+    this.filteredUsers = [];
+    for(let i = 0; i < this.dataService.users.length; i++) {
+      let lowerUserName = this.userName.toLowerCase();
+      let lowerDataServiceUserName = this.dataService.users[i].name.toLowerCase();
+      if(lowerDataServiceUserName.includes(lowerUserName) 
+      && !this.currentUser.name.includes(lowerUserName)) {
+        this.filteredUsers.push(this.dataService.users[i])
+      }
+    }
+    console.log('Filtered users: ', this.filteredUsers);
+  }
+
+  displayFn(user: User): string {
+    return user && user.name ? user.name : '';
+  }
+
+  async startConversation(name:string) {
     this.currentUser = await this.dataService.currentUser;
     this.conversation.members.push(this.dataService.currentUserIdFirestore);
 
-    await this.addSecondMemberToConversation();
+    await this.addSecondMemberToConversation(name);
 
     await this.saveConversation();
     this.conversation.conversationID = this.newConversationlID;
@@ -55,17 +75,17 @@ export class ConversationDialogComponent implements OnInit {
       });
   }
 
-  addSecondMemberToConversation() {
+  addSecondMemberToConversation(name: string) {
     return new Promise((resolve: Function, reject: Function) => {
       this.firestore
         .collection<any>('users', (ref) =>
-          ref.where('name', '==', this.userName)
+          ref.where('name', '==', name)
         )
         .valueChanges()
         .pipe(first())
         .subscribe(
           (user) => {
-            this.conversation.name = this.userName;
+            this.conversation.name = name;
             this.conversation.members.push(user[0].currentUserId);
 
             resolve();

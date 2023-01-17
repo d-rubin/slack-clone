@@ -5,11 +5,14 @@
     <mat-card-content>
         <mat-form-field appearance="outline" color="primary">
             <mat-label>User Name</mat-label>
-            <input [(ngModel)]="userName" matInput placeholder="Search for User">
+            <input [(ngModel)]="userName" (ngModelChange)="filterUsers()" matInput placeholder="Search for User">
         </mat-form-field>
+          <mat-option *ngFor="let user of filteredUsers" [value]="user" (click)="startConversation(user.name)">
+            {{ user.name }}
+          </mat-option>
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button color="basic" (click)="dialogRef.close()">Cancel</button>
-      <button mat-raised-button color="primary" (click)="startConversation()">Create</button>
+      <!-- <button mat-raised-button color="primary" (click)="startConversation()">Create</button> -->
     </mat-card-actions>
 </mat-card>
