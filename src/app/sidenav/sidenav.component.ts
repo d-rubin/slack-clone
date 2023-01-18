@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ChannelDialogComponent } from '../channel-dialog/channel-dialog.component';
+
 import { MatDialog } from '@angular/material/dialog';
 import { ConversationDialogComponent } from '../conversation-dialog/conversation-dialog.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
@@ -40,6 +41,12 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
   ],
 })
 export class SidenavComponent implements OnInit {
+  constructor(
+    public dialog: MatDialog,
+    public firestore: AngularFirestore,
+    public dataService: DataService
+  ) {}
+
   panelOpenState: boolean;
   allChannels: Channel[] = [];
   allConversations: Conversation[] = [];
@@ -56,13 +63,6 @@ export class SidenavComponent implements OnInit {
   currentUserIdFirestore: any;
   currentMemberInChannel: any;
   currentMemberInData: any;
-  result;
-
-  constructor(
-    public dialog: MatDialog,
-    public firestore: AngularFirestore,
-    public dataService: DataService
-  ) {}
 
   async ngOnInit() {
     await this.getCurrentUserId();
@@ -145,8 +145,11 @@ export class SidenavComponent implements OnInit {
     }
   }
 
-  showContent(content: string) {
-    console.log(content);
+  showContent(channelId: string) {
+    this.firestore
+      .collection('users')
+      .doc(this.currentUserIdFirestore)
+      .update({ currentChannelId: `${channelId}` });
   }
 
   openChannelDialog() {

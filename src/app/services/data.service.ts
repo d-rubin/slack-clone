@@ -129,7 +129,9 @@ export class DataService implements OnInit {
           .collection('users')
           .get()
           .subscribe((snapschot) => {
-            this.users = snapschot.docs.map((doc) => new User(doc.data() as IUser));
+            this.users = snapschot.docs.map(
+              (doc) => new User(doc.data() as IUser)
+            );
             resolve();
           });
       } catch (error) {
