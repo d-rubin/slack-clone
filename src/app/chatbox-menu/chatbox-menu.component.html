@@ -1,10 +1,10 @@
 <div class="chat-header">
     <h2 class="mr-2">{{ name }}</h2>
-    <div ngIf="{{channel}}" class="mr-2">
-        <button mat-mini-fab color="primary" (click)="showMembers()">
+    <div class="mr-2">
+        <button *ngIf="channel" mat-mini-fab color="primary" (click)="showMembers()">
             <mat-icon matBadge="{{badgenumber}}" matBadgeColor="warn">group</mat-icon>
         </button>
-        <button mat-mini-fab color="primary" (click)="addUserToChannel()">
+        <button *ngIf="channel" mat-mini-fab color="primary" (click)="addUserToChannel()">
             <mat-icon>add</mat-icon>
         </button>
     </div>

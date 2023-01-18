@@ -18,7 +18,7 @@ export class DataService implements OnInit {
   currentChannel: Channel;
 
   // declare an observable that will be used to subscribe to the currentUser$ observable
-  currentUser: any;
+  currentUser: User;
   currentUser$: Observable<typeof this.currentUser>;
 
   constructor(private firestore: AngularFirestore) {
@@ -41,6 +41,7 @@ export class DataService implements OnInit {
       .valueChanges()
       .subscribe((doc: IChannel) => {
         this.currentChannel = new Channel(doc);
+        console.log(this.currentChannel);
       });
   }
 
