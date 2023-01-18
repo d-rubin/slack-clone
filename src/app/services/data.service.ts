@@ -41,7 +41,7 @@ export class DataService implements OnInit {
       .valueChanges()
       .subscribe((doc: IChannel) => {
         this.currentChannel = new Channel(doc);
-        console.log(this.currentChannel);
+        console.log('Current Channel is: ',this.currentChannel);
       });
   }
 
@@ -117,6 +117,7 @@ export class DataService implements OnInit {
       if(doc) {
         this.updateCurrentUserObservable();
         this.currentUser = new User(doc as IUser);
+        console.log('Current user is: ',  this.currentUser)
       }
      })
   }
