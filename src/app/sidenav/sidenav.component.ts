@@ -145,6 +145,10 @@ export class SidenavComponent implements OnInit {
     }
   }
 
+  /**
+   * Navigate or show this channel in app-channle-room
+   * @param channelId 
+   */
   showContent(channelId: string) {
     this.firestore
       .collection('users')

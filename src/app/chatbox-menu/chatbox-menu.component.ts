@@ -28,7 +28,7 @@ export class ChatboxMenuComponent implements OnInit {
 
     }
 
-  async ngOnInit() {
+  ngOnInit() {
     setInterval(() => {
       this.getChannelData();
       if(this.dataService.currentUser) {
@@ -37,7 +37,6 @@ export class ChatboxMenuComponent implements OnInit {
     },500);
   }
 
-  // Variables are not updated when currentChannel is updated
   getChannelData() {
     if(this.dataService.currentChannel) {
       this.name = this.dataService.currentChannel.name;
