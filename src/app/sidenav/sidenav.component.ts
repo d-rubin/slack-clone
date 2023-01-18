@@ -150,7 +150,6 @@ export class SidenavComponent implements OnInit {
       .collection('users')
       .doc(this.currentUserIdFirestore)
       .update({ currentChannelId: `${channelId}` });
-    console.log(channelId);
   }
 
   openChannelDialog() {

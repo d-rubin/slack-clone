@@ -37,6 +37,9 @@ export class ChatboxComponent implements OnInit {
     });
 
     let requestData = await this.getCurrentChannelMessages();
+    setTimeout(() => {
+      let observeCurrentChannelId = this.observeCurrenChannelId();
+    }, 3000);
   }
 
   updateCurrentChannelData(data: any) {
@@ -56,16 +59,13 @@ export class ChatboxComponent implements OnInit {
     if (docRef !== undefined) {
       docRef.valueChanges().subscribe((doc: string) => {
         this.updateCurrentChannelData(doc);
-        counter = 10;
+        counter = 3;
       });
     } else {
       let intervalId = setInterval(() => {
         counter++;
-        if (counter === 10) {
+        if (counter === 3) {
           clearInterval(intervalId);
-          console.log(
-            'getCurrentChannelMessages: Maximum retries reached, stopped retrying'
-          );
         } else {
           this.getCurrentChannelMessages();
         }
@@ -73,21 +73,13 @@ export class ChatboxComponent implements OnInit {
     }
   }
 
-  // async startAutoUpdateCurrentChannelMessages() {
-  //   return new Promise(async (resolve: Function, reject: Function) => {
-  //     try {
-  //       this.afs
-  //         .collection('channels')
-  //         .doc(this.dataService.currentUser['currentChannelId'])
-  //         .valueChanges()
-  //         .subscribe(async (data: string) => {
-  //           this.updateCurrentChannelData(data);
-  //           console.log('UPDATET', this.currentChannelMessages$);
-  //         });
-  //       resolve();
-  //     } catch (error) {
-  //       reject('getCurrentChannelMessages() WAS FAIL!');
-  //     }
-  //   });
-  // }
+  async observeCurrenChannelId() {
+    let currentChannelId;
+    let refCol = this.afs.collection('users');
+    let docRef = refCol.doc(`${this.dataService.currentUserIdFirestore}`);
+    docRef.valueChanges().subscribe(async (doc: string) => {
+      currentChannelId = await doc['currentChannelId'];
+      this.getCurrentChannelMessages();
+    });
+  }
 }

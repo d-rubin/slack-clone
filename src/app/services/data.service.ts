@@ -41,7 +41,6 @@ export class DataService implements OnInit {
       .valueChanges()
       .subscribe((doc: IChannel) => {
         this.currentChannel = new Channel(doc);
-        console.log(this.currentChannel);
       });
   }
 
@@ -110,15 +109,16 @@ export class DataService implements OnInit {
    * @returns firestore user data as JSON
    */
   async getCurrentUserData() {
-    this.firestore.collection('users')
-     .doc(this.currentUserIdFirestore)
-     .valueChanges()
-     .subscribe((doc) => {
-      if(doc) {
-        this.updateCurrentUserObservable();
-        this.currentUser = new User(doc as IUser);
-      }
-     })
+    this.firestore
+      .collection('users')
+      .doc(this.currentUserIdFirestore)
+      .valueChanges()
+      .subscribe((doc) => {
+        if (doc) {
+          this.updateCurrentUserObservable();
+          this.currentUser = new User(doc as IUser);
+        }
+      });
   }
 
   async getAllUserData() {
@@ -128,7 +128,9 @@ export class DataService implements OnInit {
           .collection('users')
           .get()
           .subscribe((snapschot) => {
-            this.users = snapschot.docs.map((doc) => new User(doc.data() as IUser));
+            this.users = snapschot.docs.map(
+              (doc) => new User(doc.data() as IUser)
+            );
             resolve();
           });
       } catch (error) {
