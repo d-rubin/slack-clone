@@ -1,14 +1,23 @@
+import { object } from "@angular/fire/database";
+
+export interface IConversation {
+  members: string[];
+  name: string;
+  conversationID: string;
+  messages: [];
+}
+
 export class Conversation {
   members: string[];
   name: string;
   conversationID: string;
   messages: [];
 
-  constructor() {
-    this.members = [];
-    this.name = '';
-    this.messages = [];
-    this.conversationID = '';
+  constructor(obj?: IConversation) {
+    this.members = obj? obj.members: [];
+    this.name = obj? obj.name: '';
+    this.messages = obj? obj.messages: [];
+    this.conversationID = obj? obj.conversationID: '';
   }
 
   toJSON() {

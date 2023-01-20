@@ -5,6 +5,9 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { User, IUser } from '../models/user.class';
 import { Observable, of } from 'rxjs';
 import { Channel, IChannel } from '../models/channel.class';
+import { IconOptions } from '@angular/material/icon';
+import { Conversation, IConversation } from '../models/Conversation.class';
+import { ActivatedRoute, Route } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -15,13 +18,18 @@ export class DataService implements OnInit {
   currentUserIdFirestore: any;
   users: User[] = [];
   uploadableUser: User;
-  currentChannel: Channel;
+  currentInstance: Channel | Conversation;
+  instance: string;
+  instanceId: string;
 
   // declare an observable that will be used to subscribe to the currentUser$ observable
   currentUser: User;
   currentUser$: Observable<typeof this.currentUser>;
 
-  constructor(private firestore: AngularFirestore) {
+  constructor(
+    private firestore: AngularFirestore,
+    private route: ActivatedRoute
+    ) {
     this.ngOnInit();
   }
 
@@ -30,20 +38,87 @@ export class DataService implements OnInit {
     this.currentUserIdFirestore = await this.getCurrentUserID();
     await this.getCurrentUserData();
     await this.getAllUserData();
+    this.checkTypeOfDocId(this.currentUser.currentChannelId);
     this.updateUserData();
-    this.getChannelData();
+    // this.getInstanceData();
+    this.getInstanceId();
+    this.subscribeInstance(this.instanceId, this.instance);
   }
 
-  getChannelData() {
-    this.firestore
-      .collection('channels')
-      .doc(this.currentUser.currentChannelId)
-      .valueChanges()
-      .subscribe((doc: IChannel) => {
-        this.currentChannel = new Channel(doc);
-        console.log('Current Channel is: ',this.currentChannel);
-      });
+  getInstanceId() {
+    this.route.params.subscribe((params) => {
+      this.instanceId = params['id'];
+    });
   }
+
+  /**
+   * Subscribes the current activated Route
+   * @param instanceId The Id of the document
+   * @param instance Ether 'channel' or 'conversation'
+   */
+  subscribeInstance(instanceId: string, instance: string) {
+    if(instance === 'channel')
+    this.firestore.
+    collection('channels').
+    doc(instanceId).
+    valueChanges().
+    subscribe((channel: IChannel) => {
+      this.currentInstance = new Channel(channel);
+    });
+    else {
+      this.firestore.
+      collection('conversations').
+      doc(instanceId).
+      valueChanges().
+      subscribe((conversation: IConversation) => {
+      this.currentInstance = new Conversation(conversation);
+    });
+    }
+  }
+
+    /**
+   * Checks if the currentChannelId is a Channel or a Conversation
+   * @param id The id of the Document
+   */
+    checkTypeOfDocId(id:string) {
+      this.firestore.collection('channels').doc(`${id}`).ref.get().then(doc => {
+        if(doc) {
+          this.instance = 'channel';
+        }
+        else {
+          this.instance = 'conversation';
+        }
+      });
+    }
+
+  // getInstanceData() {
+  //   if(this.instance == 'channel') {
+  //     this.getChannelData();
+  //   }
+  //   else {
+  //     this.getConversationData();
+  //   }
+  // }
+
+  // getChannelData() {
+  //   this.firestore
+  //     .collection('channels')
+  //     .doc(this.currentUser.currentChannelId)
+  //     .valueChanges()
+  //     .subscribe((doc: IChannel) => {
+  //       this.currentInstance = new Channel(doc);
+  //     });
+  // }
+
+  // getConversationData() {
+  //   this.firestore
+  //     .collection('conversations')
+  //     .doc(this.currentUser.currentChannelId)
+  //     .valueChanges()
+  //     .subscribe((doc: IConversation) => {
+  //       this.currentInstance = new Conversation(doc);
+  //     });
+  // }
 
   updateCurrentUserObservable() {
     this.currentUser$ = of(this.currentUser);
@@ -117,7 +192,6 @@ export class DataService implements OnInit {
       if(doc) {
         this.updateCurrentUserObservable();
         this.currentUser = new User(doc as IUser);
-        console.log('Current user is: ',  this.currentUser)
       }
      })
   }

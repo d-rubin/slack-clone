@@ -8,6 +8,7 @@ import { DataService } from '../services/data.service';
 import { ShowMembersComponent } from '../show-members/show-members.component';
 import { DocumentSnapshot } from 'firebase/firestore';
 import { Channel } from '../models/channel.class';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chatbox-menu',
@@ -18,47 +19,41 @@ export class ChatboxMenuComponent implements OnInit {
   name: string;
   members: string[];
   badgenumber: number;
-  channel: boolean;
+  channel: Boolean = false;
 
   constructor(
     public dialog: MatDialog,
     public dataService: DataService,
-    public firestore: AngularFirestore
+    public firestore: AngularFirestore,
     ) {
 
     }
 
-  ngOnInit() {
-    setInterval(() => {
-      this.getChannelData();
+  async ngOnInit() {
+    await new Promise((resolve: Function, reject: Function) => {
       if(this.dataService.currentUser) {
-        this.checkTypeOfDocId(this.dataService.currentUser.currentChannelId);
+        this.dataService.checkTypeOfDocId(this.dataService.currentUser.currentChannelId);
+        resolve();
       }
-    },500);
+    });
+    this.getChannelData();
   }
 
   getChannelData() {
-    if(this.dataService.currentChannel) {
-      this.name = this.dataService.currentChannel.name;
-      this.members = this.dataService.currentChannel.members;
-      this.badgenumber = this.dataService.currentChannel.members.length;
-      this.checkTypeOfDocId(this.dataService.currentChannel.channelId)
-    }
-  }
-
-  /**
-   * Checks if the currentChannelId is a Channel or a Conversation
-   * @param id The id of the Document
-   */
-  checkTypeOfDocId(id:string) {
-    this.firestore.collection('channels').doc(`${id}`).ref.get().then(doc => {
-      if(doc) {
+    setInterval(() => {
+      if(this.dataService.instance === 'channel') {
+        this.getChannelData();
         this.channel = true;
+        this.name = this.dataService.currentInstance.name;
+        this.members = this.dataService.currentInstance.members;
+        this.badgenumber = this.dataService.currentInstance.members.length;
+        console.log('This.channel = true')
       }
       else {
         this.channel = false;
+        console.log('This.channel = false')
       }
-    });
+    }, 1000);
   }
 
   showMembers() {

@@ -84,10 +84,6 @@ export class SidenavComponent implements OnInit {
     });
   }
 
-  // await this.currentMemberInChannel.forEach((channelId) => {
-  //   console.log(channelId);
-  //});
-
   renderChannelsAndConversations() {
     this.getChannelsWithId();
     this.getConversationsWithId();
@@ -114,7 +110,6 @@ export class SidenavComponent implements OnInit {
         this.allChannels = [];
         for (let i = 0; i < channels.length; i++) {
           this.allChannels.push(channels[i]);
-          // console.log(this.allChannels);
         }
       });
   }

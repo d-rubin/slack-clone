@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthenticationService,
     private router: Router,
-    private toast: HotToastService
+    private toast: HotToastService,
+    private dataService: DataService
   ) {}
 
   ngOnInit(): void {}
@@ -49,7 +51,7 @@ export class LoginComponent implements OnInit {
         })
       )
       .subscribe(() => {
-        this.router.navigate(['/mainarea']);
+        this.router.navigate(['mainarea/'+ this.dataService.currentUser.currentChannelId]);
       });
   }
 
@@ -60,6 +62,6 @@ export class LoginComponent implements OnInit {
   } */
 
   guest() {
-    this.router.navigate(['/mainarea']);
+    console.warn('Sorry, at this point you habe to be logged in');
   }
 }

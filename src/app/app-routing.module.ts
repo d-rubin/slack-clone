@@ -7,7 +7,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent },
-  { path: 'mainarea', component: MainareaComponent },
+  { path: 'mainarea/:id', component: MainareaComponent },
   { path: 'sign-up', component: SignUpComponent },
 ];
 

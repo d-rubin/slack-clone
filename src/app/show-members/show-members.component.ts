@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Channel, IChannel } from '../models/channel.class';
+import { Channel } from '../models/channel.class';
+import { Conversation } from '../models/Conversation.class';
 import { IUser, User } from '../models/user.class';
 import { DataService } from '../services/data.service';
 
@@ -18,7 +19,7 @@ export class ShowMembersComponent implements OnInit {
   user: User;
   IndexOfUserToDeleteInChannel: number;
   IndexOfChannelToDeleteInUser: number;
-  channel: Channel;
+  channel: Channel | Conversation;
 
   constructor(
     private firestore: AngularFirestore,
@@ -66,20 +67,22 @@ export class ShowMembersComponent implements OnInit {
   }
 
   updateChannelandUserData() {
-    console.log('channel: ', this.channel, 'User: ', this.user);
-    this.firestore
-    .collection('channels')
-    .doc(this.channel.channelId)
-    .update(this.channel.toJSON());
-    this.firestore
-    .collection('users')
-    .doc(this.user.currentUserId)
-    .update(this.user.toJSON());
+    if(this.dataService.instance === 'channel') {
+      console.log('channel: ', this.channel, 'User: ', this.user);
+      this.firestore
+      .collection('channels')
+      .doc(this.dataService.currentUser.currentChannelId)
+      .update(this.channel.toJSON());
+      this.firestore
+      .collection('users')
+      .doc(this.user.currentUserId)
+      .update(this.user.toJSON());
+    }
   }
 
   getUserAndChannel(memberName: string) {
     this.user = new User(this.dataService.users.find(x => x.name === memberName) as IUser);
-    this.channel = this.dataService.currentChannel;
+    this.channel = this.dataService.currentInstance;
   }
 
   deleteUserAtChannel() {
@@ -88,7 +91,7 @@ export class ShowMembersComponent implements OnInit {
   }
 
   deleteChannelAtUser() {
-    this.IndexOfChannelToDeleteInUser = this.user.memberInChannel.indexOf(this.channel.channelId);
+    this.IndexOfChannelToDeleteInUser = this.user.memberInChannel.indexOf(this.dataService.currentUser.currentChannelId);
     this.user.memberInChannel.splice(this.IndexOfChannelToDeleteInUser, 1)
   }
 } 
