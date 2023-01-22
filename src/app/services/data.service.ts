@@ -16,6 +16,7 @@ export class DataService implements OnInit {
   //declare var to find the firestore id current user
   currentUserEmail: any;
   currentUserIdFirestore: any;
+  reaponseUserIdStatus200 = false;
   users: User[] = [];
   uploadableUser: User;
   currentInstance: Channel | Conversation;
@@ -29,7 +30,7 @@ export class DataService implements OnInit {
   constructor(
     private firestore: AngularFirestore,
     private route: ActivatedRoute
-    ) {
+  ) {
     this.ngOnInit();
   }
 
@@ -57,39 +58,42 @@ export class DataService implements OnInit {
    * @param instance Ether 'channel' or 'conversation'
    */
   subscribeInstance(instanceId: string, instance: string) {
-    if(instance === 'channel')
-    this.firestore.
-    collection('channels').
-    doc(instanceId).
-    valueChanges().
-    subscribe((channel: IChannel) => {
-      this.currentInstance = new Channel(channel);
-    });
+    if (instance === 'channel')
+      this.firestore
+        .collection('channels')
+        .doc(instanceId)
+        .valueChanges()
+        .subscribe((channel: IChannel) => {
+          this.currentInstance = new Channel(channel);
+        });
     else {
-      this.firestore.
-      collection('conversations').
-      doc(instanceId).
-      valueChanges().
-      subscribe((conversation: IConversation) => {
-      this.currentInstance = new Conversation(conversation);
-    });
+      this.firestore
+        .collection('conversations')
+        .doc(instanceId)
+        .valueChanges()
+        .subscribe((conversation: IConversation) => {
+          this.currentInstance = new Conversation(conversation);
+        });
     }
   }
 
-    /**
+  /**
    * Checks if the currentChannelId is a Channel or a Conversation
    * @param id The id of the Document
    */
-    checkTypeOfDocId(id:string) {
-      this.firestore.collection('channels').doc(`${id}`).ref.get().then(doc => {
-        if(doc) {
+  checkTypeOfDocId(id: string) {
+    this.firestore
+      .collection('channels')
+      .doc(`${id}`)
+      .ref.get()
+      .then((doc) => {
+        if (doc) {
           this.instance = 'channel';
-        }
-        else {
+        } else {
           this.instance = 'conversation';
         }
       });
-    }
+  }
 
   // getInstanceData() {
   //   if(this.instance == 'channel') {
@@ -171,6 +175,7 @@ export class DataService implements OnInit {
         );
         query.get().subscribe((querySnapshot) => {
           let docId = querySnapshot.docs[0].id;
+          this.reaponseUserIdStatus200 = true;
           resolve(docId);
         });
       } catch {
@@ -185,15 +190,16 @@ export class DataService implements OnInit {
    * @returns firestore user data as JSON
    */
   async getCurrentUserData() {
-    this.firestore.collection('users')
-     .doc(this.currentUserIdFirestore)
-     .valueChanges()
-     .subscribe((doc) => {
-      if(doc) {
-        this.updateCurrentUserObservable();
-        this.currentUser = new User(doc as IUser);
-      }
-     })
+    this.firestore
+      .collection('users')
+      .doc(this.currentUserIdFirestore)
+      .valueChanges()
+      .subscribe((doc) => {
+        if (doc) {
+          this.updateCurrentUserObservable();
+          this.currentUser = new User(doc as IUser);
+        }
+      });
   }
 
   async getAllUserData() {
