@@ -13,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-chatbox-menu',
   templateUrl: './chatbox-menu.component.html',
-  styleUrls: ['./chatbox-menu.component.scss']
+  styleUrls: ['./chatbox-menu.component.scss'],
 })
 export class ChatboxMenuComponent implements OnInit {
   name: string;
@@ -24,15 +24,16 @@ export class ChatboxMenuComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     public dataService: DataService,
-    public firestore: AngularFirestore,
-    ) {
-
-    }
+    public firestore: AngularFirestore
+  ) {}
 
   async ngOnInit() {
+    await this.dataService.getDataInterval();
     await new Promise((resolve: Function, reject: Function) => {
-      if(this.dataService.currentUser) {
-        this.dataService.checkTypeOfDocId(this.dataService.currentUser.currentChannelId);
+      if (this.dataService.currentUser) {
+        this.dataService.checkTypeOfDocId(
+          this.dataService.currentUser.currentChannelId
+        );
         resolve();
       }
     });
@@ -41,17 +42,16 @@ export class ChatboxMenuComponent implements OnInit {
 
   getChannelData() {
     setInterval(() => {
-      if(this.dataService.instance === 'channel') {
+      if (this.dataService.instance === 'channel') {
         this.getChannelData();
         this.channel = true;
         this.name = this.dataService.currentInstance.name;
         this.members = this.dataService.currentInstance.members;
         this.badgenumber = this.dataService.currentInstance.members.length;
-        console.log('This.channel = true')
-      }
-      else {
+        console.log('This.channel = true');
+      } else {
         this.channel = false;
-        console.log('This.channel = false')
+        console.log('This.channel = false');
       }
     }, 1000);
   }

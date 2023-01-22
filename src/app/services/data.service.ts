@@ -219,4 +219,13 @@ export class DataService implements OnInit {
       }
     });
   }
+
+  async getDataInterval() {
+    let getDataIntervalStop = setInterval(() => {
+      if (this.reaponseUserIdStatus200) {
+        clearInterval(getDataIntervalStop);
+      }
+    }, 100);
+    return true;
+  }
 }

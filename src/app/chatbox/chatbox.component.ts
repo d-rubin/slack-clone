@@ -25,11 +25,8 @@ export class ChatboxComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    let getDataInterval = setInterval(() => {
-      if (this.dataService.reaponseUserIdStatus200) {
-        clearInterval(getDataInterval);
-      }
-    }, 100);
+    await this.dataService.getDataInterval();
+
     this.currentChannelMessages$.subscribe(async (data) => {
       this.currentChannelMessages$ = data;
       if (data !== null) {
