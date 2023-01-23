@@ -102,7 +102,7 @@ export class SidenavComponent implements OnInit {
     return this.firestore
       .collection<any>('channels', (ref) =>
         ref.where('members', 'array-contains-any', [
-          this.dataService.currentUserIdFirestore,
+          this.dataService.currentUserId,
         ])
       )
       .valueChanges()
@@ -118,7 +118,7 @@ export class SidenavComponent implements OnInit {
     return this.firestore
       .collection<any>('conversations', (ref) =>
         ref.where('members', 'array-contains-any', [
-          this.dataService.currentUserIdFirestore,
+          this.dataService.currentUserId,
         ])
       )
       .valueChanges()

@@ -15,7 +15,7 @@ import { ActivatedRoute, Route } from '@angular/router';
 export class DataService implements OnInit {
   //declare var to find the firestore id current user
   currentUserEmail: any;
-  currentUserIdFirestore: any;
+  currentUserId: any;
   reaponseUserIdStatus200 = false;
   users: User[] = [];
   uploadableUser: User;
@@ -36,10 +36,10 @@ export class DataService implements OnInit {
 
   async ngOnInit() {
     this.currentUserEmail = await this.onAuthStateChanged();
-    this.currentUserIdFirestore = await this.getCurrentUserID();
+    this.currentUserId = await this.getCurrentUserID();
     await this.getCurrentUserData();
     await this.getAllUserData();
-    this.checkTypeOfDocId(this.currentUser.currentChannelId);
+    this.instance = await this.checkTypeOfDocId(this.currentUser.currentChannelId);
     this.updateUserData();
     // this.getInstanceData();
     this.getInstanceId();
@@ -57,43 +57,50 @@ export class DataService implements OnInit {
    * @param instanceId The Id of the document
    * @param instance Ether 'channel' or 'conversation'
    */
+  currentSubscription;
+
   subscribeInstance(instanceId: string, instance: string) {
-    if (instance === 'channel')
-      this.firestore
-        .collection('channels')
-        .doc(instanceId)
-        .valueChanges()
-        .subscribe((channel: IChannel) => {
-          this.currentInstance = new Channel(channel);
-        });
-    else {
-      this.firestore
-        .collection('conversations')
-        .doc(instanceId)
-        .valueChanges()
-        .subscribe((conversation: IConversation) => {
-          this.currentInstance = new Conversation(conversation);
-        });
-    }
+      if (this.currentSubscription) {
+        this.currentSubscription.unsubscribe();
+      }
+  
+      if (instance === 'channel') {
+        this.currentSubscription = this.firestore
+          .collection('channels')
+          .doc(instanceId)
+          .valueChanges()
+          .subscribe((channel: IChannel) => {
+            console.log('subscribed to channel ' + this.currentInstance);
+            this.currentInstance = new Channel(channel);
+          });
+      } else {
+        this.currentSubscription = this.firestore
+          .collection('conversations')
+          .doc(instanceId)
+          .valueChanges()
+          .subscribe((conversation: IConversation) => {
+            this.currentInstance = new Conversation(conversation);
+          });
+      }
   }
+  
 
   /**
    * Checks if the currentChannelId is a Channel or a Conversation
    * @param id The id of the Document
    */
-  checkTypeOfDocId(id: string) {
-    this.firestore
+  async checkTypeOfDocId(id: string): Promise<string>{
+    const doc = await this.firestore
       .collection('channels')
       .doc(`${id}`)
       .ref.get()
-      .then((doc) => {
-        if (doc) {
-          this.instance = 'channel';
-        } else {
-          this.instance = 'conversation';
-        }
-      });
+    if (doc) {
+      return 'channel';
+    } else {
+      return 'conversation';
+    }
   }
+  
 
   // getInstanceData() {
   //   if(this.instance == 'channel') {
@@ -131,14 +138,14 @@ export class DataService implements OnInit {
 
   updateUserData() {
     this.uploadableUser = new User(this.currentUser);
-    this.uploadableUser.currentUserId = this.currentUserIdFirestore;
+    this.uploadableUser.currentUserId = this.currentUserId;
     this.updateUser();
   }
 
   updateUser() {
     this.firestore
       .collection('users')
-      .doc(this.currentUserIdFirestore)
+      .doc(this.currentUserId)
       .update(this.uploadableUser.toJSON());
   }
 
@@ -192,7 +199,7 @@ export class DataService implements OnInit {
   async getCurrentUserData() {
     this.firestore
       .collection('users')
-      .doc(this.currentUserIdFirestore)
+      .doc(this.currentUserId)
       .valueChanges()
       .subscribe((doc) => {
         if (doc) {

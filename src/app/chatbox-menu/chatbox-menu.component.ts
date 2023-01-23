@@ -9,6 +9,8 @@ import { ShowMembersComponent } from '../show-members/show-members.component';
 import { DocumentSnapshot } from 'firebase/firestore';
 import { Channel } from '../models/channel.class';
 import { ActivatedRoute } from '@angular/router';
+import { Conversation } from '../models/Conversation.class';
+import { ConnectableObservable } from 'rxjs';
 
 @Component({
   selector: 'app-chatbox-menu',
@@ -17,9 +19,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ChatboxMenuComponent implements OnInit {
   name: string;
-  members: string[];
-  badgenumber: number;
-  channel: Boolean = false;
+  channel: Boolean; 
+  memberCount: number;
 
   constructor(
     public dialog: MatDialog,
@@ -28,33 +29,45 @@ export class ChatboxMenuComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    await this.dataService.getDataInterval();
-    await new Promise((resolve: Function, reject: Function) => {
-      if (this.dataService.currentUser) {
-        this.dataService.checkTypeOfDocId(
-          this.dataService.currentUser.currentChannelId
-        );
-        resolve();
-      }
-    });
-    this.getChannelData();
+    await this.dataService.ngOnInit();
+    console.log(this.dataService.currentInstance);
+      this.name = this.dataService.currentInstance.name;
+      this.memberCount = this.dataService.currentInstance.members.length;
+    if(this.dataService.instance === 'chanlel') {
+      this.channel = true;
+      console.log('Channel is True');
+    }
+    else {
+      this.channel = false;
+      console.log('channel is false');
+      console.log(this.dataService.instance);
+    }
+    // await this.dataService.getDataInterval();
+    // await new Promise((resolve: Function, reject: Function) => {
+    //   if (this.dataService.currentUser) {
+    //     this.dataService.checkTypeOfDocId(
+    //       this.dataService.currentUser.currentChannelId
+    //     );
+    //     resolve();
+    //   }
+    // });
   }
 
-  getChannelData() {
-    setInterval(() => {
-      if (this.dataService.instance === 'channel') {
-        this.getChannelData();
-        this.channel = true;
-        this.name = this.dataService.currentInstance.name;
-        this.members = this.dataService.currentInstance.members;
-        this.badgenumber = this.dataService.currentInstance.members.length;
-        console.log('This.channel = true');
-      } else {
-        this.channel = false;
-        console.log('This.channel = false');
-      }
-    }, 1000);
-  }
+  // getChannelData() {
+  //   setInterval(() => {
+  //     if (this.dataService.instance === 'channel') {
+  //       this.getChannelData();
+  //       this.channel = true;
+  //       this.name = this.dataService.currentInstance.name;
+  //       this.members = this.dataService.currentInstance.members;
+  //       this.badgenumber = this.dataService.currentInstance.members.length;
+  //       console.log('This.channel = true');
+  //     } else {
+  //       this.channel = false;
+  //       console.log('This.channel = false');
+  //     }
+  //   }, 1000);
+  // }
 
   showMembers() {
     this.dialog.open(ShowMembersComponent);

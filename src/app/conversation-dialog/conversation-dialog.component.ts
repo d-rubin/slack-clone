@@ -50,7 +50,7 @@ export class ConversationDialogComponent implements OnInit {
 
   async startConversation(name:string) {
     this.currentUser = await this.dataService.currentUser;
-    this.conversation.members.push(this.dataService.currentUserIdFirestore);
+    this.conversation.members.push(this.dataService.currentUserId);
 
     await this.addSecondMemberToConversation(name);
 

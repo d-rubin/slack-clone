@@ -78,7 +78,7 @@ export class ChatboxComponent implements OnInit {
   async observeCurrenChannelId() {
     let currentChannelId;
     let refCol = this.afs.collection('users');
-    let docRef = refCol.doc(`${this.dataService.currentUserIdFirestore}`);
+    let docRef = refCol.doc(`${this.dataService.currentUserId}`);
     docRef.valueChanges().subscribe(async (doc: string) => {
       currentChannelId = await doc['currentChannelId'];
       this.getCurrentChannelMessages();
