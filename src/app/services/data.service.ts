@@ -8,6 +8,7 @@ import { Channel, IChannel } from '../models/channel.class';
 import { IconOptions } from '@angular/material/icon';
 import { Conversation, IConversation } from '../models/Conversation.class';
 import { ActivatedRoute, Route } from '@angular/router';
+import { ThisReceiver } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,7 @@ export class DataService implements OnInit {
   currentInstance: Channel | Conversation;
   instance: string;
   instanceId: string;
+  currentSubscription: any;
 
   // declare an observable that will be used to subscribe to the currentUser$ observable
   currentUser: User;
@@ -40,46 +42,42 @@ export class DataService implements OnInit {
     await this.getCurrentUserData();
     await this.getAllUserData();
     this.instance = await this.checkTypeOfDocId(this.currentUser.currentChannelId);
-    this.updateUserData();
-    // this.getInstanceData();
     this.getInstanceId();
-    this.subscribeInstance(this.instanceId, this.instance);
+    this.subscribeInstance(this.instanceId);
+    console.log('current Instance in ngOnInit: ', this.currentInstance);
   }
 
   getInstanceId() {
-    this.route.params.subscribe((params) => {
+    this.route.params.subscribe(params => {
       this.instanceId = params['id'];
-    });
+    })
   }
 
   /**
    * Subscribes the current activated Route
    * @param instanceId The Id of the document
-   * @param instance Ether 'channel' or 'conversation'
    */
-  currentSubscription;
-
-  subscribeInstance(instanceId: string, instance: string) {
+  subscribeInstance(instanceId: string) {
       if (this.currentSubscription) {
         this.currentSubscription.unsubscribe();
       }
-  
-      if (instance === 'channel') {
+      if (this.instance === 'channel') {
         this.currentSubscription = this.firestore
           .collection('channels')
           .doc(instanceId)
           .valueChanges()
-          .subscribe((channel: IChannel) => {
-            console.log('subscribed to channel ' + this.currentInstance);
-            this.currentInstance = new Channel(channel);
+          .subscribe(channel => {
+            this.currentInstance = new Channel(channel as IChannel);
+            console.log('currentInstance in function: ', this.currentInstance);
           });
-      } else {
+        }
+      else {
         this.currentSubscription = this.firestore
           .collection('conversations')
           .doc(instanceId)
           .valueChanges()
-          .subscribe((conversation: IConversation) => {
-            this.currentInstance = new Conversation(conversation);
+          .subscribe((conversation) => {
+            this.currentInstance = new Conversation(conversation as IConversation);
           });
       }
   }
@@ -100,36 +98,6 @@ export class DataService implements OnInit {
       return 'conversation';
     }
   }
-  
-
-  // getInstanceData() {
-  //   if(this.instance == 'channel') {
-  //     this.getChannelData();
-  //   }
-  //   else {
-  //     this.getConversationData();
-  //   }
-  // }
-
-  // getChannelData() {
-  //   this.firestore
-  //     .collection('channels')
-  //     .doc(this.currentUser.currentChannelId)
-  //     .valueChanges()
-  //     .subscribe((doc: IChannel) => {
-  //       this.currentInstance = new Channel(doc);
-  //     });
-  // }
-
-  // getConversationData() {
-  //   this.firestore
-  //     .collection('conversations')
-  //     .doc(this.currentUser.currentChannelId)
-  //     .valueChanges()
-  //     .subscribe((doc: IConversation) => {
-  //       this.currentInstance = new Conversation(doc);
-  //     });
-  // }
 
   updateCurrentUserObservable() {
     this.currentUser$ = of(this.currentUser);

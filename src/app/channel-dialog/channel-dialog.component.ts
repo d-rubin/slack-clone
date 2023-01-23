@@ -40,7 +40,7 @@ export class ChannelDialogComponent implements OnInit {
     await this.dataService.getCurrentUserData();
     this.dialogRef.close();
     this.dataService.getInstanceId();
-    this.dataService.subscribeInstance(this.dataService.instanceId, this.dataService.instance);
+    this.dataService.subscribeInstance(this.dataService.instanceId);
   }
 
   /**
