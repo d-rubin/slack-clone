@@ -14,37 +14,20 @@ import {
   trigger,
 } from '@angular/animations';
 import { DataService } from '../services/data.service';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],
   providers: [DataService],
-  animations: [
-    trigger('slideInOut', [
-      state(
-        'in',
-        style({
-          transform: 'translateX(0%)',
-        })
-      ),
-      state(
-        'out',
-        style({
-          transform: 'translateX(100%)',
-        })
-      ),
-      transition('in => out', animate('1000ms ease-in-out')),
-      transition('out => in', animate('1000ms ease-in-out')),
-    ]),
-  ],
 })
 export class SidenavComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     public firestore: AngularFirestore,
-    public dataService: DataService
+    public dataService: DataService,
+    private router: Router
   ) {}
 
   panelOpenState: boolean;
@@ -87,15 +70,6 @@ export class SidenavComponent implements OnInit {
   renderChannelsAndConversations() {
     this.getChannelsWithId();
     this.getConversationsWithId();
-  }
-  // Get Email of Current User
-  getCurrentUserEmail() {
-    return new Promise((resolve: Function, reject: Function) => {
-      onAuthStateChanged(getAuth(), (currentuser) => {
-        this.email = currentuser.email;
-        resolve();
-      });
-    });
   }
 
   getChannelsWithId() {
@@ -142,13 +116,14 @@ export class SidenavComponent implements OnInit {
 
   /**
    * Navigate or show this channel in app-channle-room
-   * @param channelId 
+   * @param Id The Id of the Instance
    */
-  showContent(channelId: string) {
+  showContent(Id: string) {
     this.firestore
       .collection('users')
       .doc(this.currentUserIdFirestore)
-      .update({ currentChannelId: `${channelId}` });
+      .update({ currentChannelId: `${Id}` });
+    this.router.navigateByUrl('/mainarea/' + Id);
   }
 
   openChannelDialog() {
@@ -159,13 +134,13 @@ export class SidenavComponent implements OnInit {
     this.dialog.open(ConversationDialogComponent);
   }
 
-  // Search in a Collection for a Variable
-  getUserIdfromCurrentUser() {
-    this.firestore
-      .collection<any>('users', (ref) => ref.where('name', '==', 'Gruppe413'))
-      .get()
-      .subscribe((docs) => {
-        docs.forEach((doc) => {});
-      });
-  }
+  // // Search in a Collection for a Variable
+  // getUserIdfromCurrentUser() {
+  //   this.firestore
+  //     .collection<any>('users', (ref) => ref.where('name', '==', 'Gruppe413'))
+  //     .get()
+  //     .subscribe((docs) => {
+  //       docs.forEach((doc) => {});
+  //     });
+  // }
 }
