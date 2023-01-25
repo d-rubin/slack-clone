@@ -1,5 +1,5 @@
 <button class="menu-icon" mat-icon-button (click)="showMenu()"><mat-icon>{{ icon }}</mat-icon></button>
-<mat-drawer-container *ngIf="menu" class="sidenav" autosize [@slideInOut]>
+<mat-drawer-container *ngIf="menu" class="sidenav" autosize>
   <mat-drawer-content>
     <mat-accordion>
       <mat-expansion-panel expanded="true" (opened)="panelOpenState = true" (closed)="panelOpenState = false">

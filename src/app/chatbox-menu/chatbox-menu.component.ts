@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { MatDialog } from '@angular/material/dialog';
 import { AddMemberComponent } from '../add-member/add-member.component';
+import { Channel } from '../models/channel.class';
+import { Conversation } from '../models/Conversation.class';
 import { DataService } from '../services/data.service';
 import { ShowMembersComponent } from '../show-members/show-members.component';
 
@@ -14,16 +16,20 @@ export class ChatboxMenuComponent implements OnInit {
   name: string;
   channel: Boolean; 
   memberCount: number;
+  data;
 
   constructor(
     public dialog: MatDialog,
     public dataService: DataService,
-    public firestore: AngularFirestore
+    public firestore: AngularFirestore,
   ) {}
 
   async ngOnInit() {
-    this.dataService.subscribeInstance(this.dataService.instanceId);
-      this.name = this.dataService.currentInstance.name;
+    this.dataService.currentInstance$.subscribe((data) => {
+      this.data = data;
+    })
+    console.log(this.data);
+    this.name = this.dataService.currentInstance.name;
     if(this.dataService.instance === 'channel') {
       this.channel = true;
       this.memberCount = this.dataService.currentInstance.members.length;

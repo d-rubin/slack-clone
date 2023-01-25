@@ -28,6 +28,7 @@ export class DataService implements OnInit {
   // declare an observable that will be used to subscribe to the currentUser$ observable
   currentUser: User;
   currentUser$: Observable<typeof this.currentUser>;
+  currentInstance$: Observable<typeof this.currentInstance>;
 
   constructor(
     private firestore: AngularFirestore,
@@ -44,7 +45,6 @@ export class DataService implements OnInit {
     this.instance = await this.checkTypeOfDocId(this.currentUser.currentChannelId);
     this.getInstanceId();
     this.subscribeInstance(this.instanceId);
-    console.log('current Instance in ngOnInit: ', this.currentInstance);
   }
 
   getInstanceId() {
@@ -68,7 +68,6 @@ export class DataService implements OnInit {
           .valueChanges()
           .subscribe(channel => {
             this.currentInstance = new Channel(channel as IChannel);
-            console.log('currentInstance in function: ', this.currentInstance);
           });
         }
       else {
