@@ -16,7 +16,6 @@ export class ChatboxMenuComponent implements OnInit {
   name: string;
   channel: Boolean; 
   memberCount: number;
-  data;
 
   constructor(
     public dialog: MatDialog,
@@ -25,18 +24,16 @@ export class ChatboxMenuComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.dataService.currentInstance$.subscribe((data) => {
-      this.data = data;
-    })
-    console.log(this.data);
-    this.name = this.dataService.currentInstance.name;
-    if(this.dataService.instance === 'channel') {
-      this.channel = true;
+    setTimeout(() => {
+      this.name = this.dataService.currentInstance.name;
       this.memberCount = this.dataService.currentInstance.members.length;
-    }
-    else {
-      this.channel = false;
-    }
+      if(this.dataService.instance === 'channel') {
+        this.channel = true;
+      }
+      else {
+        this.channel = false;
+      }
+    },2000);
   }
 
   showMembers() {

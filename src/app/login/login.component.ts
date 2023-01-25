@@ -51,7 +51,12 @@ export class LoginComponent implements OnInit {
         })
       )
       .subscribe(() => {
-        this.router.navigate(['/mainarea/'+ this.dataService.currentUser.currentChannelId]);
+        if(this.dataService.currentUser.currentChannelId) {
+          this.router.navigate(['/mainarea/'+ this.dataService.currentUser.currentChannelId]);
+        }
+        else {
+          this.router.navigate(['/mainarea/']);
+        }
       });
   }
 

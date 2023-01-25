@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent },
   { path: 'mainarea/:id', component: MainareaComponent },
   { path: 'sign-up', component: SignUpComponent },
+  { path: 'mainarea', component: MainareaComponent}
 ];
 
 @NgModule({
