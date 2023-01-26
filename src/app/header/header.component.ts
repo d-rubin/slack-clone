@@ -4,11 +4,11 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { map, Observable, startWith } from 'rxjs';
 import { AuthenticationService } from 'src/services/authentication.service';
-import { ChannelDialogComponent } from '../channel-dialog/channel-dialog.component';
-import { ConversationDialogComponent } from '../conversation-dialog/conversation-dialog.component';
 import { Channel } from '../models/channel.class';
 import { User } from '../models/user.class';
 import { Router } from '@angular/router';
+import { DataService } from '../services/data.service';
+import { getAuth, onAuthStateChanged } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-header',
@@ -23,15 +23,17 @@ export class HeaderComponent implements OnInit {
   myControl = new FormControl<string | User>('');
   options: any[] = [];
   filteredOptions: Observable<User[]>;
+  name: unknown = 'please login';
 
   constructor(
     public dialog: MatDialog,
     private firestore: AngularFirestore,
     private authService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    public dataService: DataService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map((value) => {
@@ -39,8 +41,34 @@ export class HeaderComponent implements OnInit {
         return name ? this._filter(name as string) : this.options.slice();
       })
     );
-
     this.getOptionsFromCollections();
+    this.name = await this.onAuthStateChanged();
+  }
+
+  showMenu() {
+    if(this.dataService.icon === 'menu') {
+      this.dataService.icon = 'close';
+      this.dataService.menu = false;
+    }
+    else {
+      this.dataService.icon = 'menu';
+      this.dataService.menu = true;
+    }
+  }
+
+  async onAuthStateChanged() {
+    return new Promise((resolve, reject) => {
+      try {
+        onAuthStateChanged(getAuth(), (user) => {
+          if (user) {
+            resolve(user.displayName);
+          } else {
+          }
+        });
+      } catch {
+        () => reject('onAuthStateChanged() was FAIL');
+      }
+    });
   }
 
   displayFn(user: User): string {

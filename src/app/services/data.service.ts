@@ -24,6 +24,8 @@ export class DataService implements OnInit {
   instance: string;
   instanceId: string;
   currentSubscription: any;
+  menu: boolean = true;
+  icon: string = 'menu';
 
   // declare an observable that will be used to subscribe to the currentUser$ observable
   currentUser: User;
@@ -45,6 +47,9 @@ export class DataService implements OnInit {
     this.instance = await this.checkTypeOfDocId(this.currentUser.currentChannelId);
     this.getInstanceId();
     this.subscribeInstance(this.instanceId);
+    setInterval(() => {
+      console.log(this.menu, this.icon);
+    }, 2000);
   }
 
   getInstanceId() {
