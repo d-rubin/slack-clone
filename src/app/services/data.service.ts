@@ -47,9 +47,9 @@ export class DataService implements OnInit {
     this.instance = await this.checkTypeOfDocId(this.currentUser.currentChannelId);
     this.getInstanceId();
     this.subscribeInstance(this.instanceId);
-    setInterval(() => {
-      console.log(this.menu, this.icon);
-    }, 2000);
+    // setInterval(() => {
+    //   console.log(this.menu, this.icon);
+    // }, 2000);
   }
 
   getInstanceId() {
