@@ -14,26 +14,26 @@ import { ShowMembersComponent } from '../show-members/show-members.component';
 })
 export class ChatboxMenuComponent implements OnInit {
   name: string;
-  channel: Boolean; 
+  channel: Boolean;
   memberCount: number;
 
   constructor(
     public dialog: MatDialog,
     public dataService: DataService,
-    public firestore: AngularFirestore,
+    public firestore: AngularFirestore
   ) {}
 
   async ngOnInit() {
-    setTimeout(() => {
-      this.name = this.dataService.currentInstance.name;
-      this.memberCount = this.dataService.currentInstance.members.length;
-      if(this.dataService.instance === 'channel') {
-        this.channel = true;
-      }
-      else {
-        this.channel = false;
-      }
-    },2000);
+    // setTimeout(() => {
+    //   this.name = this.dataService.currentInstance.name;
+    //   this.memberCount = this.dataService.currentInstance.members.length;
+    //   if(this.dataService.instance === 'channel') {
+    //     this.channel = true;
+    //   }
+    //   else {
+    //     this.channel = false;
+    //   }
+    // },2000);
   }
 
   showMembers() {

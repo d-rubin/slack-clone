@@ -29,8 +29,7 @@ export class MessageFormComponent implements OnInit {
     let chatJSON = JSON.stringify(chatMessage);
 
     await this.sendMessageToFirestore(chatJSON);
-
-    console.log(chatMessage);
+    this.message = '';
   }
 
   async sendMessageToFirestore(message: any) {

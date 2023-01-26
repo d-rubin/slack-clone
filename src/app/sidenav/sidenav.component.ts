@@ -31,8 +31,8 @@ export class SidenavComponent implements OnInit {
   ) {}
 
   panelOpenState: boolean;
-  allChannels: Channel[] = [];
-  allConversations: Conversation[] = [];
+  allChannels = [];
+  allConversations = [];
   conversation: Conversation = new Conversation();
   channel: Channel = new Channel();
   email: string;
@@ -69,7 +69,6 @@ export class SidenavComponent implements OnInit {
 
   renderChannelsAndConversations() {
     this.getChannelsWithId();
-    this.getConversationsWithId();
   }
 
   getChannelsWithId() {
@@ -82,24 +81,14 @@ export class SidenavComponent implements OnInit {
       .valueChanges()
       .subscribe((channels: Channel[]) => {
         this.allChannels = [];
-        for (let i = 0; i < channels.length; i++) {
-          this.allChannels.push(channels[i]);
-        }
-      });
-  }
-
-  getConversationsWithId() {
-    return this.firestore
-      .collection<any>('conversations', (ref) =>
-        ref.where('members', 'array-contains-any', [
-          this.dataService.currentUserId,
-        ])
-      )
-      .valueChanges()
-      .subscribe((converatons: Conversation[]) => {
         this.allConversations = [];
-        for (let i = 0; i < converatons.length; i++) {
-          this.allConversations.push(converatons[i]);
+        for (let i = 0; i < channels.length; i++) {
+          let sortType = channels[i].type;
+          if (sortType === 'channel') {
+            this.allChannels.push(channels[i]);
+          } else {
+            this.allConversations.push(channels[i]);
+          }
         }
       });
   }
@@ -133,14 +122,4 @@ export class SidenavComponent implements OnInit {
   openConversationDialog() {
     this.dialog.open(ConversationDialogComponent);
   }
-
-  // // Search in a Collection for a Variable
-  // getUserIdfromCurrentUser() {
-  //   this.firestore
-  //     .collection<any>('users', (ref) => ref.where('name', '==', 'Gruppe413'))
-  //     .get()
-  //     .subscribe((docs) => {
-  //       docs.forEach((doc) => {});
-  //     });
-  // }
 }

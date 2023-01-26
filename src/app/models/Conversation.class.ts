@@ -1,10 +1,11 @@
-import { object } from "@angular/fire/database";
+import { object } from '@angular/fire/database';
 
 export interface IConversation {
   members: string[];
   name: string;
   conversationID: string;
   messages: [];
+  type: string;
 }
 
 export class Conversation {
@@ -12,12 +13,14 @@ export class Conversation {
   name: string;
   conversationID: string;
   messages: [];
+  type: string;
 
   constructor(obj?: IConversation) {
-    this.members = obj? obj.members: [];
-    this.name = obj? obj.name: '';
-    this.messages = obj? obj.messages: [];
-    this.conversationID = obj? obj.conversationID: '';
+    this.members = obj ? obj.members : [];
+    this.name = obj ? obj.name : '';
+    this.messages = obj ? obj.messages : [];
+    this.conversationID = obj ? obj.conversationID : '';
+    this.type = obj ? obj.type : 'conversation';
   }
 
   toJSON() {
@@ -25,7 +28,8 @@ export class Conversation {
       members: this.members,
       name: this.name,
       messages: this.messages,
-      conversationID: this.conversationID,
+      channelID: this.conversationID,
+      type: this.type,
     };
   }
 }

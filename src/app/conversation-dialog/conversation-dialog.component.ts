@@ -20,7 +20,6 @@ export class ConversationDialogComponent implements OnInit {
   userName: string;
   newConversationlID: string;
   filteredUsers: User[] = [];
-  
 
   constructor(
     public dialogRef: MatDialogRef<ConversationDialogComponent>,
@@ -28,17 +27,19 @@ export class ConversationDialogComponent implements OnInit {
     public dataService: DataService
   ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   filterUsers() {
     this.filteredUsers = [];
-    for(let i = 0; i < this.dataService.users.length; i++) {
+    for (let i = 0; i < this.dataService.users.length; i++) {
       let lowerUserName = this.userName.toLowerCase();
-      let lowerDataServiceUserName = this.dataService.users[i].name.toLowerCase();
-      if(lowerDataServiceUserName.includes(lowerUserName) 
-      && !this.currentUser.name.includes(lowerUserName)) {
-        this.filteredUsers.push(this.dataService.users[i])
+      let lowerDataServiceUserName =
+        this.dataService.users[i].name.toLowerCase();
+      if (
+        lowerDataServiceUserName.includes(lowerUserName) &&
+        !this.currentUser.name.includes(lowerUserName)
+      ) {
+        this.filteredUsers.push(this.dataService.users[i]);
       }
     }
     console.log('Filtered users: ', this.filteredUsers);
@@ -48,7 +49,7 @@ export class ConversationDialogComponent implements OnInit {
     return user && user.name ? user.name : '';
   }
 
-  async startConversation(name:string) {
+  async startConversation(name: string) {
     this.currentUser = await this.dataService.currentUser;
     this.conversation.members.push(this.dataService.currentUserId);
 
@@ -61,14 +62,14 @@ export class ConversationDialogComponent implements OnInit {
   }
 
   async addIdNewConversationID(newConversationID) {
-    const updId = this.firestore.doc(`conversations/${newConversationID}`);
+    const updId = this.firestore.doc(`channels/${newConversationID}`);
     updId.update({ conversationID: newConversationID });
     console.log(newConversationID);
   }
 
   async saveConversation() {
     await this.firestore
-      .collection('conversations')
+      .collection('channels')
       .add(this.conversation.toJSON())
       .then((doc) => {
         this.newConversationlID = doc.id;
@@ -78,9 +79,7 @@ export class ConversationDialogComponent implements OnInit {
   addSecondMemberToConversation(name: string) {
     return new Promise((resolve: Function, reject: Function) => {
       this.firestore
-        .collection<any>('users', (ref) =>
-          ref.where('name', '==', name)
-        )
+        .collection<any>('users', (ref) => ref.where('name', '==', name))
         .valueChanges()
         .pipe(first())
         .subscribe(
