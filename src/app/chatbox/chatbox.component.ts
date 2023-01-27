@@ -38,16 +38,27 @@ export class ChatboxComponent implements OnInit {
       }
     });
 
+/* Waiting for the data to be fetched from the database. */
     let requestData = await this.getCurrentChannelMessages();
     setTimeout(() => {
       let observeCurrentChannelId = this.observeCurrenChannelId();
     }, 3000);
   }
 
+/**
+ * It takes in a data object, and then it updates the current channel messages with the data object.
+ * @param {any} data - any - this is the data that is being passed to the updateCurrentChannelMessages
+ * subject.
+ */
   updateCurrentChannelData(data: any) {
     this.updateCurrentChannelMessages.next(data);
   }
 
+/**
+ * Subscribing to the valueChanges() method of the docRef, and if the docRef is undefined, then it is
+ * waiting for the data to be fetched from the database.
+ * </code>
+ */
   async getCurrentChannelMessages() {
     let counter = 0;
     let docCol = this.afs.collection('channels');
@@ -58,12 +69,15 @@ export class ChatboxComponent implements OnInit {
     ) {
       docRef = docCol.doc(this.dataService.currentUser['currentChannelId']);
     }
+/* Checking if the docRef is not undefined, and if it is not undefined, then it is subscribing to the
+valueChanges() method of the docRef. */
     if (docRef !== undefined) {
       docRef.valueChanges().subscribe((doc: string) => {
         this.updateCurrentChannelData(doc);
         counter = 3;
       });
     } else {
+/* Waiting for the data to be fetched from the database. */
       let intervalId = setInterval(() => {
         counter++;
         if (counter === 3) {
@@ -75,9 +89,16 @@ export class ChatboxComponent implements OnInit {
     }
   }
 
+/**
+ * The function is subscribing to the valueChanges() method of the docRef, and if the docRef is
+ * undefined, then it is waiting for the data to be fetched from the database.
+ */
   async observeCurrenChannelId() {
     let currentChannelId;
     let refCol = this.afs.collection('users');
+/* Subscribing to the valueChanges() method of the docRef, and if the docRef is undefined, then it is
+ * waiting for the data to be fetched from the database.
+ * </code> */
     let docRef = refCol.doc(`${this.dataService.currentUserId}`);
     docRef.valueChanges().subscribe(async (doc: string) => {
       currentChannelId = await doc['currentChannelId'];
