@@ -93,16 +93,6 @@ export class SidenavComponent implements OnInit {
       });
   }
 
-  showMenu() {
-    if (this.menu) {
-      this.menu = false;
-      this.icon = 'close';
-    } else {
-      this.menu = true;
-      this.icon = 'menu';
-    }
-  }
-
   /**
    * Navigate or show this channel in app-channle-room
    * @param Id The Id of the Instance

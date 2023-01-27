@@ -48,11 +48,11 @@ export class HeaderComponent implements OnInit {
   showMenu() {
     if(this.dataService.icon === 'menu') {
       this.dataService.icon = 'close';
-      this.dataService.menu = false;
+      this.dataService.menu = true;
     }
     else {
       this.dataService.icon = 'menu';
-      this.dataService.menu = true;
+      this.dataService.menu = false;
     }
   }
 
