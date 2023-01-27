@@ -39,6 +39,7 @@ export class DataService implements OnInit {
     this.ngOnInit();
   }
 
+
   async ngOnInit() {
     this.currentUserEmail = await this.onAuthStateChanged();
     this.currentUserId = await this.getCurrentUserID();
@@ -52,6 +53,10 @@ export class DataService implements OnInit {
     // }, 2000);
   }
 
+/**
+ * When the route changes, subscribe to the route parameters and set the instanceId to the id
+ * parameter.
+ */
   getInstanceId() {
     this.route.params.subscribe(params => {
       this.instanceId = params['id'];
@@ -66,6 +71,8 @@ export class DataService implements OnInit {
       if (this.currentSubscription) {
         this.currentSubscription.unsubscribe();
       }
+/* Subscribing to the firestore collection 'channels' and then it is subscribing to the document
+with the id of the current instance. */
       if (this.instance === 'channel') {
         this.currentSubscription = this.firestore
           .collection('channels')
@@ -76,6 +83,8 @@ export class DataService implements OnInit {
           });
         }
       else {
+/* Subscribing to the firestore collection 'conversations' and then it is subscribing to the document
+with the id of the current instance. */
         this.currentSubscription = this.firestore
           .collection('conversations')
           .doc(instanceId)
@@ -103,17 +112,26 @@ export class DataService implements OnInit {
     }
   }
 
+/**
+ * This function creates a new observable from the current user, and subscribes to it.
+ */
   updateCurrentUserObservable() {
     this.currentUser$ = of(this.currentUser);
     this.currentUser$.subscribe();
   }
 
+/**
+ * This function creates a new instance of the User class, and then calls the updateUser() function.
+ */
   updateUserData() {
     this.uploadableUser = new User(this.currentUser);
     this.uploadableUser.currentUserId = this.currentUserId;
     this.updateUser();
   }
 
+/**
+ * It updates the user's document in the users collection with the data from the uploadableUser object.
+ */
   updateUser() {
     this.firestore
       .collection('users')
@@ -181,6 +199,10 @@ export class DataService implements OnInit {
       });
   }
 
+/**
+ * It returns a promise that resolves when the firestore collection is retrieved.
+ * @returns An array of User objects.
+ */
   async getAllUserData() {
     return new Promise((resolve: Function, reject: Function) => {
       try {
@@ -199,6 +221,10 @@ export class DataService implements OnInit {
     });
   }
 
+/**
+ * If the response status is 200, clear the interval and return true.
+ * @returns The return value is a Promise that resolves to true.
+ */
   async getDataInterval() {
     let getDataIntervalStop = setInterval(() => {
       if (this.reaponseUserIdStatus200) {

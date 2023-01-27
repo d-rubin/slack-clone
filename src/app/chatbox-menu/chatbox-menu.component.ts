@@ -24,16 +24,29 @@ export class ChatboxMenuComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    // setTimeout(() => {
-    //   this.name = this.dataService.currentInstance.name;
-    //   this.memberCount = this.dataService.currentInstance.members.length;
-    //   if(this.dataService.instance === 'channel') {
-    //     this.channel = true;
-    //   }
-    //   else {
-    //     this.channel = false;
-    //   }
-    // },2000);
+    setTimeout(() => {
+      this.name = this.dataService.currentInstance.name;
+      this.memberCount = this.dataService.currentInstance.members.length;
+      if (this.dataService.instance === 'channel') {
+        this.channel = true;
+      } else {
+        this.channel = false;
+      }
+    }, 2000);
+
+    
+    this.getCurrentChannelName();
+  }
+
+  async getCurrentChannelName() {
+    let userRef = this.firestore
+      .collection('user')
+      .doc(await this.dataService.currentUserId)
+      .valueChanges()
+      .subscribe(async (data) => {
+        let returnValue = await data;
+        console.log(returnValue);
+      });
   }
 
   showMembers() {
