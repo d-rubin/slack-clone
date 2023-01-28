@@ -6,13 +6,6 @@ import { ConversationDialogComponent } from '../conversation-dialog/conversation
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Channel } from '../models/channel.class';
 import { Conversation } from '../models/Conversation.class';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
 import { DataService } from '../services/data.service';
 import { Router } from '@angular/router';
 
@@ -39,13 +32,12 @@ export class SidenavComponent implements OnInit {
   name: string;
   partnerName: string;
   partnerEmail: string;
-  menu: boolean = true;
-  icon: string = 'menu';
   currentUser: Object;
   currentUserEmail: any;
   currentUserIdFirestore: any;
   currentMemberInChannel: any;
   currentMemberInData: any;
+  menu: Boolean = true;
 
   async ngOnInit() {
     await this.getCurrentUserId();

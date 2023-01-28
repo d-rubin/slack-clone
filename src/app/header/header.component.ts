@@ -16,7 +16,6 @@ import { getAuth, onAuthStateChanged } from '@angular/fire/auth';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  panelOpenState: boolean;
   userId: string;
   allChannels: [] = [];
   channel: Channel = new Channel();
@@ -46,13 +45,13 @@ export class HeaderComponent implements OnInit {
   }
 
   showMenu() {
-    if(this.dataService.icon === 'menu') {
-      this.dataService.icon = 'close';
-      this.dataService.menu = true;
-    }
-    else {
+    if(this.dataService.menu) {
       this.dataService.icon = 'menu';
       this.dataService.menu = false;
+    }
+    else {
+      this.dataService.icon = 'close';
+      this.dataService.menu = true;
     }
   }
 
