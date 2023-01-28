@@ -6,6 +6,7 @@ import { Channel } from '../models/channel.class';
 import { Conversation } from '../models/Conversation.class';
 import { DataService } from '../services/data.service';
 import { ShowMembersComponent } from '../show-members/show-members.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chatbox-menu',
@@ -16,14 +17,19 @@ export class ChatboxMenuComponent implements OnInit {
   name: string;
   channel: Boolean;
   memberCount: number;
+  public id: string;
+  channelName = 'Loading...';
 
   constructor(
     public dialog: MatDialog,
     public dataService: DataService,
-    public firestore: AngularFirestore
+    public firestore: AngularFirestore,
+    private route: ActivatedRoute
   ) {}
 
   async ngOnInit() {
+    this.getChannelIdFromURL();
+
     setTimeout(() => {
       this.name = this.dataService.currentInstance.name;
       this.memberCount = this.dataService.currentInstance.members.length;
@@ -34,8 +40,17 @@ export class ChatboxMenuComponent implements OnInit {
       }
     }, 2000);
 
-    
-    this.getCurrentChannelName();
+    await this.getCurrentChannelName();
+  }
+
+  async getChannelIdFromURL() {
+    this.route.params.subscribe(async (params) => {
+      this.id = params['id'];
+      let docRef = this.firestore.collection('channels').doc(`${this.id}`);
+      docRef.valueChanges().subscribe(async (doc) => {
+        this.channelName = await doc['name'];
+      });
+    });
   }
 
   async getCurrentChannelName() {
@@ -43,8 +58,8 @@ export class ChatboxMenuComponent implements OnInit {
       .collection('user')
       .doc(await this.dataService.currentUserId)
       .valueChanges()
-      .subscribe(async (data) => {
-        let returnValue = await data;
+      .subscribe((data) => {
+        let returnValue = data;
         console.log(returnValue);
       });
   }
