@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import {
+  AngularFirestore,
+  AngularFirestoreDocument,
+} from '@angular/fire/compat/firestore';
 import { MatDialog } from '@angular/material/dialog';
 import { AddMemberComponent } from '../add-member/add-member.component';
 import { Channel } from '../models/channel.class';
@@ -19,6 +22,7 @@ export class ChatboxMenuComponent implements OnInit {
   memberCount: number;
   public id: string;
   channelName = 'Loading...';
+  numberOfMember = 0;
 
   constructor(
     public dialog: MatDialog,
@@ -28,40 +32,58 @@ export class ChatboxMenuComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.getChannelIdFromURL();
+    this.updateHeaderInformations();
 
-    setTimeout(() => {
-      this.name = this.dataService.currentInstance.name;
-      this.memberCount = this.dataService.currentInstance.members.length;
-      if (this.dataService.instance === 'channel') {
-        this.channel = true;
-      } else {
-        this.channel = false;
-      }
-    }, 2000);
-
-    await this.getCurrentChannelName();
+    // setTimeout(() => {
+    //   this.name = this.dataService.currentInstance.name;
+    //   this.memberCount = this.dataService.currentInstance.members.length;
+    //   if (this.dataService.instance === 'channel') {
+    //     this.channel = true;
+    //   } else {
+    //     this.channel = false;
+    //   }
+    // }, 2000);
   }
 
-  async getChannelIdFromURL() {
+  /**
+   * When the route changes, get the id from the route params, then use that id to get the channel name
+   * for the header.
+   */
+  async updateHeaderInformations() {
     this.route.params.subscribe(async (params) => {
       this.id = params['id'];
-      let docRef = this.firestore.collection('channels').doc(`${this.id}`);
-      docRef.valueChanges().subscribe(async (doc) => {
-        this.channelName = await doc['name'];
-      });
+      let docRef = this.setDocRef(this.id);
+      this.getChannelNameForHeader(docRef);
+      this.getNumberOfMembers(docRef);
     });
   }
 
-  async getCurrentChannelName() {
-    let userRef = this.firestore
-      .collection('user')
-      .doc(await this.dataService.currentUserId)
-      .valueChanges()
-      .subscribe((data) => {
-        let returnValue = data;
-        console.log(returnValue);
-      });
+  /**
+   * This function takes an id as an argument and returns a reference to the document with that id in
+   * the channels collection.
+   * @param id - the id of the channel
+   * @returns A reference to the document with the id of the channel.
+   */
+  setDocRef(id: string) {
+    return this.firestore.collection('channels').doc(`${id}`);
+  }
+
+  /**
+   * It subscribes to the valueChanges observable of the docRef, and then assigns the value of the 'name'
+   * property of the doc to the channelName variable.
+   * @param docRef - A reference to the document in the database.
+   */
+  getChannelNameForHeader(docRef: AngularFirestoreDocument<unknown>) {
+    /* Subscribing to the valueChanges observable of the docRef. */
+    docRef.valueChanges().subscribe(async (doc) => {
+      this.channelName = await doc['name'];
+    });
+  }
+
+  getNumberOfMembers(docRef: AngularFirestoreDocument<unknown>) {
+    docRef.valueChanges().subscribe(async (doc) => {
+      this.numberOfMember = await doc['members'].length;
+    });
   }
 
   showMembers() {
