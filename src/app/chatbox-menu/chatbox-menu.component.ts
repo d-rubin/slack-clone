@@ -33,16 +33,6 @@ export class ChatboxMenuComponent implements OnInit {
 
   async ngOnInit() {
     this.updateHeaderInformations();
-
-    // setTimeout(() => {
-    //   this.name = this.dataService.currentInstance.name;
-    //   this.memberCount = this.dataService.currentInstance.members.length;
-    //   if (this.dataService.instance === 'channel') {
-    //     this.channel = true;
-    //   } else {
-    //     this.channel = false;
-    //   }
-    // }, 2000);
   }
 
   /**
@@ -80,6 +70,10 @@ export class ChatboxMenuComponent implements OnInit {
     });
   }
 
+/**
+ * It gets the number of members in a group.
+ * @param docRef - AngularFirestoreDocument<unknown>
+ */
   getNumberOfMembers(docRef: AngularFirestoreDocument<unknown>) {
     docRef.valueChanges().subscribe(async (doc) => {
       this.numberOfMember = await doc['members'].length;
