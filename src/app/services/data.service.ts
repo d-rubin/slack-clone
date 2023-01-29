@@ -53,6 +53,17 @@ export class DataService implements OnInit {
     },2000);
   }
 
+  showMenu() {
+    if(this.menu) {
+      this.icon = 'menu';
+      this.menu = false;
+    }
+    else {
+      this.icon = 'close';
+      this.menu = true;
+    }
+  }
+
  /**
  * When the route changes, subscribe to the route parameters and set the instanceId to the id
  * parameter.

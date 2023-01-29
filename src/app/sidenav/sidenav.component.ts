@@ -37,7 +37,6 @@ export class SidenavComponent implements OnInit {
   currentUserIdFirestore: any;
   currentMemberInChannel: any;
   currentMemberInData: any;
-  menu: Boolean = true;
 
   async ngOnInit() {
     await this.getCurrentUserId();
