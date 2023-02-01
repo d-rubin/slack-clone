@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
   <div>
-    <button mat-icon-button (click)="showMenu()"><mat-icon>{{ dataService.icon }}</mat-icon></button>
+    <button mat-icon-button (click)="dataService.showMenu()"><mat-icon>{{ dataService.icon }}</mat-icon></button>
     <h1>Welcome, {{ name }}</h1>
   </div>
   <button mat-button (click)="logout()">

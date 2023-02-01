@@ -44,17 +44,6 @@ export class HeaderComponent implements OnInit {
     this.name = await this.onAuthStateChanged();
   }
 
-  showMenu() {
-    if(this.dataService.menu) {
-      this.dataService.icon = 'menu';
-      this.dataService.menu = false;
-    }
-    else {
-      this.dataService.icon = 'close';
-      this.dataService.menu = true;
-    }
-  }
-
   async onAuthStateChanged() {
     return new Promise((resolve, reject) => {
       try {
