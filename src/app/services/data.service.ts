@@ -48,12 +48,12 @@ export class DataService implements OnInit {
     this.instance = await this.checkTypeOfDocId(this.currentUser.currentChannelId);
     this.getInstanceId();
     this.subscribeInstance(this.instanceId);
-    // setInterval(() => {
-    //   console.log(this.menu, this.icon);
-    // }, 2000);
+    setInterval(() => {
+      console.log(this.menu);
+    },2000);
   }
 
-/**
+ /**
  * When the route changes, subscribe to the route parameters and set the instanceId to the id
  * parameter.
  */
