@@ -52,7 +52,7 @@ export class DataService implements OnInit {
     this.controlWindowWidth();
     setInterval(() => {
       console.log('intervall: ', this.menu);
-    }, 3000);
+    }, 1000);
   }
 
   controlWindowWidth() {
@@ -222,7 +222,7 @@ with the id of the current instance. */
         if (doc) {
           this.updateCurrentUserObservable();
           this.currentUser = new User(doc as IUser);
-          console.log('currentUser in dataService: ', this.currentUser);
+          // console.log('currentUser in dataService: ', this.currentUser);
         }
       });
   }
