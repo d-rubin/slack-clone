@@ -1,3 +1,19 @@
 app-chatbox-menu {
     height: 4rem;
 }
+
+app-message-form {
+    height: 8rem;
+    z-index: 1;
+}
+
+app-chatbox {
+    max-height: calc(100vh - 12rem - 64px);
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+app-chatbox::-webkit-scrollbar {
+    display: none;
+}
