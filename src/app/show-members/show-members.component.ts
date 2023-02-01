@@ -13,8 +13,8 @@ import { DataService } from '../services/data.service';
 })
 export class ShowMembersComponent implements OnInit {
   members: [] = [];
-  currentUser: any;
-  currentUserIdFirestore: any;
+  currentUser: User;
+  currentUserId: any;
   users: User[] = [];
   user: User;
   IndexOfUserToDeleteInChannel: number;
@@ -28,15 +28,15 @@ export class ShowMembersComponent implements OnInit {
     ) { }
 
   async ngOnInit() {
-    this.currentUserIdFirestore = await this.dataService.getCurrentUserID();
-    this.currentUser = await this.dataService.getCurrentUserData();
     await this.getMembersOfChannel();
-    await this.getUsers();
   }
 
   getMembersOfChannel() {
+    let currentUser = this.dataService.currentUser;
+    console.log(currentUser);
     return new Promise (async (resolve: Function, reject: Function) => {
-      await this.firestore.collection('channels').doc(this.currentUser.currentChannelId).get().toPromise().then(doc => {
+      console.log(this.dataService.currentUser)
+      await this.firestore.collection('channels').doc(this.dataService.currentUser.currentChannelId).get().toPromise().then(doc => {
         if (doc.exists) {
           this.members = doc.get('members');
           resolve();
@@ -48,18 +48,8 @@ export class ShowMembersComponent implements OnInit {
       })});
     } 
 
-  getUsers() {
-    return new Promise(async (resolve: Function, reject: Function) => {
-      for(let member of this.members) {
-        const user = await this.firestore.collection<any>('users').doc(member).get().toPromise();
-        this.users.push(user.data());
-      }
-      resolve();
-    });
-  }
-
-  removeMember(memberName: string) {
-    this.getUserAndChannel(memberName);
+  removeMember(userId: string) {
+    this.getUserAndChannel(userId);
     this.deleteChannelAtUser();
     this.deleteUserAtChannel();
     this.updateChannelandUserData();
@@ -80,8 +70,8 @@ export class ShowMembersComponent implements OnInit {
     }
   }
 
-  getUserAndChannel(memberName: string) {
-    this.user = new User(this.dataService.users.find(x => x.name === memberName) as IUser);
+  getUserAndChannel(userId: string) {
+    this.user = new User(this.dataService.users.find(x => x.currentUserId === userId) as IUser);
     this.channel = this.dataService.currentInstance;
   }
 

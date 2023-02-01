@@ -24,8 +24,9 @@ export class DataService implements OnInit {
   instance: string;
   instanceId: string;
   currentSubscription: any;
-  menu: boolean = true;
-  icon: string = 'menu';
+  menu: boolean;
+  icon: string;
+  windowWidth: number;
 
   // declare an observable that will be used to subscribe to the currentUser$ observable
   currentUser: User;
@@ -48,19 +49,34 @@ export class DataService implements OnInit {
     this.instance = await this.checkTypeOfDocId(this.currentUser.currentChannelId);
     this.getInstanceId();
     this.subscribeInstance(this.instanceId);
+    this.controlWindowWidth();
     setInterval(() => {
-      console.log(this.menu);
-    },2000);
+      console.log('intervall: ', this.menu);
+    }, 3000);
+  }
+
+  controlWindowWidth() {
+    this.windowWidth = window.innerWidth;
+    if(this.windowWidth < 700) {
+      this.menu = false;
+      this.icon = 'menu';
+    }
+    else {
+      this.menu = true;
+      this.icon = 'close';
+    }
   }
 
   showMenu() {
     if(this.menu) {
       this.icon = 'menu';
       this.menu = false;
+      console.log('showMenu: ',this.menu);
     }
     else {
       this.icon = 'close';
       this.menu = true;
+      console.log('showMenu: ',this.menu);
     }
   }
 
@@ -206,6 +222,7 @@ with the id of the current instance. */
         if (doc) {
           this.updateCurrentUserObservable();
           this.currentUser = new User(doc as IUser);
+          console.log('currentUser in dataService: ', this.currentUser);
         }
       });
   }
