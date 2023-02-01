@@ -36,9 +36,7 @@ export class DataService {
   constructor(
     private firestore: AngularFirestore,
     private route: ActivatedRoute
-  ) {
-    this.init();
-  }
+  ) {this.init()}
 
 
   async init() {
