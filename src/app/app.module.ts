@@ -71,7 +71,7 @@ import { DataService } from './services/data.service';
     MatAutocompleteModule,
     MatBadgeModule,
   ],
-  providers: [DataService],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
