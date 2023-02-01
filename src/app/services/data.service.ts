@@ -13,7 +13,7 @@ import { ThisReceiver } from '@angular/compiler';
 @Injectable({
   providedIn: 'root',
 })
-export class DataService implements OnInit {
+export class DataService {
   //declare var to find the firestore id current user
   currentUserEmail: any;
   currentUserId: any;
@@ -37,22 +37,24 @@ export class DataService implements OnInit {
     private firestore: AngularFirestore,
     private route: ActivatedRoute
   ) {
-    this.ngOnInit();
+    this.init();
   }
 
 
-  async ngOnInit() {
+  async init() {
     this.currentUserEmail = await this.onAuthStateChanged();
     this.currentUserId = await this.getCurrentUserID();
-    await this.getCurrentUserData();
+    this.getCurrentUserData();
+    console.log("Current User is : ", this.currentUser);
+   
+   
     await this.getAllUserData();
-    this.instance = await this.checkTypeOfDocId(this.currentUser.currentChannelId);
     this.getInstanceId();
     this.subscribeInstance(this.instanceId);
     this.controlWindowWidth();
-    setInterval(() => {
-      console.log('intervall: ', this.menu);
-    }, 1000);
+    // setInterval(() => {
+    //   console.log('intervall: ', this.menu);
+    // }, 1000);
   }
 
   controlWindowWidth() {
@@ -213,16 +215,17 @@ with the id of the current instance. */
    *
    * @returns firestore user data as JSON
    */
-  async getCurrentUserData() {
+  getCurrentUserData() {
     this.firestore
       .collection('users')
       .doc(this.currentUserId)
       .valueChanges()
-      .subscribe((doc) => {
+      .subscribe(async (doc) => {
         if (doc) {
           this.updateCurrentUserObservable();
           this.currentUser = new User(doc as IUser);
-          // console.log('currentUser in dataService: ', this.currentUser);
+          console.log('currentUser in dataService: ', this.currentUser);
+          this.instance = await this.checkTypeOfDocId(this.currentUser.currentChannelId);
         }
       });
   }

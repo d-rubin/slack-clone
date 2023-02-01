@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { MatDialogRef } from '@angular/material/dialog';
+import { firstValueFrom } from 'rxjs';
 import { Channel } from '../models/channel.class';
 import { Conversation } from '../models/Conversation.class';
 import { IUser, User } from '../models/user.class';
@@ -32,11 +33,9 @@ export class ShowMembersComponent implements OnInit {
   }
 
   getMembersOfChannel() {
-    let currentUser = this.dataService.currentUser;
-    console.log(currentUser);
+    console.log('currentUser in show-members: ', this.dataService.currentUser);
     return new Promise (async (resolve: Function, reject: Function) => {
-      console.log(this.dataService.currentUser)
-      await this.firestore.collection('channels').doc(this.dataService.currentUser.currentChannelId).get().toPromise().then(doc => {
+      await firstValueFrom(this.firestore.collection('channels').doc(this.dataService.currentUser.currentChannelId).get()).then(doc => {
         if (doc.exists) {
           this.members = doc.get('members');
           resolve();
