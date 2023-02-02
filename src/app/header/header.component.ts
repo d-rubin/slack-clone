@@ -7,7 +7,7 @@ import { AuthenticationService } from 'src/services/authentication.service';
 import { Channel } from '../models/channel.class';
 import { User } from '../models/user.class';
 import { Router } from '@angular/router';
-import { DataService } from '../services/data.service';
+import { DataBase } from '../services/data.service';
 import { getAuth, onAuthStateChanged } from '@angular/fire/auth';
 
 @Component({
@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit {
     private firestore: AngularFirestore,
     private authService: AuthenticationService,
     private router: Router,
-    public dataService: DataService
+    public dataService: DataBase
   ) {}
 
   async ngOnInit() {

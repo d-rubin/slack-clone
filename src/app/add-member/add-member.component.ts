@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormControl } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 import { IUser, User } from '../models/user.class';
-import { DataService } from '../services/data.service';
+import { DataBase } from '../services/data.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Channel, IChannel } from '../models/channel.class';
 
@@ -24,7 +24,7 @@ export class AddMemberComponent implements OnInit {
 
   constructor(
     private firestore: AngularFirestore,
-    private dataService: DataService,
+    private dataService: DataBase,
     private dialogRef: MatDialogRef<AddMemberComponent>,
     ) { }
 

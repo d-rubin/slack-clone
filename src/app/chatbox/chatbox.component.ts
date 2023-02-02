@@ -4,13 +4,12 @@ import {
   AngularFirestoreDocument,
 } from '@angular/fire/compat/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { DataService } from '../services/data.service';
+import { DataBase } from '../services/data.service';
 
 @Component({
   selector: 'app-chatbox',
   templateUrl: './chatbox.component.html',
   styleUrls: ['./chatbox.component.scss'],
-  providers: [DataService],
 })
 export class ChatboxComponent implements OnInit {
   private updateCurrentChannelMessages = new BehaviorSubject(null);
@@ -21,7 +20,7 @@ export class ChatboxComponent implements OnInit {
 
   constructor(
     private afs: AngularFirestore,
-    private dataService: DataService
+    private dataService: DataBase,
   ) {}
 
   async ngOnInit() {

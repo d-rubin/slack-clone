@@ -1,19 +1,16 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { OnInit } from '@angular/core';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { User, IUser } from '../models/user.class';
 import { Observable, of } from 'rxjs';
 import { Channel, IChannel } from '../models/channel.class';
-import { IconOptions } from '@angular/material/icon';
 import { Conversation, IConversation } from '../models/Conversation.class';
 import { ActivatedRoute, Route } from '@angular/router';
-import { ThisReceiver } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DataService {
+export class DataBase {
   //declare var to find the firestore id current user
   currentUserEmail: any;
   currentUserId: any;
@@ -36,7 +33,11 @@ export class DataService {
   constructor(
     private firestore: AngularFirestore,
     private route: ActivatedRoute
-  ) {this.init()}
+  ) {
+    this.init();
+    let index: number = 0;
+    console.log('init: ', index);
+  }
 
 
   async init() {

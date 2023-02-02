@@ -4,13 +4,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { first } from 'rxjs';
 import { Conversation } from '../models/Conversation.class';
 import { User } from '../models/user.class';
-import { DataService } from '../services/data.service';
+import { DataBase } from '../services/data.service';
 
 @Component({
   selector: 'app-conversation-dialog',
   templateUrl: './conversation-dialog.component.html',
   styleUrls: ['./conversation-dialog.component.scss'],
-  providers: [DataService],
 })
 export class ConversationDialogComponent implements OnInit {
   currentUser = new User();
@@ -24,7 +23,7 @@ export class ConversationDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ConversationDialogComponent>,
     public firestore: AngularFirestore,
-    public dataService: DataService
+    public dataService: DataBase
   ) {}
 
   ngOnInit(): void {}

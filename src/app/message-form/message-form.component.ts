@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../services/data.service';
+import { DataBase } from '../services/data.service';
 import { ChatMessage } from '../models/chatMessage.class';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { arrayUnion } from '@angular/fire/firestore';
@@ -8,12 +8,11 @@ import { arrayUnion } from '@angular/fire/firestore';
   selector: 'app-message-form',
   templateUrl: './message-form.component.html',
   styleUrls: ['./message-form.component.scss'],
-  providers: [DataService],
 })
 export class MessageFormComponent implements OnInit {
   message: string;
 
-  constructor(private dataService: DataService, private afs: AngularFirestore) {
+  constructor(private dataService: DataBase, private afs: AngularFirestore) {
     this.ngOnInit();
   }
 

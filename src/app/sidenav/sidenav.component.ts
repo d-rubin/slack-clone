@@ -6,20 +6,19 @@ import { ConversationDialogComponent } from '../conversation-dialog/conversation
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Channel } from '../models/channel.class';
 import { Conversation } from '../models/Conversation.class';
-import { DataService } from '../services/data.service';
+import { DataBase } from '../services/data.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],
-  providers: [DataService],
 })
 export class SidenavComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     public firestore: AngularFirestore,
-    public dataService: DataService,
+    public dataService: DataBase,
     private router: Router
   ) {}
 

@@ -5,7 +5,7 @@ import { firstValueFrom } from 'rxjs';
 import { Channel } from '../models/channel.class';
 import { Conversation } from '../models/Conversation.class';
 import { IUser, User } from '../models/user.class';
-import { DataService } from '../services/data.service';
+import { DataBase } from '../services/data.service';
 
 @Component({
   selector: 'app-show-members',
@@ -24,7 +24,7 @@ export class ShowMembersComponent implements OnInit {
 
   constructor(
     private firestore: AngularFirestore,
-    public dataService: DataService,
+    public dataService: DataBase,
     private dialogRef: MatDialogRef<ShowMembersComponent>
     ) { }
 

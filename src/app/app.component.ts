@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { DataService } from './services/data.service';
+import { DataBase } from './services/data.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [DataService],
+  providers: [DataBase],
 })
 export class AppComponent {
   title = 'slack-clone';

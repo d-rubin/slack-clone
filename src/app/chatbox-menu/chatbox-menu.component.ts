@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddMemberComponent } from '../add-member/add-member.component';
 import { Channel } from '../models/channel.class';
 import { Conversation } from '../models/Conversation.class';
-import { DataService } from '../services/data.service';
+import { DataBase } from '../services/data.service';
 import { ShowMembersComponent } from '../show-members/show-members.component';
 import { ActivatedRoute } from '@angular/router';
 
@@ -26,7 +26,7 @@ export class ChatboxMenuComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    public dataService: DataService,
+    public dataService: DataBase,
     public firestore: AngularFirestore,
     private route: ActivatedRoute
   ) {}

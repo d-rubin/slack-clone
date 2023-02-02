@@ -1,16 +1,14 @@
-import { Component, OnInit, ɵisPromise } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Channel } from '../models/channel.class';
-import { DataService } from '../services/data.service';
+import { DataBase } from '../services/data.service';
 import { User } from '../models/user.class';
-import { ChatboxMenuComponent } from '../chatbox-menu/chatbox-menu.component';
 
 @Component({
   selector: 'app-channel-dialog',
   templateUrl: './channel-dialog.component.html',
   styleUrls: ['./channel-dialog.component.scss'],
-  providers: [DataService],
 })
 export class ChannelDialogComponent implements OnInit {
   currentUser = new User();
@@ -23,7 +21,7 @@ export class ChannelDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ChannelDialogComponent>,
     private firestore: AngularFirestore,
-    private dataService: DataService,
+    private dataService: DataBase,
   ) {}
 
   async ngOnInit() {}

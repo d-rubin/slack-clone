@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
-import { DataService } from '../services/data.service';
+import { DataBase } from '../services/data.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthenticationService,
     private router: Router,
     private toast: HotToastService,
-    private dataService: DataService
+    private dataService: DataBase
   ) {}
 
   ngOnInit(): void {}
