@@ -29,11 +29,12 @@ export class ShowMembersComponent implements OnInit {
     ) { }
 
   async ngOnInit() {
+    await this.dataService.init();
     await this.getMembersOfChannel();
+    this.getUsersFromMembers();
   }
 
   getMembersOfChannel() {
-    console.log('currentUser in show-members: ', this.dataService.currentUser);
     return new Promise (async (resolve: Function, reject: Function) => {
       await firstValueFrom(this.firestore.collection('channels').doc(this.dataService.currentUser.currentChannelId).get()).then(doc => {
         if (doc.exists) {
@@ -44,13 +45,12 @@ export class ShowMembersComponent implements OnInit {
           console.log('Error getting members');
           reject();
         }
-      })});
-    } 
+      })
+    });
+  } 
 
   removeMember(userId: string) {
     this.getUserAndChannel(userId);
-    this.deleteChannelAtUser();
-    this.deleteUserAtChannel();
     this.updateChannelandUserData();
     this.dialogRef.close();
   }
@@ -69,9 +69,17 @@ export class ShowMembersComponent implements OnInit {
     }
   }
 
+  getUsersFromMembers() {
+    for(let member of this.members) {
+      this.users.push(this.dataService.users.find(x => x.currentUserId === member))
+    }
+  }
+
   getUserAndChannel(userId: string) {
     this.user = new User(this.dataService.users.find(x => x.currentUserId === userId) as IUser);
-    this.channel = this.dataService.currentInstance;
+    this.channel = this.dataService.currentInstance as Channel | Conversation;
+    this.deleteChannelAtUser();
+    this.deleteUserAtChannel();
   }
 
   deleteUserAtChannel() {

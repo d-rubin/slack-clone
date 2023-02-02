@@ -14,7 +14,7 @@ import { DataBase } from '../services/data.service';
 export class ChatboxComponent implements OnInit {
   private updateCurrentChannelMessages = new BehaviorSubject(null);
   currentChannelMessages$: Observable<any> =
-    this.updateCurrentChannelMessages.asObservable();
+  this.updateCurrentChannelMessages.asObservable();
 
   messageArray = [];
 

@@ -35,8 +35,6 @@ export class DataBase {
     private route: ActivatedRoute
   ) {
     this.init();
-    let index: number = 0;
-    console.log('init: ', index);
   }
 
 
@@ -44,16 +42,11 @@ export class DataBase {
     this.currentUserEmail = await this.onAuthStateChanged();
     this.currentUserId = await this.getCurrentUserID();
     this.getCurrentUserData();
-    console.log("Current User is : ", this.currentUser);
-   
-   
     await this.getAllUserData();
     this.getInstanceId();
     this.subscribeInstance(this.instanceId);
     this.controlWindowWidth();
-    // setInterval(() => {
-    //   console.log('intervall: ', this.menu);
-    // }, 1000);
+    console.log('Users: ',this.users, 'currentUser: ',this.currentUser)
   }
 
   controlWindowWidth() {
@@ -72,12 +65,10 @@ export class DataBase {
     if(this.menu) {
       this.icon = 'menu';
       this.menu = false;
-      console.log('showMenu: ',this.menu);
     }
     else {
       this.icon = 'close';
       this.menu = true;
-      console.log('showMenu: ',this.menu);
     }
   }
 
@@ -223,7 +214,6 @@ with the id of the current instance. */
         if (doc) {
           this.updateCurrentUserObservable();
           this.currentUser = new User(doc as IUser);
-          console.log('currentUser in dataService: ', this.currentUser);
           this.instance = await this.checkTypeOfDocId(this.currentUser.currentChannelId);
         }
       });
