@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { MatDialogRef } from '@angular/material/dialog';
 import { firstValueFrom } from 'rxjs';
-import { Channel } from '../models/channel.class';
+import { Channel, IChannel } from '../models/channel.class';
 import { Conversation } from '../models/Conversation.class';
 import { IUser, User } from '../models/user.class';
 import { DataBase } from '../services/data.service';
@@ -49,23 +49,24 @@ export class ShowMembersComponent implements OnInit {
     });
   } 
 
-  removeMember(userId: string) {
-    this.getUserAndChannel(userId);
+  removeMember(user: User) {
+    this.user = user;
+    this.getChannel();
     this.updateChannelandUserData();
     this.dialogRef.close();
   }
 
   updateChannelandUserData() {
     if(this.dataService.instance === 'channel') {
-      console.log('channel: ', this.channel, 'User: ', this.user);
       this.firestore
-      .collection('channels')
-      .doc(this.dataService.currentUser.currentChannelId)
-      .update(this.channel.toJSON());
+        .collection('channels')
+        .doc(this.dataService.currentUser.currentChannelId)
+        .update({ members: this.channel.members });
+    
       this.firestore
-      .collection('users')
-      .doc(this.user.currentUserId)
-      .update(this.user.toJSON());
+        .collection('users')
+        .doc(this.user.currentUserId)
+        .update({ memberInChannel: this.user.memberInChannel });
     }
   }
 
@@ -75,11 +76,13 @@ export class ShowMembersComponent implements OnInit {
     }
   }
 
-  getUserAndChannel(userId: string) {
-    this.user = new User(this.dataService.users.find(x => x.currentUserId === userId) as IUser);
-    this.channel = this.dataService.currentInstance as Channel | Conversation;
-    this.deleteChannelAtUser();
-    this.deleteUserAtChannel();
+  getChannel() {
+    if(this.dataService.currentInstance instanceof Channel) {
+      this.channel = this.dataService.currentInstance as Channel;
+      console.log('this.channel: ', this.dataService.currentInstance)
+      this.deleteChannelAtUser();
+      this.deleteUserAtChannel();
+    };
   }
 
   deleteUserAtChannel() {

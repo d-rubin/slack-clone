@@ -28,7 +28,6 @@ export class DataBase {
   // declare an observable that will be used to subscribe to the currentUser$ observable
   currentUser: User;
   currentUser$: Observable<typeof this.currentUser>;
-  currentInstance$: Observable<typeof this.currentInstance>;
 
   constructor(
     private firestore: AngularFirestore,
@@ -39,14 +38,13 @@ export class DataBase {
 
 
   async init() {
+    this.getInstanceId();
     this.currentUserEmail = await this.onAuthStateChanged();
     this.currentUserId = await this.getCurrentUserID();
     this.getCurrentUserData();
     await this.getAllUserData();
-    this.getInstanceId();
     this.subscribeInstance(this.instanceId);
     this.controlWindowWidth();
-    console.log('Users: ',this.users, 'currentUser: ',this.currentUser)
   }
 
   controlWindowWidth() {
@@ -76,42 +74,33 @@ export class DataBase {
  * When the route changes, subscribe to the route parameters and set the instanceId to the id
  * parameter.
  */
-  getInstanceId() {
-    this.route.params.subscribe(params => {
+ getInstanceId() {
+  this.route.params.subscribe(params => {
+    if (params.hasOwnProperty('id')) {
       this.instanceId = params['id'];
-    })
-  }
+      console.log(this.instanceId);
+    } else {
+      console.error("ID not found in URL params");
+    }
+  });
+}
+
+
+
 
   /**
    * Subscribes the current activated Route
    * @param instanceId The Id of the document
    */
   subscribeInstance(instanceId: string) {
-      if (this.currentSubscription) {
-        this.currentSubscription.unsubscribe();
-      }
-/* Subscribing to the firestore collection 'channels' and then it is subscribing to the document
-with the id of the current instance. */
-      if (this.instance === 'channel') {
-        this.currentSubscription = this.firestore
-          .collection('channels')
-          .doc(instanceId)
-          .valueChanges()
-          .subscribe(channel => {
-            this.currentInstance = new Channel(channel as IChannel);
-          });
-        }
-      else {
-/* Subscribing to the firestore collection 'conversations' and then it is subscribing to the document
-with the id of the current instance. */
-        this.currentSubscription = this.firestore
-          .collection('conversations')
-          .doc(instanceId)
-          .valueChanges()
-          .subscribe((conversation) => {
-            this.currentInstance = new Conversation(conversation as IConversation);
-          });
-      }
+    this.firestore
+    .collection('channels')
+    .doc(instanceId)
+    .valueChanges()
+    .subscribe(instance => {
+      this.currentInstance = new Channel(instance as IChannel);
+      console.log(this.currentInstance, instanceId);
+    });
   }
   
 
