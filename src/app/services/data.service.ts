@@ -99,7 +99,7 @@ export class DataBase {
     .valueChanges()
     .subscribe(instance => {
       this.currentInstance = new Channel(instance as IChannel);
-      console.log(this.currentInstance, instanceId);
+      console.log('Instance is: ',this.currentInstance,'instanceId is: ', instanceId);
     });
   }
   
