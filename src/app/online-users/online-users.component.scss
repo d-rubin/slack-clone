@@ -1,0 +1,21 @@
+.user-online {
+  height: 10px;
+  width: 10px;
+  border-radius: 100%;
+  left: 58px;
+  position: absolute;
+  bottom: 33px;
+  border: 0.5px solid black !important;
+  background-color: rgb(46, 187, 46) !important;
+}
+
+.user-offline {
+  height: 10px;
+  width: 10px;
+  border-radius: 100%;
+  left: 58px;
+  position: absolute;
+  bottom: 33px;
+  border: 0.5px solid black !important;
+  background-color: red !important;
+}
