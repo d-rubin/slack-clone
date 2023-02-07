@@ -67,6 +67,12 @@ export class ChatboxMenuComponent implements OnInit {
     /* Subscribing to the valueChanges observable of the docRef. */
     docRef.valueChanges().subscribe(async (doc) => {
       this.channelName = await doc['name'];
+      if(doc['type'] === 'channel') {
+        this.channel = true;
+      }
+      else {
+        this.channel = false;
+      }
     });
   }
 
