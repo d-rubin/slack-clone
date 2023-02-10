@@ -5,7 +5,7 @@ import { User, IUser } from '../models/user.class';
 import { Observable, of } from 'rxjs';
 import { Channel, IChannel } from '../models/channel.class';
 import { Conversation, IConversation } from '../models/Conversation.class';
-import { ActivatedRoute, Route } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -31,14 +31,13 @@ export class DataBase {
 
   constructor(
     private firestore: AngularFirestore,
-    private route: ActivatedRoute
+    private route: ActivatedRoute, 
   ) {
     this.init();
   }
 
 
   async init() {
-    this.getInstanceId();
     this.currentUserEmail = await this.onAuthStateChanged();
     this.currentUserId = await this.getCurrentUserID();
     this.getCurrentUserData();
@@ -70,24 +69,6 @@ export class DataBase {
     }
   }
 
- /**
- * When the route changes, subscribe to the route parameters and set the instanceId to the id
- * parameter.
- */
- getInstanceId() {
-  this.route.params.subscribe(params => {
-    if (params.hasOwnProperty('id')) {
-      this.instanceId = params['id'];
-      console.log(this.instanceId);
-    } else {
-      console.error("ID not found in URL params");
-    }
-  });
-}
-
-
-
-
   /**
    * Subscribes the current activated Route
    * @param instanceId The Id of the document
@@ -99,7 +80,7 @@ export class DataBase {
     .valueChanges()
     .subscribe(instance => {
       this.currentInstance = new Channel(instance as IChannel);
-      console.log('Instance is: ',this.currentInstance,'instanceId is: ', instanceId);
+      console.log('Instance is: ',this.currentInstance);
     });
   }
   

@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Channel } from '../models/channel.class';
 import { DataBase } from '../services/data.service';
 import { User } from '../models/user.class';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-channel-dialog',
@@ -22,6 +23,7 @@ export class ChannelDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<ChannelDialogComponent>,
     private firestore: AngularFirestore,
     private dataService: DataBase,
+    private router: ActivatedRoute
   ) {}
 
   async ngOnInit() {}
@@ -35,10 +37,8 @@ export class ChannelDialogComponent implements OnInit {
     this.createNewChannel.channelId = this.newChannelID;
     await this.addIdNewChannelID(this.currentUser.currentChannelId);
     await this.updateUserinFirestore(this.currentUser);
-    await this.dataService.getCurrentUserData();
+    this.dataService.getCurrentUserData();
     this.dialogRef.close();
-    this.dataService.getInstanceId();
-    this.dataService.subscribeInstance(this.dataService.instanceId);
   }
 
   /**
