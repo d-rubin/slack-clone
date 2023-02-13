@@ -10,7 +10,6 @@ import { DataBase } from '../services/data.service';
 export class MainareaComponent implements OnInit {
 
   constructor(
-    private router: Router,
     private dataService: DataBase,
     private route: ActivatedRoute
   ) { }
