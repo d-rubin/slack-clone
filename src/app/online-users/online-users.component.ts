@@ -20,16 +20,11 @@ export class OnlineUsersComponent implements OnInit {
   currentUserEmail: any;
   currentUserIdFirestore: any;
   auth = getAuth();
+ 
 
   async ngOnInit() {
-    await this.showAllUser();
+ 
   }
 
 
-  async showAllUser() {
-    const colRef = this.firestore.collection('users');
-    let colDoc = colRef.valueChanges().subscribe((data) => {
-      this.allUser = data;
-    });
-  }
 }
