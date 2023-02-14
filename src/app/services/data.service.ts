@@ -4,8 +4,8 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { User, IUser } from '../models/user.class';
 import { Observable, of } from 'rxjs';
 import { Channel, IChannel } from '../models/channel.class';
-import { Conversation, IConversation } from '../models/Conversation.class';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Conversation } from '../models/Conversation.class';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
